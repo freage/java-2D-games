@@ -10,15 +10,15 @@ import javax.swing.Timer;
 public class Simulation implements ActionListener {
         private int request;
         private Timer timer;
-        private Spel2DInterface model;
+        private Model model;
         View view;
         Controller controller;
         boolean newrequest;
 
-        public Simulation(Spel2DInterface m, View v){
+        public Simulation(Model m, View v){
                 model = m;
                 view = v;
-                request = Spel2DInterface.NORTH;
+                request = Model.NORTH;
                 timer = new Timer(100, this);
                 timer.start();
         }
@@ -36,13 +36,9 @@ public class Simulation implements ActionListener {
         public void actionPerformed(ActionEvent arg0) {
                 model.simulate(request);
 //              view.paintMatrix();
-                request = Spel2DInterface.NONE;
+                request = Model.NONE;
                 if (model.isOver())
                         controller.setResult(model.getResult());
         }
-
-
-
-
 
 }

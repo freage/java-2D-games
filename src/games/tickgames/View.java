@@ -9,10 +9,10 @@ import javax.swing.JPanel;
 import games.MatrixObserverInterface;
 
 public class View extends JPanel implements MatrixObserverInterface {
-        Spel2DInterface model;
+        Model model;
         JLabel[][] rutor;
 
-        View(Spel2DInterface spel){
+        View(Model spel){
                 model = spel;
                 model.getObservers().addObserver(this);
                 int size = model.getGame().length;
@@ -47,13 +47,6 @@ public class View extends JPanel implements MatrixObserverInterface {
                                 updateSquare(i, j, element);
                         }
                 }
-        }
-
-        public static void main(String[] args) {
-                SnakeModel s = new AdvancedSnakeModel();
-                View v = new View(s);
-                v.updateMatrix();
-                new Simulation(s, v);
         }
 
         @Override

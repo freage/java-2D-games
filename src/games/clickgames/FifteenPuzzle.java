@@ -5,17 +5,18 @@ import java.awt.Color;
 import java.util.Collections;
 import java.util.LinkedList;
 
-import games.SpelModel;
+import games.BaseModel;
 
+// TODO: fix: only valid permutations (with a reachable endstate)!
 
-public class FemtonModel extends SpelModel implements ClickGameModelInterface {
+public class FifteenPuzzle extends BaseModel implements Model {
         private int[][] end = new int[4][4];
         private int emptysqM; // initiera!
         private int emptysqN; // initiera!!
         private int winner = 1; // finns bara en spelare
 
 
-        public FemtonModel(){
+        public FifteenPuzzle(){
                 constructFinal();
                 Start();
         }
@@ -67,7 +68,7 @@ public class FemtonModel extends SpelModel implements ClickGameModelInterface {
 
         @Override
         public String getTitle() {
-                return "Femtonspel";
+                return "Fifteen puzzle";
         }
 
 
@@ -127,7 +128,7 @@ public class FemtonModel extends SpelModel implements ClickGameModelInterface {
          * @param args
          */
         public static void main(String[] args) {
-                FemtonModel spel = new FemtonModel();
+                FifteenPuzzle spel = new FifteenPuzzle();
                 spel.PrintMatrix(spel.game);
                 spel.PrintEnd();
         }

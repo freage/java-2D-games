@@ -9,10 +9,10 @@ import java.awt.Color;
 import java.util.LinkedList;
 import java.util.Random;
 
-import games.SpelModel;
+import games.BaseModel;
 
-public class SnakeModel extends SpelModel implements Spel2DInterface {
-        // level, points, game (dvs matris) och isOver finns i Spel2DModel
+public class Snake extends BaseModel implements Model {
+        // level, points, game (dvs matris) och isOver finns i tickgames.Model
         // riktningarna finns i interface
         // TODO: ändra i riktningarna och skapa en isOrthogonal(dir1, dir2) som är oberoende av int-representat
         private int direction;
@@ -33,7 +33,7 @@ public class SnakeModel extends SpelModel implements Spel2DInterface {
 
         // GAME CONSTRUCTOR
 
-        public SnakeModel(){
+        public Snake(){
                 start();
         }
 
@@ -166,7 +166,7 @@ public class SnakeModel extends SpelModel implements Spel2DInterface {
         // MAIN METHOD
 
         public static void main(String[] args) {
-                SnakeModel sm = new SnakeModel();
+                Snake sm = new Snake();
                 sm.PrintMatrix(sm.game);
         }
 

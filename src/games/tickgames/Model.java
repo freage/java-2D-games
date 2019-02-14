@@ -4,7 +4,7 @@ import java.awt.Color;
 
 import games.MatrixObservers;
 
-public interface Spel2DInterface {
+public interface Model {
 
         int NORTH = 1;
         int SOUTH = -1;

@@ -9,13 +9,13 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 
 
-public class PaCSpel extends JFrame implements ActionListener {
-        ClickGameModelInterface model;
-        PaCController ctrl;
-        ClickGameView view;
-        JButton femtonknapp = new JButton("Starta nytt femtonspel");
-        JButton luffarknapp = new JButton("Starta nytt luffarschack");
-        JButton minrojknapp = new JButton("Starta nytt minröj");
+public class Menu extends JFrame implements ActionListener {
+        Model model;
+        Controller ctrl;
+        View view;
+        JButton femtonknapp = new JButton("Start new 15-puzzle");
+        JButton luffarknapp = new JButton("Start new Tic-tac-toe");
+        JButton minrojknapp = new JButton("Start new Minesweeper");
 
 
         void addButton(JButton knapp){
@@ -24,8 +24,8 @@ public class PaCSpel extends JFrame implements ActionListener {
                 knapp.addActionListener(this);
         }
 
-        PaCSpel(){
-                super("Rutspel");
+        Menu(){
+                super("Click-based games");
                 setVisible(true);
                 setDefaultCloseOperation(EXIT_ON_CLOSE);
                 setLayout(new FlowLayout());
@@ -42,9 +42,9 @@ public class PaCSpel extends JFrame implements ActionListener {
                         view.setVisible(false);
                         ctrl.setVisible(false);
                 }
-                view = new ClickGameView(model);
+                view = new View(model);
                 model.getObservers().addObserver(view);
-                ctrl = new PaCController(model, view);
+                ctrl = new Controller(model, view);
                 add(view);
                 add(ctrl);
                 ctrl.setVisible(true);
@@ -54,17 +54,17 @@ public class PaCSpel extends JFrame implements ActionListener {
 
 
         public static void main(String[] args) {
-                new PaCSpel();
+                new Menu();
         }
 
         @Override
         public void actionPerformed(ActionEvent arg0) {
                 if (arg0.getSource()==femtonknapp)
-                        model = new FemtonModel();
+                        model = new FifteenPuzzle();
                 else if (arg0.getSource()==luffarknapp)
-                        model = new LuffarModel();
+                        model = new TicTacToe();
                 else if (arg0.getSource()==minrojknapp)
-                        model = new MineSweeperModel();
+                        model = new MineSweeper();
                 addNewGame();
         }
 

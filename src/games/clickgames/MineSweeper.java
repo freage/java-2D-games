@@ -3,7 +3,7 @@ package games.clickgames;
 import java.awt.Color;
 import java.awt.Font;
 
-import games.SpelModel;
+import games.BaseModel;
 
 /* TODO
  * Ska röja alla grannar när man klickar på tom ruta - åtgärdat!
@@ -12,7 +12,7 @@ import games.SpelModel;
  */
 
 
-public class MineSweeperModel extends SpelModel implements ClickGameModelInterface {
+public class MineSweeper extends BaseModel implements Model {
 
         // här sparas minorna:
         private int[][] under;
@@ -31,7 +31,7 @@ public class MineSweeperModel extends SpelModel implements ClickGameModelInterfa
 
         String instructions = "";
 
-        public MineSweeperModel() {
+        public MineSweeper() {
                 start();
         }
 
@@ -162,7 +162,7 @@ public class MineSweeperModel extends SpelModel implements ClickGameModelInterfa
 
 
         public static void main(String[] args) {
-                MineSweeperModel ms = new MineSweeperModel();
+                MineSweeper ms = new MineSweeper();
                 ms.PrintMatrix(ms.game);
         }
 

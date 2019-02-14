@@ -8,9 +8,9 @@ package games.tickgames;
  *
  */
 
-public class AdvancedSnakeModel extends SnakeModel {
+public class AdvancedSnake extends Snake {
 
-        public AdvancedSnakeModel() {
+        public AdvancedSnake() {
                 super();
         }
 

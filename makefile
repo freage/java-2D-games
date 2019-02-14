@@ -1,21 +1,18 @@
 HELLO=hello/Hello
 
-MINESWEEPER=games/clickgames/MineSweeperModel
+MINESWEEPER=games/clickgames/MineSweeper
 # Skriver ut övertäckt matris i terminalen
 
-SNAKE=games/tickgames/Spel2D
+SNAKE=games/tickgames/Menu
 # Får ett lite hackigt snakespel
 
-SNAKE_M=games/tickgames/SnakeModel
+SNAKE_M=games/tickgames/Snake
 # Skriver ut pixelmatris i terminalen
 
-VIEW=games/tickgames/View
-# Avslutar tyst
-
-PACSPEL=games/clickgames/PaCSpel
+CLICKGAME=games/clickgames/Menu
 # Får en meny där man väljer mellan 15-spel, luffarschack och minröj
 
-FEMTONSPEL=games/clickgames/FemtonModel
+FEMTONSPEL=games/clickgames/FifteenPuzzle
 # Skriver ut matris i terminalen
 
 
@@ -37,11 +34,11 @@ c_snake:  	src/$(SNAKE).java
 snake:	c_snake
 	$(RUN) $(SNAKE)
 
-c_click:  	src/$(PACSPEL).java
+c_click:  	src/$(CLICKGAME).java
 	$(COMPILE) $<
 
 click:	c_click
-	$(RUN) $(PACSPEL)
+	$(RUN) $(CLICKGAME)
 
 test_all: c_snake c_click
 

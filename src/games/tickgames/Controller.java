@@ -45,15 +45,15 @@ public class Controller extends JPanel implements KeyListener {
                 int keynr = arg0.getKeyCode();
 //              System.out.println("Controller: Pressed keynr "+keynr);
                 if (keynr==UP)
-                        simulation.setRequest(Spel2DInterface.NORTH);
+                        simulation.setRequest(Model.NORTH);
                 else if (keynr==DOWN)
-                        simulation.setRequest(Spel2DInterface.SOUTH);
+                        simulation.setRequest(Model.SOUTH);
                 else if (keynr==LEFT)
-                        simulation.setRequest(Spel2DInterface.WEST);
+                        simulation.setRequest(Model.WEST);
                 else if (keynr==RIGHT)
-                        simulation.setRequest(Spel2DInterface.EAST);
+                        simulation.setRequest(Model.EAST);
                 else if (keynr==SPACE)
-                        simulation.setRequest(Spel2DInterface.RESTART);
+                        simulation.setRequest(Model.RESTART);
         }
 
         @Override

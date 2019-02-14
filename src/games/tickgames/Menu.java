@@ -6,15 +6,15 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-public class Spel2D extends JFrame {
+public class Menu extends JFrame {
         Controller controller;
         Simulation simulation;
-        Spel2DInterface model;
+        Model model;
         View view;
         JButton restart;
 
 
-        Spel2D(Spel2DInterface spel){
+        Menu(Model spel){
                 super(spel.getTitle());
                 model = spel;
                 view = new View(model);
@@ -33,7 +33,7 @@ public class Spel2D extends JFrame {
         }
 
         public static void main(String[] args) {
-                new Spel2D(new AdvancedSnakeModel());
+                new Menu(new AdvancedSnake());
         }
 
 

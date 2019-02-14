@@ -3,7 +3,7 @@ package games;
 import java.awt.Font;
 import java.util.Random;
 
-public class SpelModel {
+public abstract class BaseModel {
         protected int[][] game; // storleken sätts i start()
         protected boolean isOver;
         protected int points;

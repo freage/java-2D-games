@@ -3,12 +3,12 @@ package games.clickgames;
 import java.awt.Color;
 import java.awt.Font;
 
-import games.SpelModel;
+import games.BaseModel;
 
 
 // TODO: skriv om View så att den passar
 
-public class LuffarModel extends SpelModel implements ClickGameModelInterface {
+public class TicTacToe extends BaseModel implements Model {
 
         private static final int O = 1;
         private static final int X = 2;
@@ -16,9 +16,9 @@ public class LuffarModel extends SpelModel implements ClickGameModelInterface {
         private int nextplayer;
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////
-        // publika metoder:
+        // public methods:
 
-        public LuffarModel(){
+        public TicTacToe(){
                 start();
         }
 
@@ -55,12 +55,12 @@ public class LuffarModel extends SpelModel implements ClickGameModelInterface {
 
         @Override
         public String getTitle() {
-                return "Luffarschack";
+                return "Tic-tac-toe";
         }
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////////
-        // hjälpfunktioner:
+        // help functions:
 
         private boolean isValid(int m, int n) { // är rutan tom?
                 return game[m][n]==0;

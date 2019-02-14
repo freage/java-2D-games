@@ -11,13 +11,13 @@ import javax.swing.JPanel;
 import games.MatrixObserverInterface;
 
 
-public class ClickGameView extends JPanel implements MatrixObserverInterface {
-        private ClickGameModelInterface m;
+public class View extends JPanel implements MatrixObserverInterface {
+        private Model m;
         private JButton[][] buttons;
         public int width;
         public int height;
 
-        public ClickGameView(ClickGameModelInterface model){
+        public View(Model model){
                 m = model;
                 int size = m.getGame().length;
                 setLayout(new GridLayout(size, size));

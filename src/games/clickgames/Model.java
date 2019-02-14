@@ -5,7 +5,7 @@ import java.awt.Font;
 
 import games.MatrixObservers;
 
-public interface ClickGameModelInterface {
+public interface Model {
         /* int[][] matris spelplan: n rader innehållande n kolumner
          * klass: senaste_draget: int player, int m, int n, boolean executed
          * int[] players;

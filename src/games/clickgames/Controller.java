@@ -15,9 +15,9 @@ import javax.swing.JPanel;
 
 
 
-public class PaCController extends JPanel implements MouseListener {
-        protected ClickGameModelInterface modell;
-        ClickGameView vy;
+public class Controller extends JPanel implements MouseListener {
+        protected Model modell;
+        View vy;
         JButton[][] knappar; // har en referens till knapparna, som uppdateras
         JLabel instruktioner;
         JLabel status;
@@ -26,7 +26,7 @@ public class PaCController extends JPanel implements MouseListener {
         private static final int RIGHT = 3;
         private static final int LEFT = 1;
 
-        public PaCController(ClickGameModelInterface mo, ClickGameView vi){
+        public Controller(Model mo, View vi){
                 modell = mo;
                 vy = vi;
                 knappar = vy.getButtons();
