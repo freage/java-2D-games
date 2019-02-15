@@ -23,4 +23,6 @@ Changing the code
 
     * 15-puzzle. FIXED.
     * TicTacToe. FIXED.
+    * Minesweeper. FIXED.
+    * Snake - not fixed.
 
