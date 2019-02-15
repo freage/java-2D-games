@@ -6,8 +6,6 @@ import java.awt.Font;
 import games.BaseModel;
 
 
-// TODO: skriv om View så att den passar
-
 public class TicTacToe extends BaseModel implements Model {
 
         private static final int O = 1;
@@ -30,7 +28,7 @@ public class TicTacToe extends BaseModel implements Model {
         @Override
         public void leftClick(int m, int n) {
                 if (isValid(m, n))
-                        Execute(m, n);
+                        execute(m, n);
         }
 
         @Override
@@ -44,7 +42,7 @@ public class TicTacToe extends BaseModel implements Model {
 
         @Override
         public String translateString(int i) {
-                if (i==0)
+                if (i==EMPTY)
                         return "";
                 if (i==X)
                         return "X";
@@ -62,37 +60,36 @@ public class TicTacToe extends BaseModel implements Model {
         ////////////////////////////////////////////////////////////////////////////////////////////////
         // help functions:
 
-        private boolean isValid(int m, int n) { // är rutan tom?
+        private boolean isValid(int m, int n) { // is the square empty?
                 return game[m][n]==0;
         }
 
-        private void Execute(int m, int n){
-                game[m][n] = nextplayer;
-                observers.notifyObservers(m, n, nextplayer);
+        private void execute(int m, int n){
+                set(m, n, nextplayer);
                 nextplayer = nextplayer % 2 + 1;
                 if (hasThreeInARow())
                         isOver = true;
         }
 
         private boolean hasThreeInARow(){
-                // kolla rader:
+                // rows?
                 for (int i=0; i<game.length; i++){
                         if (checkRow(i))
                                 return true;
-                } // kolla kolumner:
+                } // columns?
                 for (int i=0; i<game.length; i++){
                         if (checkColumn(i))
                                 return true;
-                } // då avgör diagonalen:
+                } // diagonals?
                 return checkDiagonals();
         }
 
         private void setWinner(int i){
-                result = translateString(i)+" har vunnit";
+                result = translateString(i)+" has won";
         }
 
         private boolean checkRow(int m){
-                if (game[m][0]!=0){ // om första på rad m är nollskilld
+                if (game[m][0]!=0){ // check if first square in row `m` is non-zero
                         if (game[m][0]==game[m][1] && game[m][0]==game[m][2]){
                                 setWinner(game[m][0]);
                                 return true;
@@ -102,7 +99,7 @@ public class TicTacToe extends BaseModel implements Model {
         }
 
         private boolean checkColumn(int n){
-                if (game[0][n]!=0){ // om första på kolumn n är nollskilld
+                if (game[0][n]!=0){ // check if first square in column `m` is non-zero
                         if (game[0][n]==game[1][n] && game[0][n]==game[2][n]){
                                 setWinner(game[0][n]);
                                 return true;
@@ -113,11 +110,11 @@ public class TicTacToe extends BaseModel implements Model {
 
         private boolean checkDiagonals(){
                 if (game[1][1]!=0){
-                        // huvuddiagonalen
+                        // main diagonal
                         if (game[1][1]==game[0][0] && game[1][1]==game[2][2]){
                                 setWinner(game[1][1]);
                                 return true;
-                        } // anti-diagonalen
+                        } // anti-diagonal
                         if (game[1][1]==game[0][2] && game[1][1]==game[2][0]){
                                 setWinner(game[1][1]);
                                 return true;
@@ -128,7 +125,7 @@ public class TicTacToe extends BaseModel implements Model {
 
         @Override
         public void rightClick(int m, int n) {
-                // gör ingenting
+                // nothing happens at a right click
         }
 
         @Override

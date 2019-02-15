@@ -7,9 +7,10 @@ Merging
 
 Cleaning
 --------
-Go through the code and change comments and variable names into English. (Fixed in 15-puzzle.)
+* Go through the code and change comments and variable names into English. 
+* Stop using capitalised method names, instead of camel case. 
 
-Stop using capitalised method names, instead of camel case. (Fixed in 15-puzzle.)
+(Fixed in 15-puzzle & Tic-tac-toe.)
 
 Changing the code
 ----------------
@@ -18,4 +19,8 @@ Changing the code
 * Move `Position` to the top package? FIXED.
 * Start using `Position` in the 15-puzzle for the empty square. FIXED.
 * Abstract a `BaseMenu` for the menus to inherit from. Possible?
+* Make sure the notifying (model notifying the observer/view) is done in a canonical way. 
+
+    * 15-puzzle. FIXED.
+    * TicTacToe. FIXED.
 
