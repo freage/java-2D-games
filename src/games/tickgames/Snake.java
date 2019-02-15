@@ -1,7 +1,7 @@
 package games.tickgames;
 
-/* Denna klass sköter spelplan och navigation
- * Poängräkning mm finns i AdvancedSnakeModel
+/* This class handles the navigation.
+ * Counting points in done in AdvancedSnake
  *
  */
 
@@ -13,23 +13,21 @@ import games.Position;
 import games.BaseModel;
 
 public class Snake extends BaseModel implements Model {
-        // level, points, game (dvs matris) och isOver finns i tickgames.Model
-        // riktningarna finns i interface
-        // TODO: ändra i riktningarna och skapa en isOrthogonal(dir1, dir2) som är oberoende av int-representat
-        private int direction;
+        // level, points, game (i.e. matrix) and isOver are found in tickgames.Model
+        private int direction; // found the tickgames.Model Interface
         private LinkedList<Position> snake;
 
-        // objekt på spelplanen
+        // all possible objects on the board
         final static int WALL = 1;
         final static int CHEESE = 2;
         final static int SELF = 3;
         final static int EMPTY = 0;
         final static int HEAD = 4;
 
-        // övrigt
-        int calls; // används i huvudsak av barn
-        int cheeses; // används i huvudsak av barn
-        Random rgen = new Random(); // används för att slumpa fram positioner
+        // other:
+        int calls; // see further AdvancedSnake
+        int cheeses; // see further AdvancedSnake
+        Random rgen = new Random(); // for new random positions
 
 
         // GAME CONSTRUCTOR
@@ -42,6 +40,9 @@ public class Snake extends BaseModel implements Model {
                 initialise(20,20);
                 calls = 0;
                 cheeses = 0;
+
+                // without this line, the old snake does not disappear at `restart()`
+                // FIX: start new view instance (?) at restart, as in clickgames
                 observers.notifyObservers();
                 buildSnake();
                 title = "Snake";
@@ -88,25 +89,22 @@ public class Snake extends BaseModel implements Model {
         // used in constructor
         private void buildSnake(){
                 snake = new LinkedList<Position>();
-                // lägg till huvud:
+                // add a head:
                 int m = rgen.nextInt(game.length);
                 int n = rgen.nextInt(game.length);
                 addSegment(m, n, HEAD);
-                // ett kroppssegment:
+                // a body segment:
                 addSegment((m + 1) % game.length, n, SELF);
-                // samt svans:
+                // and a tail:
                 addSegment((m + 2) % game.length, n, SELF);
-                // på väg norrut:
+                // initially going north:
                 direction = NORTH;
         }
 
         // used buildSnake()
         private void addSegment(int m, int n, int element){
-                Position pos = new Position();
-                pos.m = m;
-                pos.n = n;
+                Position pos = new Position(m, n);
                 set(m, n, element);
-//              game[m][n] = element;
                 snake.addLast(pos);
         }
 
@@ -142,10 +140,8 @@ public class Snake extends BaseModel implements Model {
                 int object = game[headM][headN];
                 if (object != HEAD || object != WALL){
                         set(headpos.m, headpos.n, SELF);
-//                      game[headpos.m][headpos.n] = SELF;
                         Position newpos = new Position(headM, headN);
                         set(newpos.m, newpos.n, HEAD);
-//                      game[newpos.m][newpos.n] = HEAD;
                         snake.addFirst(newpos);
                 }
                 return object;
@@ -158,13 +154,12 @@ public class Snake extends BaseModel implements Model {
         // used by move()
         private void popTail(){
                 Position tailpos = snake.pollLast();
-//              game[tailpos.m][tailpos.n] = EMPTY;
                 set(tailpos.m, tailpos.n, EMPTY);
         }
 
 
 
-        // MAIN METHOD
+        // MAIN METHOD (for debugging)
 
         public static void main(String[] args) {
                 Snake sm = new Snake();

@@ -1,10 +1,10 @@
 package games.tickgames;
 
-/* Som snake-model, med tillägg:
- * - lägga ost på planen
- * - poängräkning
- * - kommande: öka level
- * - kommande: lägg till väggar
+/* Extensions to SnakeModel
+ * - adding cheese on the board
+ * - counting points
+ * - planned: increase level
+ * - planned: add optional walls
  *
  */
 
@@ -15,8 +15,8 @@ public class AdvancedSnake extends Snake {
         }
 
         @Override
-        public void simulate(int request){ // anropas av simulation varje 0.1 sek
-                // en request i snake måste gå via controller, så att inte ormen gör flera drag/tidsenhet
+        public void simulate(int request){ // called by Simulation each tick
+                // A request in Snake must pass through Controller, to prevent several moves/tick
                 super.simulate(request);
                 calls++;
                 if (calls%10==0 && cheeses < 3){
@@ -34,7 +34,6 @@ public class AdvancedSnake extends Snake {
                         int n = rgen.nextInt(game.length);
                         if (game[m][n] == EMPTY){
                                 set(m, n, CHEESE);
-//                              game[m][n] = CHEESE;
                                 ok = true;
                         }
                 }
