@@ -16,7 +16,7 @@ FEMTONSPEL=games/clickgames/FifteenPuzzle
 # Skriver ut matris i terminalen
 
 
-GAMES=$(SNAKE_M)
+GAMES=$(FEMTONSPEL)
 
 COMPILE=javac --source-path src -d bin
 

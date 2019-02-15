@@ -20,7 +20,7 @@ public abstract class BaseModel {
         public void initialise(int Width, int Height){
                 width = Width;
                 height = Height;
-                game = new int[width][height];
+                game = new int[height][width]; // TODO: correct order?
                 isOver = false;
                 points = 0;
                 level = 0;
@@ -29,6 +29,18 @@ public abstract class BaseModel {
 
         public boolean isOver() {
                 return isOver;
+        }
+
+        public int getWidth() {
+            return width;
+        }
+
+        public int getHeight() {
+            return height;
+        }
+
+        public int get(int m, int n) {
+            return game[m][n];
         }
 
         public int getLevel() {

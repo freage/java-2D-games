@@ -28,7 +28,7 @@ public class TicTacToe extends BaseModel implements Model {
         }
 
         @Override
-        public void LeftClick(int m, int n) {
+        public void leftClick(int m, int n) {
                 if (isValid(m, n))
                         Execute(m, n);
         }
@@ -127,7 +127,7 @@ public class TicTacToe extends BaseModel implements Model {
         }
 
         @Override
-        public void RightClick(int m, int n) {
+        public void rightClick(int m, int n) {
                 // gör ingenting
         }
 

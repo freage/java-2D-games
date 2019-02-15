@@ -1,4 +1,4 @@
-package games.tickgames;
+package games;
 
 public class Position {
         public int m;

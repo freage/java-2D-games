@@ -62,9 +62,9 @@ public class Controller extends JPanel implements MouseListener {
                                 if (source==knapp && !modell.isOver()){
                                         int musknapp = me.getButton();
                                         if (musknapp==LEFT)
-                                                modell.LeftClick(i, j);
+                                                modell.leftClick(i, j);
                                         else if (musknapp==RIGHT)
-                                                modell.RightClick(i, j);
+                                                modell.rightClick(i, j);
                                         if (modell.isOver())
                                                 status.setText(modell.getResult());
                                 }

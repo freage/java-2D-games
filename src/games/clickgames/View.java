@@ -19,10 +19,10 @@ public class View extends JPanel implements MatrixObserverInterface {
 
         public View(Model model){
                 m = model;
-                int size = m.getGame().length;
-                setLayout(new GridLayout(size, size));
-                width = size*m.getButtonSize();
-                height = size*m.getButtonSize();
+                int W = m.getWidth(), H = m.getHeight();
+                setLayout(new GridLayout(W,H));
+                width = W*m.getButtonSize();
+                height = H*m.getButtonSize();
                 setPreferredSize(new Dimension(width, height));
                 addButtonMatrix(); // lägger till knappar med rätt innehåll
                 setVisible(true);
@@ -39,9 +39,9 @@ public class View extends JPanel implements MatrixObserverInterface {
 //      }
 
         private void addButtonMatrix(){
-                buttons = new JButton[m.getGame().length][m.getGame().length];
-                for (int i=0; i<m.getGame().length; i++){
-                        for (int j=0; j<m.getGame()[i].length; j++){
+                buttons = new JButton[m.getHeight()][m.getWidth()];
+                for (int i=0; i<m.getHeight(); i++){
+                    for (int j=0; j<m.getWidth(); j++){
                                 addButton(i, j);
                         }
                 }
@@ -54,7 +54,7 @@ public class View extends JPanel implements MatrixObserverInterface {
                 knapp.setFont(m.getFont());
                 knapp.setVisible(true);
                 buttons[i][j] = knapp;
-                updateSquare(i, j, m.getGame()[i][j]);
+                updateSquare(i, j, m.get(i,j));
                 this.add(knapp);
         }
 
@@ -71,7 +71,7 @@ public class View extends JPanel implements MatrixObserverInterface {
                 int tal;
                 for (int i=0; i<buttons.length; i++){
                         for (int j=0; j<buttons[i].length; j++){
-                                tal = m.getGame()[i][j];
+                                tal = m.get(i,j);
                                 updateSquare(i, j, tal);
                         }
                 }

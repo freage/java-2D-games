@@ -9,7 +9,9 @@ package hello;
 public class Hello {
 
     public static void main(String[] args) {
-        System.out.println("Hello, world!");
+        int mat[][] = new int[3][4];
+        int n_rows = mat.length;
+        System.out.println("Hello, world! "+n_rows);
 
     }
 }

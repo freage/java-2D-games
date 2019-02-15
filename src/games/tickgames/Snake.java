@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.util.LinkedList;
 import java.util.Random;
 
+import games.Position;
 import games.BaseModel;
 
 public class Snake extends BaseModel implements Model {

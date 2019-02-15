@@ -116,7 +116,7 @@ public class MineSweeper extends BaseModel implements Model {
 
 
         @Override
-        public void LeftClick(int m, int n) {
+        public void leftClick(int m, int n) {
                 if (game[m][n]==COVERED){
                         uncover(m,n);
                         if (under[m][n]==MINE){
@@ -167,7 +167,7 @@ public class MineSweeper extends BaseModel implements Model {
         }
 
         @Override
-        public void RightClick(int m, int n) {
+        public void rightClick(int m, int n) {
                 if (game[m][n]==COVERED){
                         game[m][n] = FLAGGED;
                         observers.notifyObservers(m, n, FLAGGED);

@@ -21,14 +21,14 @@ public interface Model {
          * @param m - row
          * @param n - column
          */
-        void LeftClick(int m, int n);
+        void leftClick(int m, int n);
         /* Luffarschack: piece dyker upp på position m, n
          * 15-spel: ruta på m, n flyttas till tom
          * Anropar sedan Verify() för att verifiera
          * Sedan antingen Execute() eller felmeddelande
          */
 
-        void RightClick(int m, int n);
+        void rightClick(int m, int n);
         /* Luffarschack: piece dyker upp på position m, n
          * 15-spel: ruta på m, n flyttas till tom
          * Anropar sedan Verify() för att verifiera
@@ -39,9 +39,11 @@ public interface Model {
         /** Used by view
          * @return the matrix representing the gameboard
          */
-        int[][] getGame();
-        /* return matrix;
-         */
+        public int get(int m, int n);
+
+        public int getWidth();
+
+        public int getHeight();
 
 
         /** Used by controller
