@@ -2,7 +2,7 @@ package games.tickgames;
 
 import java.awt.Color;
 
-import games.MatrixObservers;
+import games.MatrixObserverInterface;
 
 public interface Model {
 
@@ -31,11 +31,16 @@ public interface Model {
 
         String getTitle();
 
-        int[][] getGame();
+        int getSquare(int m, int n);
 
-        void PrintMatrix(int[][] mtrx);
+        public int getWidth();
 
-        MatrixObservers getObservers();
+        public int getHeight();
+
+
+        void printMatrix(int[][] mtrx);
+
+        public void addObserver(MatrixObserverInterface view);
 
         String getResult();
 

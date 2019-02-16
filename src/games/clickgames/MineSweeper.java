@@ -151,7 +151,7 @@ public class MineSweeper extends BaseModel implements Model {
 
         public static void main(String[] args) {
                 MineSweeper ms = new MineSweeper();
-                ms.PrintMatrix(ms.game);
+                ms.printMatrix(ms.game);
         }
 
         @Override

@@ -43,7 +43,7 @@ public class Menu extends JFrame implements ActionListener {
                         ctrl.setVisible(false);
                 }
                 view = new View(model);
-                model.getObservers().addObserver(view);
+                model.addObserver(view);
                 ctrl = new Controller(model, view);
                 add(view);
                 add(ctrl);

@@ -3,43 +3,24 @@ package games.clickgames;
 import java.awt.Color;
 import java.awt.Font;
 
-import games.MatrixObservers;
+import games.MatrixObserverInterface;
 
 public interface Model {
-        /* int[][] matris spelplan: n rader innehållande n kolumner
-         * klass: senaste_draget: int player, int m, int n, boolean executed
-         * int[] players;
-         * boolean isOver;
-         * int vems_tur;
-         *
-         */
 
-
-        /**
-         *
-         * @param piece - piece to be moved/placed
-         * @param m - row
-         * @param n - column
-         */
         void leftClick(int m, int n);
-        /* Luffarschack: piece dyker upp på position m, n
-         * 15-spel: ruta på m, n flyttas till tom
-         * Anropar sedan Verify() för att verifiera
-         * Sedan antingen Execute() eller felmeddelande
+        /* Tic-tac-toe: X/O appears at position m, n
+         * 15-puzzle: square at m, n is moved to empty
+         * Then calls verify()
+         * and then either execute() or an error
          */
 
         void rightClick(int m, int n);
-        /* Luffarschack: piece dyker upp på position m, n
-         * 15-spel: ruta på m, n flyttas till tom
-         * Anropar sedan Verify() för att verifiera
-         * Sedan antingen Execute() eller felmeddelande
-         */
 
 
         /** Used by view
-         * @return the matrix representing the gameboard
+         * @return a square of the matrix representing the gameboard
          */
-        public int get(int m, int n);
+        public int getSquare(int m, int n);
 
         public int getWidth();
 
@@ -64,7 +45,7 @@ public interface Model {
          * Prints the gameboard in the command line <br>
          * Useful for errorchecking or command line-playing
          */
-        void PrintMatrix(int[][] mtrx);
+        void printMatrix(int[][] mtrx);
 
 
         /** String representation of this number */
@@ -82,7 +63,7 @@ public interface Model {
         /** Title of this game. */
         String getTitle();
 
-        MatrixObservers getObservers();
+        public void addObserver(MatrixObserverInterface view);
 
         /** Preferred size of button in pixels. Specified in this function. */
         int getButtonSize();

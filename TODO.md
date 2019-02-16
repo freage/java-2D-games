@@ -1,7 +1,7 @@
 Merging
 -------
 
-* Merge `MatrixObservers` into `BaseModel`.
+* Merge `MatrixObservers` into `BaseModel`. FIXED
 * In `tickgames`, merge `Simulation` into `Controller`.
 * Consider merging the snake models.
 

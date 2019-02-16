@@ -24,7 +24,7 @@ public class View extends JPanel implements MatrixObserverInterface {
                 width = W*m.getButtonSize();
                 height = H*m.getButtonSize();
                 setPreferredSize(new Dimension(width, height));
-                addButtonMatrix(); // lägger till knappar med rätt innehåll
+                addButtonMatrix();
                 setVisible(true);
         }
 
@@ -32,11 +32,6 @@ public class View extends JPanel implements MatrixObserverInterface {
                 return this.buttons;
         }
 
-
-//      void update(){
-////            System.out.println("Uppdaterar vyn...");
-//              updateButtonMatrix();
-//      }
 
         private void addButtonMatrix(){
                 buttons = new JButton[m.getHeight()][m.getWidth()];
@@ -54,25 +49,25 @@ public class View extends JPanel implements MatrixObserverInterface {
                 knapp.setFont(m.getFont());
                 knapp.setVisible(true);
                 buttons[i][j] = knapp;
-                updateSquare(i, j, m.get(i,j));
+                updateSquare(i, j, m.getSquare(i,j));
                 this.add(knapp);
         }
 
-        public void updateSquare(int i, int j, int tal){
+        public void updateSquare(int i, int j, int number){
                 JButton knapp = buttons[i][j];
-                String content = m.translateString(tal);
-                knapp.setBackground(m.translateBgColor(tal));
-                knapp.setForeground(m.translateTextColor(tal));
+                String content = m.translateString(number);
+                knapp.setBackground(m.translateBgColor(number));
+                knapp.setForeground(m.translateTextColor(number));
                 knapp.setText(content);
         }
 
         @Override
         public void updateMatrix(){
-                int tal;
+                int number;
                 for (int i=0; i<buttons.length; i++){
                         for (int j=0; j<buttons[i].length; j++){
-                                tal = m.get(i,j);
-                                updateSquare(i, j, tal);
+                                number = m.getSquare(i,j);
+                                updateSquare(i, j, number);
                         }
                 }
         }

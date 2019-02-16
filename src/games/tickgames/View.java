@@ -10,14 +10,14 @@ import games.MatrixObserverInterface;
 
 public class View extends JPanel implements MatrixObserverInterface {
         Model model;
-        JLabel[][] rutor;
+        JLabel[][] squares;
 
-        View(Model spel){
-                model = spel;
-                model.getObservers().addObserver(this);
-                int size = model.getGame().length;
-                rutor = new JLabel[size][size];
-                setLayout(new GridLayout(size, size));
+        View(Model mo){
+                model = mo;
+                model.addObserver(this);
+                int H = model.getHeight(), W = model.getWidth();
+                squares = new JLabel[H][W];
+                setLayout(new GridLayout(H, W));
                 setPreferredSize(new Dimension(300, 350));
                 addMatrix();
                 updateMatrix();
@@ -26,14 +26,14 @@ public class View extends JPanel implements MatrixObserverInterface {
         }
 
         void addMatrix(){
-                for (int i=0; i < model.getGame().length; i++){
-                        for (int j=0; j < model.getGame()[i].length; j++){
-                                JLabel ruta = new JLabel("");
-                                ruta.setVisible(true);
-                                ruta.setOpaque(true);
-                                ruta.setSize(10, 10);
-                                rutor[i][j] = ruta;
-                                this.add(ruta);
+                for (int i=0; i < model.getHeight(); i++){
+                        for (int j=0; j < model.getWidth(); j++){
+                                JLabel square = new JLabel("");
+                                square.setVisible(true);
+                                square.setOpaque(true);
+                                square.setSize(10, 10);
+                                squares[i][j] = square;
+                                this.add(square);
                         }
                 }
         }
@@ -41,9 +41,9 @@ public class View extends JPanel implements MatrixObserverInterface {
         @Override
         public void updateMatrix(){
                 int element;
-                for (int i=0; i < rutor.length; i++){
-                        for (int j=0; j < rutor[i].length; j++){
-                                element = model.getGame()[i][j];
+                for (int i=0; i < squares.length; i++){
+                        for (int j=0; j < squares[i].length; j++){
+                                element = model.getSquare(i,j);
                                 updateSquare(i, j, element);
                         }
                 }
@@ -51,9 +51,9 @@ public class View extends JPanel implements MatrixObserverInterface {
 
         @Override
         public void updateSquare(int m, int n, int number) {
-                JLabel ruta = rutor[m][n];
-                ruta.setBackground(model.translate(number));
-                ruta.repaint();
+                JLabel square = squares[m][n];
+                square.setBackground(model.translate(number));
+                square.repaint();
         }
 
 

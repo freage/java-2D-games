@@ -107,7 +107,7 @@ public class FifteenPuzzle extends BaseModel implements Model {
          */
         public static void main(String[] args) {
                 FifteenPuzzle my15 = new FifteenPuzzle();
-                my15.PrintMatrix(my15.game);
+                my15.printMatrix(my15.game);
         }
 
 

@@ -43,7 +43,7 @@ public class Snake extends BaseModel implements Model {
 
                 // without this line, the old snake does not disappear at `restart()`
                 // FIX: start new view instance (?) at restart, as in clickgames
-                observers.notifyObservers();
+                updateAll();
                 buildSnake();
                 title = "Snake";
         }
@@ -163,7 +163,7 @@ public class Snake extends BaseModel implements Model {
 
         public static void main(String[] args) {
                 Snake sm = new Snake();
-                sm.PrintMatrix(sm.game);
+                sm.printMatrix(sm.game);
         }
 
 }
