@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.ListIterator;
 
 public abstract class BaseModel {
-        protected int[][] game; // storleken sätts i start()
+        protected int[][] game; // the size is set in start()
         protected boolean isOver;
         protected int points;
         protected int level;
@@ -101,6 +101,7 @@ public abstract class BaseModel {
 
         /** Set square m,n to number and notify observers. */
         protected void set(int m, int n, int number){
+            System.out.println("BaseModel::set();");
                 game[m][n] = number;
                 notifyObservers(m, n, number);
         }
@@ -119,13 +120,17 @@ public abstract class BaseModel {
         // Private help functions:
 
         private void notifyObservers(int i, int j, int tal){
+            System.out.println("BaseModel::notifyObservers()");
+            if (observers.size() == 0) System.out.println("No observers!");
                 ListIterator<MatrixObserverInterface> listiterator = observers.listIterator();
                 while (listiterator.hasNext()){
+                    System.out.println("BaseModel::notifyObservers() -- call next observer");
                         listiterator.next().updateSquare(i, j, tal);
                 }
         }
 
         private void notifyObservers(){
+            System.out.println("BaseModel::notifyObservers()");
                 ListIterator<MatrixObserverInterface> listiterator = observers.listIterator();
                 while (listiterator.hasNext()){
                         listiterator.next().updateMatrix();

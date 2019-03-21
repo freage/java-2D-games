@@ -8,7 +8,6 @@ import javax.swing.JLabel;
 
 public class Menu extends JFrame {
         Controller controller;
-        Simulation simulation;
         Model model;
         View view;
         JButton restart;
@@ -20,9 +19,7 @@ public class Menu extends JFrame {
                 view = new View(model);
                 add(view);
                 setLayout(new FlowLayout());
-                simulation = new Simulation(model, view);
-                controller = new Controller(simulation);
-                simulation.addController(controller);
+                controller = new Controller(model, view);
                 add(controller);
                 this.addKeyListener(controller);
 

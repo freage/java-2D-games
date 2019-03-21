@@ -7,10 +7,13 @@ import java.awt.event.KeyListener;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.Timer;
 
 
-public class Controller extends JPanel implements KeyListener {
-        Simulation simulation;
+public class Controller extends JPanel implements KeyListener, ActionListener {
         private final static int UP = 38;
         private final static int DOWN = 40;
         private final static int LEFT = 37;
@@ -20,12 +23,24 @@ public class Controller extends JPanel implements KeyListener {
         int height = 100;
         JLabel status;
 
+        private int request;
+        private Timer timer;
+        private Model model;
+        View view;
+//      boolean newrequest;
 
-        Controller(Simulation s){
-                simulation = s;
-                simulation.view.addKeyListener(this);
+
+        Controller(Model m, View v){
+                model = m;
+                view = v;
+                view.addKeyListener(this);
                 setPreferredSize(new Dimension(width, height));
                 addLabels();
+
+                request = Model.NORTH;
+                timer = new Timer(100, this);
+                timer.start();
+
 
         }
 
@@ -35,39 +50,59 @@ public class Controller extends JPanel implements KeyListener {
                 add(status);
         }
 
-        public void setResult(String str){
+        private void setResult(String str){
                 status.setText(str);
         }
 
+        // reset after each actionevent
+        private void setRequest(int i){
+                request = i;
+        }
 
         @Override
         public void keyPressed(KeyEvent arg0) {
                 int keynr = arg0.getKeyCode();
-//              System.out.println("Controller: Pressed keynr "+keynr);
+             System.out.println("Controller: Pressed keynr "+keynr);
                 if (keynr==UP)
-                        simulation.setRequest(Model.NORTH);
+                        setRequest(Model.NORTH);
                 else if (keynr==DOWN)
-                        simulation.setRequest(Model.SOUTH);
+                        setRequest(Model.SOUTH);
                 else if (keynr==LEFT)
-                        simulation.setRequest(Model.WEST);
+                        setRequest(Model.WEST);
                 else if (keynr==RIGHT)
-                        simulation.setRequest(Model.EAST);
-                else if (keynr==SPACE)
-                        simulation.setRequest(Model.RESTART);
+                        setRequest(Model.EAST);
+                else if (keynr==SPACE) {
+                        setRequest(Model.RESTART);
+                        System.out.println("Restart requested");
+                }
         }
 
         @Override
         public void keyReleased(KeyEvent arg0) {
-                // gör inget
+                // do nothing
 
         }
 
         @Override
         public void keyTyped(KeyEvent arg0) {
-                // gör inget
+                // do nothing
 
         }
 
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+            System.out.println("Controller::actionPerformed();");
+            if (request == Model.RESTART) {
+                System.out.println("Restart requested but nothing happens?");
+            }
+                model.simulate(request);
+//              view.paintMatrix();
+                request = Model.NONE;
+                if (model.isOver()) {
+                        setResult(model.getResult());
+                        System.out.println("Model::isOver()");
+                }
+        }
 
 
 }

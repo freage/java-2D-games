@@ -51,6 +51,7 @@ public class View extends JPanel implements MatrixObserverInterface {
 
         @Override
         public void updateSquare(int m, int n, int number) {
+            System.out.println("View::updateSquare(int,int,int);");
                 JLabel square = squares[m][n];
                 square.setBackground(model.translate(number));
                 square.repaint();

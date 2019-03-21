@@ -37,6 +37,7 @@ public class Snake extends BaseModel implements Model {
         }
 
         private void start(){
+            System.out.println("Snake::start()");
                 initialise(20,20);
                 calls = 0;
                 cheeses = 0;
@@ -53,7 +54,8 @@ public class Snake extends BaseModel implements Model {
 
         @Override
         public void simulate(int request){
-                if (!isOver || request==RESTART){
+            System.out.println("Snake::simulate(int)");
+                if (!isOver || request==RESTART) {
                         if (request==NONE);
                         else if (request==RESTART)
                                 restart();
@@ -65,6 +67,7 @@ public class Snake extends BaseModel implements Model {
 
         @Override
         public void restart(){
+            System.out.println("Snake::restart()");
                 start();
         }
 
@@ -108,8 +111,10 @@ public class Snake extends BaseModel implements Model {
                 snake.addLast(pos);
         }
 
-        // used by public method simulate()
+        // used by public method simulate(); called by AdvancedSnake
         void move(){
+            System.out.println("Snake::move()");
+            System.out.println("Direction: "+direction);
                 int object = advance();
                 if (object == WALL || object == SELF){
                         isOver = true;
@@ -137,6 +142,7 @@ public class Snake extends BaseModel implements Model {
                 Position headpos = snake.peekFirst();
                 int headM = (headpos.m + game.length + dm) % game.length;
                 int headN = (headpos.n + game.length + dn) % game.length;
+                System.out.println("Head position: ("+headM+", "+headN+")");
                 int object = game[headM][headN];
                 if (object != HEAD || object != WALL){
                         set(headpos.m, headpos.n, SELF);
