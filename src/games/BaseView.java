@@ -24,9 +24,9 @@ public abstract class BaseView<T extends JComponent, M extends BaseModel> extend
 
 
         private void addMatrix(){
-            initMatrix();
+                initMatrix();
                 for (int i=0; i<model.getHeight(); i++){
-                    for (int j=0; j<model.getWidth(); j++){
+                        for (int j=0; j<model.getWidth(); j++){
                                 addSquare(i, j);
                         }
                 }
@@ -40,11 +40,8 @@ public abstract class BaseView<T extends JComponent, M extends BaseModel> extend
         protected abstract void addSquare(int i, int j);
 
 
-    ///////////////////////////////////////////////////////////////
-    //// Implemented functions from `MatrixObserverInterface`
-
-        // @Override
-        // void updateSquare(int m, int n, int number);
+        ///////////////////////////////////////////////////////////////
+        //// Implemented functions from `MatrixObserverInterface`
 
         @Override
         public void updateMatrix(){

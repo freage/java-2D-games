@@ -14,8 +14,7 @@ public abstract class Model extends BaseModel {
         static int NONE = 0;
 
         /**
-         * Called after every ActionEvent created by Timer in Simulation class
-         * @param request - request forwarded by Simulation from Controller
+         * Called after every ActionEvent created by Timer in Controller class
          */
         abstract void simulate(int request);
 
@@ -23,27 +22,6 @@ public abstract class Model extends BaseModel {
 
         abstract void restart();
 
-        // boolean isOver();
-
-        // int getLevel();
-
-        // int getPoints();
-
         abstract Color translate(int element);
-
-        // String getTitle();
-
-        // int getSquare(int m, int n);
-
-        // public int getWidth();
-
-        // public int getHeight();
-
-
-        // void printMatrix(int[][] mtrx);
-
-        // public void addObserver(MatrixObserverInterface view);
-
-        // String getResult();
 
 }

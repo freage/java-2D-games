@@ -1,28 +1,19 @@
 package games.clickgames;
 
-// import java.awt.Dimension;
 import java.awt.Font;
-// import java.awt.GridLayout;
 import java.awt.Insets;
-
 import javax.swing.JButton;
-import javax.swing.JPanel;
 
 import games.BaseView;
 
 public class View extends BaseView<JButton, Model> {
-    int width, height;
+        // TODO: Apparently these are used by the Menu. The other View does not have these.
+        int width, height;
 
         public View(Model model){
-            super(model);
-        //         m = model;
-        //         int W = m.getWidth(), H = m.getHeight();
-        //         setLayout(new GridLayout(W,H));
-            width = model.getWidth() * model.getSquareSize();
-            height = model.getHeight() * model.getSquareSize();
-        //         setPreferredSize(new Dimension(width, height));
-        //         addButtonMatrix();
-        //         setVisible(true);
+                super(model);
+                width = model.getWidth() * model.getSquareSize();
+                height = model.getHeight() * model.getSquareSize();
         }
 
         // TODO: is this even used?
@@ -48,8 +39,8 @@ public class View extends BaseView<JButton, Model> {
                 this.add(knapp);
         }
 
-    ///////////////////////////////////////////////////////////////
-    //// Implemented functions from `MatrixObserverInterface`
+        ///////////////////////////////////////////////////////////////
+        //// Implemented functions from `MatrixObserverInterface`
 
 
         @Override
@@ -60,18 +51,6 @@ public class View extends BaseView<JButton, Model> {
                 knapp.setForeground(model.translateTextColor(number));
                 knapp.setText(content);
         }
-
-        // @Override
-        // public void updateMatrix(){
-        //         int number;
-        //         for (int i=0; i<grid.length; i++){
-        //                 for (int j=0; j<grid[i].length; j++){
-        //                         number = model.getSquare(i,j);
-        //                         updateSquare(i, j, number);
-        //                 }
-        //         }
-        // }
-
 
 
 }

@@ -86,10 +86,10 @@ public abstract class BaseModel {
                 return font;
         }
 
-    /** The squares in the grid. Override if it should be different. */
-    public int getSquareSize(){
-        return 1;
-    }
+        /** The squares in the grid. Override if it should be different. */
+        public int getSquareSize(){
+            return 1;
+        }
 
         public void setWidth(int i){
                 if (i > 0)
@@ -110,7 +110,6 @@ public abstract class BaseModel {
 
         /** Set square m,n to number and notify observers. */
         protected void set(int m, int n, int number){
-            System.out.println("BaseModel::set();");
                 game[m][n] = number;
                 notifyObservers(m, n, number);
         }
@@ -129,17 +128,13 @@ public abstract class BaseModel {
         // Private help functions:
 
         private void notifyObservers(int i, int j, int tal){
-            System.out.println("BaseModel::notifyObservers()");
-            if (observers.size() == 0) System.out.println("No observers!");
                 ListIterator<MatrixObserverInterface> listiterator = observers.listIterator();
                 while (listiterator.hasNext()){
-                    System.out.println("BaseModel::notifyObservers() -- call next observer");
                         listiterator.next().updateSquare(i, j, tal);
                 }
         }
 
         private void notifyObservers(){
-            System.out.println("BaseModel::notifyObservers()");
                 ListIterator<MatrixObserverInterface> listiterator = observers.listIterator();
                 while (listiterator.hasNext()){
                         listiterator.next().updateMatrix();

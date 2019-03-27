@@ -55,7 +55,6 @@ public class Snake extends Model {
 
         @Override
         public void simulate(int request){
-            System.out.println("Snake::simulate(int)");
                 if (!isOver || request==RESTART) {
                         if (request==NONE);
                         else if (request==RESTART)
@@ -115,8 +114,6 @@ public class Snake extends Model {
 
         // used by public method simulate(); called by AdvancedSnake
         void move(){
-            System.out.println("Snake::move()");
-            System.out.println("Direction: "+direction);
                 int object = advance();
                 if (object == WALL || object == SELF){
                         isOver = true;
@@ -144,7 +141,6 @@ public class Snake extends Model {
                 Position headpos = snake.peekFirst();
                 int headM = (headpos.m + game.length + dm) % game.length;
                 int headN = (headpos.n + game.length + dn) % game.length;
-                System.out.println("Head position: ("+headM+", "+headN+")");
                 int object = game[headM][headN];
                 if (object != HEAD || object != WALL){
                         set(headpos.m, headpos.n, SELF);
