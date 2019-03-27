@@ -12,7 +12,7 @@ import java.util.Random;
 import games.Position;
 import games.BaseModel;
 
-public class Snake extends BaseModel implements Model {
+public class Snake extends Model {
         // level, points, game (i.e. matrix) and isOver are found in tickgames.Model
         private int direction; // found the tickgames.Model Interface
         private LinkedList<Position> snake;
@@ -33,12 +33,13 @@ public class Snake extends BaseModel implements Model {
         // GAME CONSTRUCTOR
 
         public Snake(){
-                start();
+            initialise(20,20);
+                // start();
         }
 
-        private void start(){
+        @Override
+        void start(){
             System.out.println("Snake::start()");
-                initialise(20,20);
                 calls = 0;
                 cheeses = 0;
 
@@ -68,6 +69,7 @@ public class Snake extends BaseModel implements Model {
         @Override
         public void restart(){
             System.out.println("Snake::restart()");
+            initialise(20,20);
                 start();
         }
 

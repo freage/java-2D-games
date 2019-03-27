@@ -18,8 +18,8 @@ public class View extends BaseView<JButton, Model> {
         //         m = model;
         //         int W = m.getWidth(), H = m.getHeight();
         //         setLayout(new GridLayout(W,H));
-            width = m.getWidth() * m.getSquareSize();
-            height = m.getHeight() * m.getSquareSize();
+            width = model.getWidth() * model.getSquareSize();
+            height = model.getHeight() * model.getSquareSize();
         //         setPreferredSize(new Dimension(width, height));
         //         addButtonMatrix();
         //         setVisible(true);
@@ -32,41 +32,45 @@ public class View extends BaseView<JButton, Model> {
 
         @Override
         protected void initMatrix() {
-                grid = new JButton[m.getHeight()][m.getWidth()];
+                grid = new JButton[model.getHeight()][model.getWidth()];
         }
 
 
         @Override
-        protected void addButton(int i, int j){
+        protected void addSquare(int i, int j){
                 JButton knapp = new JButton();
                 knapp.setMargin(new Insets(2, 4, 2, 4));
 //              knapp.setFont(getFont().deriveFont(30).deriveFont(Font.BOLD));
-                knapp.setFont(m.getFont());
+                knapp.setFont(model.getFont());
                 knapp.setVisible(true);
                 grid[i][j] = knapp;
-                updateSquare(i, j, m.getSquare(i,j));
+                updateSquare(i, j, model.getSquare(i,j));
                 this.add(knapp);
         }
+
+    ///////////////////////////////////////////////////////////////
+    //// Implemented functions from `MatrixObserverInterface`
+
 
         @Override
         public void updateSquare(int i, int j, int number){
                 JButton knapp = grid[i][j];
-                String content = m.translateString(number);
-                knapp.setBackground(m.translateBgColor(number));
-                knapp.setForeground(m.translateTextColor(number));
+                String content = model.translateString(number);
+                knapp.setBackground(model.translateBgColor(number));
+                knapp.setForeground(model.translateTextColor(number));
                 knapp.setText(content);
         }
 
-        @Override
-        public void updateMatrix(){
-                int number;
-                for (int i=0; i<grid.length; i++){
-                        for (int j=0; j<grid[i].length; j++){
-                                number = m.getSquare(i,j);
-                                updateSquare(i, j, number);
-                        }
-                }
-        }
+        // @Override
+        // public void updateMatrix(){
+        //         int number;
+        //         for (int i=0; i<grid.length; i++){
+        //                 for (int j=0; j<grid[i].length; j++){
+        //                         number = model.getSquare(i,j);
+        //                         updateSquare(i, j, number);
+        //                 }
+        //         }
+        // }
 
 
 

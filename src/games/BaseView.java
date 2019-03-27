@@ -8,15 +8,15 @@ import javax.swing.JPanel;
 
 
 public abstract class BaseView<T extends JComponent, M extends BaseModel> extends JPanel implements MatrixObserverInterface {
-        protected M m;
+        protected M model;
         protected T [][] grid;
 
-        public BaseView(M model){
-                m = model;
-                m.addObserver(this);
-                int W = m.getWidth(), H = m.getHeight();
+        public BaseView(M m){
+                model = m;
+                model.addObserver(this);
+                int W = model.getWidth(), H = model.getHeight();
                 setLayout(new GridLayout(W,H));
-                int bs = m.getSquareSize();
+                int bs = model.getSquareSize();
                 setPreferredSize(new Dimension(W*bs, H*bs));
                 addMatrix();
                 setVisible(true);
@@ -25,25 +25,39 @@ public abstract class BaseView<T extends JComponent, M extends BaseModel> extend
 
         private void addMatrix(){
             initMatrix();
-                for (int i=0; i<m.getHeight(); i++){
-                    for (int j=0; j<m.getWidth(); j++){
-                                addButton(i, j);
+                for (int i=0; i<model.getHeight(); i++){
+                    for (int j=0; j<model.getWidth(); j++){
+                                addSquare(i, j);
                         }
                 }
         }
 
         protected abstract void initMatrix();
         // Do this; cannot do generic array creation.
-        // grid = new T[m.getHeight()][m.getWidth()];
+        // grid = new T[model.getHeight()][model.getWidth()];
 
 
-        protected abstract void addButton(int i, int j);
+        protected abstract void addSquare(int i, int j);
+
+
+    ///////////////////////////////////////////////////////////////
+    //// Implemented functions from `MatrixObserverInterface`
 
         // @Override
         // void updateSquare(int m, int n, int number);
 
-        // @Override
-        // void updateMatrix();
+        @Override
+        public void updateMatrix(){
+            System.out.println("BaseView::updateMatrix()");
+                int element;
+                for (int i=0; i < model.getHeight(); i++){
+                        for (int j=0; j < model.getWidth(); j++){
+                                element = model.getSquare(i,j);
+                                updateSquare(i, j, element);
+                        }
+                }
+        }
+
 
 
 }

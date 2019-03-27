@@ -20,10 +20,10 @@ public abstract class BaseModel {
         protected int height;
 
 
-        public void initialise(int Width, int Height){
+        public void initialise(int W, int H){
                 observers = new LinkedList<MatrixObserverInterface>();
-                width = Width;
-                height = Height;
+                width = W;
+                height = H;
                 game = new int[height][width]; // TODO: correct order?
                 isOver = false;
                 points = 0;

@@ -17,6 +17,7 @@ public class Menu extends JFrame {
                 super(spel.getTitle());
                 model = spel;
                 view = new View(model);
+                model.start();
                 add(view);
                 setLayout(new FlowLayout());
                 controller = new Controller(model, view);

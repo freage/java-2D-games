@@ -60,3 +60,11 @@ Missing in the diagram:
 * The View and the Controller should have access to the Model
 * The Controller should have access to the View.
 * Maybe the Menu does not need the View? -- Yes, it does, to add the visual component.
+
+Model initialisation
+---------------------
+Consider fixing this:
+* Have a `BaseModel` constructor
+* Do not call functions e.g. `start()` from constructor at all
+* The `initialise()` stuff is constructor-stuff, but it is called at restart as well, so it cannot simply be moved to the constructor.
+* Decide whether there should even be a `restart()` functionality or one should simply create a new model at restart.

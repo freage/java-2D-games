@@ -2,46 +2,48 @@ package games.tickgames;
 
 import java.awt.Color;
 
-import games.MatrixObserverInterface;
+import games.BaseModel;
 
-public interface Model {
+public abstract class Model extends BaseModel {
 
-        int NORTH = 1;
-        int SOUTH = -1;
-        int WEST = 2;
-        int EAST = -2;
-        int RESTART = 3;
-        int NONE = 0;
+        static int NORTH = 1;
+        static int SOUTH = -1;
+        static int WEST = 2;
+        static int EAST = -2;
+        static int RESTART = 3;
+        static int NONE = 0;
 
         /**
          * Called after every ActionEvent created by Timer in Simulation class
          * @param request - request forwarded by Simulation from Controller
          */
-        void simulate(int request);
+        abstract void simulate(int request);
 
-        void restart();
+        abstract void start();
 
-        boolean isOver();
+        abstract void restart();
 
-        int getLevel();
+        // boolean isOver();
 
-        int getPoints();
+        // int getLevel();
 
-        Color translate(int element);
+        // int getPoints();
 
-        String getTitle();
+        abstract Color translate(int element);
 
-        int getSquare(int m, int n);
+        // String getTitle();
 
-        public int getWidth();
+        // int getSquare(int m, int n);
 
-        public int getHeight();
+        // public int getWidth();
+
+        // public int getHeight();
 
 
-        void printMatrix(int[][] mtrx);
+        // void printMatrix(int[][] mtrx);
 
-        public void addObserver(MatrixObserverInterface view);
+        // public void addObserver(MatrixObserverInterface view);
 
-        String getResult();
+        // String getResult();
 
 }
