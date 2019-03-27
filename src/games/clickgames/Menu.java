@@ -1,5 +1,9 @@
 package games.clickgames;
 
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -8,20 +12,30 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
+import java.lang.reflect.Constructor;
 
 public class Menu extends JFrame implements ActionListener {
         Model model;
         Controller ctrl;
         View view;
-        JButton femtonknapp = new JButton("Start new 15-puzzle");
-        JButton luffarknapp = new JButton("Start new Tic-tac-toe");
-        JButton minrojknapp = new JButton("Start new Minesweeper");
+        List<Class<? extends Model>> games =
+                Arrays.asList(FifteenPuzzle.class, TicTacToe.class, MineSweeper.class);
+        List<JButton> buttons = new ArrayList<JButton>();
 
 
-        void addButton(JButton knapp){
-                knapp.setVisible(true);
-                add(knapp);
-                knapp.addActionListener(this);
+        void addButtons(){
+                JButton btn = null;
+                for (Class<? extends Model> cls : games) {
+                        try {
+                                btn = new JButton("Start new "+cls.getSimpleName());
+                        } catch (Exception e) {
+                                System.out.println("ERROR: could not find title of game.");
+                        }
+                        buttons.add(btn);
+                        btn.setVisible(true);
+                        add(btn);
+                        btn.addActionListener(this);
+                }
         }
 
         Menu(){
@@ -29,11 +43,9 @@ public class Menu extends JFrame implements ActionListener {
                 setVisible(true);
                 setDefaultCloseOperation(EXIT_ON_CLOSE);
                 setLayout(new FlowLayout());
-                setSize(600, 100); // ursprunglig fönsterstorlek
+                setSize(600, 100); // original windowsize
+                addButtons();
 
-                addButton(femtonknapp);
-                addButton(luffarknapp);
-                addButton(minrojknapp);
 //              pack();
         }
 
@@ -59,12 +71,17 @@ public class Menu extends JFrame implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent arg0) {
-                if (arg0.getSource()==femtonknapp)
-                        model = new FifteenPuzzle();
-                else if (arg0.getSource()==luffarknapp)
-                        model = new TicTacToe();
-                else if (arg0.getSource()==minrojknapp)
-                        model = new MineSweeper();
+                for (int i=0; i<games.size(); i++) {
+                        if (arg0.getSource() == buttons.get(i)) {
+                                Class<? extends Model> cls = games.get(i);
+                                try {
+                                        Constructor<? extends Model> c = cls.getConstructor();
+                                        model = c.newInstance();
+                                } catch (Exception e) {
+                                        System.out.println("ERROR: Could not instantiate "+cls.getName());
+                                }
+                        }
+                }
                 addNewGame();
         }
 
