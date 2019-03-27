@@ -8,6 +8,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import games.BaseController;
+
 /* Denna controller uppdaterar endast modellen, inte vyn.
  * Vyn lyssnar istället själv på modellens förändringar.
  * Denna klass är också en JPanel som presenterar status, instruktioner etc.
@@ -15,32 +17,33 @@ import javax.swing.JPanel;
 
 
 
-public class Controller extends JPanel implements MouseListener {
-        protected Model modell;
-        View vy;
+public class Controller extends BaseController<JButton, Model, View> implements MouseListener {
+        // protected Model modell;
+        // View vy;
         JButton[][] knappar; // har en referens till knapparna, som uppdateras
         JLabel instruktioner;
-        JLabel status;
-        public int width = 200;
-        public int height = 100;
+        // JLabel status;
+        // public int width = 200;
+        // public int height = 100;
         private static final int RIGHT = 3;
         private static final int LEFT = 1;
 
         public Controller(Model mo, View vi){
-                modell = mo;
-                vy = vi;
-                knappar = vy.getButtons();
-                setPreferredSize(new Dimension(width, height));
+            super(mo, vi, 200, 100);
+                // modell = mo;
+                // vy = vi;
+                knappar = view.getButtons();
+                // setPreferredSize(new Dimension(width, height));
                 addLabels();
                 addListeners();
         }
 
-        private void addLabels(){
-//              instruktioner = new JLabel(modell.getInstructions());
-                status = new JLabel();
-                status.setVisible(true);
-                add(status);
-        }
+//         private void addLabels(){
+// //              instruktioner = new JLabel(modell.getInstructions());
+//                 status = new JLabel();
+//                 status.setVisible(true);
+//                 add(status);
+//         }
 
         private void addListeners(){
                 for (int i=0; i<knappar.length; i++){
@@ -59,14 +62,14 @@ public class Controller extends JPanel implements MouseListener {
                 for (int i=0; i<knappar.length; i++){
                         for (int j=0; j<knappar[i].length; j++){
                                 knapp = knappar[i][j];
-                                if (source==knapp && !modell.isOver()){
+                                if (source==knapp && !model.isOver()){
                                         int musknapp = me.getButton();
                                         if (musknapp==LEFT)
-                                                modell.leftClick(i, j);
+                                                model.leftClick(i, j);
                                         else if (musknapp==RIGHT)
-                                                modell.rightClick(i, j);
-                                        if (modell.isOver())
-                                                status.setText(modell.getResult());
+                                                model.rightClick(i, j);
+                                        if (model.isOver())
+                                                status.setText(model.getResult());
                                 }
                         }
                 }

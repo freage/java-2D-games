@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 
 public abstract class BaseView<T extends JComponent, M extends BaseModel> extends JPanel implements MatrixObserverInterface {
+    int width, height; // used by BaseMenu; TODO getters
         protected M model;
         protected T [][] grid;
 
