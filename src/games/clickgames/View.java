@@ -1,60 +1,56 @@
 package games.clickgames;
 
-import java.awt.Dimension;
+// import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridLayout;
+// import java.awt.GridLayout;
 import java.awt.Insets;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import games.MatrixObserverInterface;
+import games.BaseView;
 
-
-public class View extends JPanel implements MatrixObserverInterface {
-        private Model m;
-        private JButton[][] buttons;
-        public int width;
-        public int height;
+public class View extends BaseView<JButton, Model> {
+    int width, height;
 
         public View(Model model){
-                m = model;
-                int W = m.getWidth(), H = m.getHeight();
-                setLayout(new GridLayout(W,H));
-                width = W*m.getButtonSize();
-                height = H*m.getButtonSize();
-                setPreferredSize(new Dimension(width, height));
-                addButtonMatrix();
-                setVisible(true);
+            super(model);
+        //         m = model;
+        //         int W = m.getWidth(), H = m.getHeight();
+        //         setLayout(new GridLayout(W,H));
+            width = m.getWidth() * m.getSquareSize();
+            height = m.getHeight() * m.getSquareSize();
+        //         setPreferredSize(new Dimension(width, height));
+        //         addButtonMatrix();
+        //         setVisible(true);
         }
 
+        // TODO: is this even used?
         public JButton[][] getButtons(){
-                return this.buttons;
+                return this.grid;
+        }
+
+        @Override
+        protected void initMatrix() {
+                grid = new JButton[m.getHeight()][m.getWidth()];
         }
 
 
-        private void addButtonMatrix(){
-                buttons = new JButton[m.getHeight()][m.getWidth()];
-                for (int i=0; i<m.getHeight(); i++){
-                    for (int j=0; j<m.getWidth(); j++){
-                                addButton(i, j);
-                        }
-                }
-        }
-
-        private void addButton(int i, int j){
+        @Override
+        protected void addButton(int i, int j){
                 JButton knapp = new JButton();
                 knapp.setMargin(new Insets(2, 4, 2, 4));
 //              knapp.setFont(getFont().deriveFont(30).deriveFont(Font.BOLD));
                 knapp.setFont(m.getFont());
                 knapp.setVisible(true);
-                buttons[i][j] = knapp;
+                grid[i][j] = knapp;
                 updateSquare(i, j, m.getSquare(i,j));
                 this.add(knapp);
         }
 
+        @Override
         public void updateSquare(int i, int j, int number){
-                JButton knapp = buttons[i][j];
+                JButton knapp = grid[i][j];
                 String content = m.translateString(number);
                 knapp.setBackground(m.translateBgColor(number));
                 knapp.setForeground(m.translateTextColor(number));
@@ -64,8 +60,8 @@ public class View extends JPanel implements MatrixObserverInterface {
         @Override
         public void updateMatrix(){
                 int number;
-                for (int i=0; i<buttons.length; i++){
-                        for (int j=0; j<buttons[i].length; j++){
+                for (int i=0; i<grid.length; i++){
+                        for (int j=0; j<grid[i].length; j++){
                                 number = m.getSquare(i,j);
                                 updateSquare(i, j, number);
                         }

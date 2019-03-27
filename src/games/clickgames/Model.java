@@ -4,73 +4,73 @@ import java.awt.Color;
 import java.awt.Font;
 
 import games.MatrixObserverInterface;
+import games.BaseModel;
 
-public interface Model {
+public abstract class Model extends BaseModel {
 
-        void leftClick(int m, int n);
+        abstract void leftClick(int m, int n);
         /* Tic-tac-toe: X/O appears at position m, n
          * 15-puzzle: square at m, n is moved to empty
          * Then calls verify()
          * and then either execute() or an error
          */
 
-        void rightClick(int m, int n);
+        abstract void rightClick(int m, int n);
 
 
-        /** Used by view
-         * @return a square of the matrix representing the gameboard
-         */
-        public int getSquare(int m, int n);
+        // /**
+        //  * @return a square of the matrix representing the gameboard
+        //  */
+        // public abstract int getSquare(int m, int n);
 
-        public int getWidth();
+        // public abstract int getWidth();
 
-        public int getHeight();
-
-
-        /** Used by controller
-         * @return true if game is over
-         */
-        boolean isOver();
-        /* return isOver;
-         */
-
-        /** How the result of this game should be displayed. */
-        String getResult();
+        // public abstract int getHeight();
 
 
-        void restart();
+        // /** Used by controller
+        //  * @return true if game is over
+        //  */
+        // abstract boolean isOver();
+        // /* return isOver;
+        //  */
+
+        // /** How the result of this game should be displayed. */
+        // abstract String getResult();
 
 
-        /**
-         * Prints the gameboard in the command line <br>
-         * Useful for errorchecking or command line-playing
-         */
-        void printMatrix(int[][] mtrx);
+        abstract void restart();
+
+
+        // /**
+        //  * Prints the gameboard in the command line <br>
+        //  * Useful for errorchecking or command line-playing
+        //  */
+        // public abstract void printMatrix(int[][] mtrx);
 
 
         /** String representation of this number */
-        String translateString(int i);
+        abstract String translateString(int i);
 
         /** Text colour of String representation of this number. */
-        Color translateTextColor(int i);
+        abstract Color translateTextColor(int i);
 
-        /** Font used in this game */
-        Font getFont();
+        // /** Font used in this game */
+        // public abstract Font getFont();
 
         /** Background colour of this number's button. */
-        Color translateBgColor(int i);
+        abstract Color translateBgColor(int i);
 
-        /** Title of this game. */
-        String getTitle();
+        // public abstract String getTitle();
 
-        public void addObserver(MatrixObserverInterface view);
+        // public abstract void addObserver(MatrixObserverInterface view);
 
-        /** Preferred size of button in pixels. Specified in this function. */
-        int getButtonSize();
+        // /** Preferred size of button in pixels. Specified in this function. */
+        // abstract int getButtonSize();
 
-        void setWidth(int i);
+        // public abstract void setWidth(int i);
 
-        void setHeight(int i);
+        // public abstract void setHeight(int i);
 
-//      String getInstructions();
+//      abstract String getInstructions();
 }

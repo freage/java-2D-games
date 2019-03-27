@@ -1,20 +1,17 @@
 package games.tickgames;
 
 import java.awt.Dimension;
-import java.awt.GridLayout;
 
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 import games.MatrixObserverInterface;
 
-public class View extends JPanel implements MatrixObserverInterface {
+public class View extends BaseView<JLabel, Model> {
         Model model;
         JLabel[][] squares;
 
         View(Model mo){
                 model = mo;
-                model.addObserver(this);
                 int H = model.getHeight(), W = model.getWidth();
                 squares = new JLabel[H][W];
                 setLayout(new GridLayout(H, W));
@@ -25,18 +22,16 @@ public class View extends JPanel implements MatrixObserverInterface {
 
         }
 
-        void addMatrix(){
-                for (int i=0; i < model.getHeight(); i++){
-                        for (int j=0; j < model.getWidth(); j++){
-                                JLabel square = new JLabel("");
-                                square.setVisible(true);
-                                square.setOpaque(true);
-                                square.setSize(10, 10);
-                                squares[i][j] = square;
-                                this.add(square);
-                        }
-                }
-        }
+    protected void addButton(int i, int j) {
+        JLabel square = new JLabel("");
+        square.setVisible(true);
+        square.setOpaque(true);
+        square.setSize(10, 10);
+        squares[i][j] = square;
+        this.add(square);
+    }
+
+
 
         @Override
         public void updateMatrix(){

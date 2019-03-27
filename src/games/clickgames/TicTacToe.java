@@ -3,10 +3,8 @@ package games.clickgames;
 import java.awt.Color;
 import java.awt.Font;
 
-import games.BaseModel;
 
-
-public class TicTacToe extends BaseModel implements Model {
+public class TicTacToe extends Model {
 
         private static final int O = 1;
         private static final int X = 2;
@@ -141,7 +139,7 @@ public class TicTacToe extends BaseModel implements Model {
         }
 
         @Override
-        public int getButtonSize() {
+        public int getSquareSize() {
                 return 75;
         }
 

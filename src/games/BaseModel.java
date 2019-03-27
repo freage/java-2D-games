@@ -31,6 +31,9 @@ public abstract class BaseModel {
                 result = "";
         }
 
+        /** Used by controller
+         * @return true if game is over
+         */
         public boolean isOver() {
                 return isOver;
         }
@@ -51,6 +54,7 @@ public abstract class BaseModel {
                 return points;
         }
 
+        /** Title of this game. */
         public String getTitle() {
                 return title;
         }
@@ -60,7 +64,7 @@ public abstract class BaseModel {
                 return game;
         }
 
-        /** Get the number of square m, n in game matrix. */
+        /** Get the number of square m, n in game matrix. Used by View. */
         public int getSquare(int m, int n){
                 return game[m][n];
         }
@@ -81,6 +85,11 @@ public abstract class BaseModel {
         public Font getFont(){
                 return font;
         }
+
+    /** The squares in the grid. Override if it should be different. */
+    public int getSquareSize(){
+        return 1;
+    }
 
         public void setWidth(int i){
                 if (i > 0)

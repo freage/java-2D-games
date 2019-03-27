@@ -3,15 +3,13 @@ package games.clickgames;
 import java.awt.Color;
 import java.awt.Font;
 
-import games.BaseModel;
-
 /* TODO
  * Display all mines (black/safe) at a win.
  * Display all mines (red/exploded) at a loss.
  */
 
 
-public class MineSweeper extends BaseModel implements Model {
+public class MineSweeper extends Model {
 
         // here the mines are stored
         private int[][] solution;
@@ -195,7 +193,7 @@ public class MineSweeper extends BaseModel implements Model {
         }
 
         @Override
-        public int getButtonSize() {
+        public int getSquareSize() {
                 return 35;
         }
 

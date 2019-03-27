@@ -4,10 +4,9 @@ package games.clickgames;
 import java.awt.Color;
 
 import games.Position;
-import games.BaseModel;
 
 
-public class FifteenPuzzle extends BaseModel implements Model {
+public class FifteenPuzzle extends Model {
         private Position emptySq = new Position();
         private int winner = 1; // only one player
 
@@ -166,7 +165,7 @@ public class FifteenPuzzle extends BaseModel implements Model {
         }
 
         @Override
-        public int getButtonSize() {
+        public int getSquareSize() {
                 return 50;
         }
 
