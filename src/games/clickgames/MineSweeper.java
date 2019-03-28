@@ -20,7 +20,10 @@ public class MineSweeper extends Model {
         private static final int MINE = 9;
         private static final int COVERED = -1;
         private static final int FLAGGED = -2;
+        private static final int FALSE_FLAG = -3;
         // Numbers 1-8 are used "as is"
+
+    private boolean youWon = false;
 
         public MineSweeper() {
                 start();
@@ -101,17 +104,34 @@ public class MineSweeper extends Model {
                 }
         }
 
+        private void uncoverAllMines() {
+                for (int i=0; i<height; i++) {
+                        for (int j=0; j<width; j++) {
+                                if ((solution[i][j] == MINE) && (! (game[i][j]==FLAGGED))) {
+                                        set(i, j, MINE);
+                                } if ((solution[i][j] == MINE) && ((game[i][j]==FLAGGED))) {
+                                        set(i, j, FLAGGED); // this will only update the color, not the content
+                                } else if ((game[i][j]==FLAGGED) && (! (solution[i][j] == MINE))) {
+                                        set(i, j, FALSE_FLAG);
+                                }
+                        }
+                }
+        }
+
 
         @Override
         public void leftClick(int m, int n) {
-                if (game[m][n]==COVERED) {
-                        uncover(m,n);
-                        if (solution[m][n]==MINE) {
-                                result = "You blew it up!";
-                                isOver = true;
-                        } else if (hasWon()) {
-                                result = "You won!";
-                                isOver = true;
+                if (!isOver) {
+                        if (game[m][n]==COVERED) {
+                                uncover(m,n);
+                                if (solution[m][n]==MINE) {
+                                        result = "You blew it up!";
+                                        isOver = true;
+                                } else if (hasWon()) {
+                                        result = "You won!";
+                                        isOver = true;
+                                }
+                                if (isOver) uncoverAllMines();
                         }
                 }
 
@@ -124,6 +144,7 @@ public class MineSweeper extends Model {
                                         if (solution[i][j]!=MINE) return false;
                         }
                 }
+                youWon = true;
                 return true;
         }
 
@@ -138,10 +159,18 @@ public class MineSweeper extends Model {
                 String str = "";
                 if (i==EMPTY || i==COVERED)
                         str = "";
-                else if (i==MINE)
-                        str = "M";
-                else if (i==FLAGGED)
-                        str = "F";
+                else if (i==MINE) {
+                        if (youWon) {
+                                // str = "M";
+                                str = "💣"; // unicode bomb
+                        } else {
+                                // str = "M";
+                                str = "💥"; // unicode explosion
+                        }
+                }
+                else if ((i==FLAGGED) || (i==FALSE_FLAG))
+                        // str = "F";
+                        str = "🚩"; // unicode flag
                 else str = ""+i;
                 return str;
         }
@@ -181,11 +210,27 @@ public class MineSweeper extends Model {
                         return Color.BLACK;
                 if (i==8)
                         return Color.GRAY;
+                if (i==MINE) {
+                        if (youWon) return Color.BLACK;
+                        else return Color.ORANGE;
+                } if (i==FLAGGED) {
+                        // if (youWon) return Color.GREEN;
+                        // else
+                            return Color.RED;
+                }
+                if (i==FALSE_FLAG) return Color.RED;
                 return Color.BLACK;
         }
 
         @Override
         public Color translateBgColor(int i) {
+                if (isOver) {
+                        if (i==MINE) {
+                                if (youWon) return Color.GRAY;
+                                else return Color.RED;
+                        } if (i==FLAGGED) return Color.GRAY;
+                        if (i==FALSE_FLAG) return Color.ORANGE;
+                }
                 if (i==COVERED || i==FLAGGED)
                         return new Color(229, 229, 229);
                 else
