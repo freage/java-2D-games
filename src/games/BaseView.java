@@ -37,6 +37,9 @@ public abstract class BaseView<T extends JComponent, M extends BaseModel> extend
         // grid = new T[model.getHeight()][model.getWidth()];
 
 
+        /** Should *not* call updateSquare();
+         * Only create the squares, do not fill them with content from the model; the model is not ready yet.
+         */
         protected abstract void addSquare(int i, int j);
 
 

@@ -15,11 +15,12 @@ public class TicTacToe extends Model {
         // public methods:
 
         public TicTacToe() {
-                start();
+                super(3, 3);
         }
 
-        private void start() {
-                initialise(3,3);
+        @Override
+        protected void reset() {
+                super.reset();
                 nextplayer = O;
         }
 
@@ -30,8 +31,8 @@ public class TicTacToe extends Model {
         }
 
         @Override
-        public void restart() {
-                start();
+        protected void fill() {
+                // do nothing; grid should be initially empty
         }
 
 

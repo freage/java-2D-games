@@ -23,14 +23,15 @@ public class MineSweeper extends Model {
         private static final int FALSE_FLAG = -3;
         // Numbers 1-8 are used "as is"
 
-    private boolean youWon = false;
+        private boolean youWon = false;
 
         public MineSweeper() {
-                start();
+                super(15,15);
+                font = new Font(Font.DIALOG, Font.BOLD, 20);
         }
 
-        private void start() {
-                initialise(15,15);
+        @Override
+        protected void fill() {
                 addMines(numberofmines);
                 addNumbers();
                 loadMatrix();
@@ -150,11 +151,6 @@ public class MineSweeper extends Model {
 
 
         @Override
-        public void restart() {
-                start();
-        }
-
-        @Override
         public String translateString(int i) {
                 String str = "";
                 if (i==EMPTY || i==COVERED)
@@ -242,11 +238,7 @@ public class MineSweeper extends Model {
                 return 35;
         }
 
-        @Override
-        public Font getFont() {
-                return new Font(Font.DIALOG, Font.BOLD, 20);
-        }
-
+        // TODO: is this even used somewhere?
         public void setMines(int i) {
                 if (i > 0)
                         numberofmines = i;

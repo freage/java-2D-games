@@ -19,38 +19,51 @@ public abstract class BaseModel {
         protected int width;
         protected int height;
 
-
-        public void initialise(int H, int W){
+        public BaseModel(int H, int W) {
                 observers = new LinkedList<MatrixObserverInterface>();
-                width = W;
                 height = H;
-                game = new int[height][width]; // TODO: correct order?
+                width = W;
+                game = new int[height][width];
+        }
+
+        /** When restarting the game: reset all variables.
+         * Override this if you want to reset additional game-specific variables, after a super-call. */
+        protected void reset() {
                 isOver = false;
                 points = 0;
                 level = 0;
                 result = "";
         }
+        /** Fill the game matrix with its initial content. */
+        protected abstract void fill();
+
+        /** When the observers have been added, this will be called. Also used for restarting. */
+        public final void start() {
+                reset();
+                fill();
+        }
+
 
         /** Used by controller
          * @return true if game is over
          */
-        public boolean isOver() {
+        public final boolean isOver() {
                 return isOver;
         }
 
-        public int getWidth() {
+        public final int getWidth() {
             return width;
         }
 
-        public int getHeight() {
+        public final int getHeight() {
             return height;
         }
 
-        public int getLevel() {
+        public final int getLevel() {
                 return level;
         }
 
-        public int getPoints() {
+        public final int getPoints() {
                 return points;
         }
 
@@ -60,29 +73,30 @@ public abstract class BaseModel {
         }
 
         /** Get the game matrix. */
-        public int[][] getGame() {
+        public final int[][] getGame() {
                 return game;
         }
 
         /** Get the number of square m, n in game matrix. Used by View. */
-        public int getSquare(int m, int n){
+        public final int getSquare(int m, int n){
                 return game[m][n];
         }
 
-        public String getResult(){
+        public final String getResult(){
                 return result;
         }
 
-        public void printMatrix(int[][] mtrx){
+        /** For debugging */
+        public final void printMatrix(int[][] mtrx){
                 for (int i=0; i < mtrx.length; i++){
                         for (int j=0; j < mtrx[i].length; j++){
                                 System.out.print(mtrx[i][j]+"  ");
                         }
-                        System.out.println(); // ny rad
+                        System.out.println(); // new row
                 }
         }
 
-        public Font getFont(){
+        public final Font getFont(){
                 return font;
         }
 
@@ -91,22 +105,23 @@ public abstract class BaseModel {
             return 1;
         }
 
-        public void setWidth(int i){
+        // TODO: are these setters even used? Seems to be for the Controller.
+        public final void setWidth(int i){
                 if (i > 0)
                         width = i;
                 else throw new IllegalArgumentException("Width must be positive");
         }
 
-        public void setHeight(int i){
+        public final void setHeight(int i){
                 if (i > 0)
                         height = i;
                 else throw new IllegalArgumentException("Height must be positive");
         }
 
-    /** The text next to the game. Override if it should be different. */
-    public String getInstructions() {
-        return "";
-    }
+        /** The text next to the game. Override if it should be different. */
+        public String getInstructions() {
+            return "";
+        }
 
         //////////////////////////////////////////////////
         // Observer-related:
@@ -114,19 +129,19 @@ public abstract class BaseModel {
         // Interface for a subclass:
 
         /** Set square m,n to number and notify observers. */
-        protected void set(int m, int n, int number){
+        protected final void set(int m, int n, int number){
                 game[m][n] = number;
                 notifyObservers(m, n, number);
         }
 
         /** A call to redraw the entire board. */
-        protected void updateAll() {
+        protected final void updateAll() {
                 notifyObservers();
         }
 
         // Interface for the View:
 
-        public void addObserver(MatrixObserverInterface vy){
+        public final void addObserver(MatrixObserverInterface vy){
                 observers.add(vy);
         }
 

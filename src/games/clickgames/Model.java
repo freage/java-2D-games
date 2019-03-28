@@ -8,6 +8,10 @@ import games.BaseModel;
 
 public abstract class Model extends BaseModel {
 
+        Model(int H, int W) {
+            super(H, W);
+        }
+
         abstract void leftClick(int m, int n);
         /* Tic-tac-toe: X/O appears at position m, n
          * 15-puzzle: square at m, n is moved to empty
@@ -17,8 +21,6 @@ public abstract class Model extends BaseModel {
          */
 
         abstract void rightClick(int m, int n);
-
-        abstract void restart();
 
         /** String representation of this number */
         abstract String translateString(int i);

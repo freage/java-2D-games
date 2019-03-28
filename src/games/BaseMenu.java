@@ -108,6 +108,7 @@ public abstract class BaseMenu<T extends JComponent, MI extends BaseModel, V ext
                  * and subclasses with KeyListeners will not work. */
                 requestFocus();
 
+                ctrl.start(); // start the game
         }
 
 }

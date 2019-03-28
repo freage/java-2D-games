@@ -79,7 +79,25 @@ Missing in the diagram:
 Model initialisation
 ---------------------
 Consider fixing this:
-* Have a `BaseModel` constructor
-* Do not call functions e.g. `start()` from constructor at all
-* The `initialise()` stuff is constructor-stuff, but it is called at restart as well, so it cannot simply be moved to the constructor.
-* Decide whether there should even be a `restart()` functionality or one should simply create a new model at restart. The `notifyObservers() --> updateMatrix()` functionality which redraws the entire matrix is only used when restartting snake, it seems.
+
+* Have a `BaseModel` constructor. FIXED.
+* Do not call functions e.g. `start()` from constructor at all. FIXED in the models.
+* The `initialise()` stuff is constructor-stuff, but it is called at restart as well, so it cannot simply be moved to the constructor. UPDATE: Has been broken down into other functions now.
+* Decide whether there should even be a `restart()` functionality or one should simply create a new model at restart. The `notifyObservers() --> updateMatrix()` functionality which redraws the entire matrix is only used when restartting snake, it seems. UPDATE: Now there is theoretical support for restarting, but it has not been tested. 
+* To test the restart functionality, one needs to change the BaseMenu, so that it calls restart instead of creating a new game from scratch, in the case that the user wants play the same game again.
+* The above changes have only been done in `click`, so `tick` should be broken now.
+
+This is how initialisation works:
+
+* `Model()` creates an empty matrix;
+* `View(M)` creates a matrix without content from the model, which is not yet ready.
+* `Constructor(M,V)` creates eventual listeners and/or the control panel with instructions or buttons.
+* The BaseMenu calls `ctrl.start()` which calls the following
+    * `model.start()`, calling 
+        * `model.reset()` (reset variables), and 
+        * `model.fill()` (fill the matrix with content for starting the game)
+    * `view.updateAll()`, redrawing the view; only time this is used
+    * `ctrl.run()`, starts releasing events that the model can react on, like the timer or listening to user events.
+* The BaseMenu can in the future call `ctrl.restart()` which calls
+    * `ctrl.pause()`, having the controller stop listening to timer and/or user events,
+    * `ctrl.start()`, letting the model and the view reset themselves before resuming listening.

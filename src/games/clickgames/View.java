@@ -30,7 +30,6 @@ public class View extends BaseView<JButton, Model> {
                 knapp.setFont(model.getFont());
                 knapp.setVisible(true);
                 grid[i][j] = knapp;
-                updateSquare(i, j, model.getSquare(i,j));
                 this.add(knapp);
         }
 

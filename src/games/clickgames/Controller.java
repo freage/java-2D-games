@@ -42,6 +42,7 @@ public class Controller extends BaseController<JButton, Model, View> implements 
 
         @Override
         public void mouseClicked(MouseEvent me) {
+            if (running) {
                 Object source = me.getSource();
                 JButton knapp;
                 for (int i=0; i<knappar.length; i++){
@@ -58,6 +59,7 @@ public class Controller extends BaseController<JButton, Model, View> implements 
                                 }
                         }
                 }
+            }
         }
 
         @Override

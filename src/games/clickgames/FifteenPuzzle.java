@@ -12,7 +12,7 @@ public class FifteenPuzzle extends Model {
 
 
         public FifteenPuzzle() {
-                start();
+                super(4,4);
         }
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -31,11 +31,6 @@ public class FifteenPuzzle extends Model {
         @Override
         public void rightClick(int m, int n) {
                 // nothing happens at a right click
-        }
-
-        @Override
-        public void restart() {
-                start();
         }
 
 
@@ -62,13 +57,21 @@ public class FifteenPuzzle extends Model {
             return true;
         }
 
-        private void fill() {
-            int N = height*width;
-            for (int number=0; number<N; number++) {
-                int row = number / width;
-                int col = number % width;
-                game[row][col] = (number + 1) % N;
-            }
+        /**
+         * fill matrix with numbers 1-15,0 and shuffle
+         */
+        protected void fill() {
+                int N = height*width;
+                for (int number=0; number<N; number++) {
+                        int row = number / width;
+                        int col = number % width;
+                        game[row][col] = (number + 1) % N;
+                }
+                // set the position of the empty square
+                emptySq.m = height-1;
+                emptySq.n = width-1;
+                shuffle();
+
         }
 
 
@@ -83,18 +86,6 @@ public class FifteenPuzzle extends Model {
                         winner=1;
                         result="You did it!";
                 }
-        }
-
-        /**
-         * fill matrix with numbers 1-15,0 and shuffle
-         */
-        private void start() {
-                initialise(4,4);
-                fill();
-                // set the position of the empty square
-                emptySq.m = height-1;
-                emptySq.n = width-1;
-                shuffle();
         }
 
 
