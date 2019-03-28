@@ -6,7 +6,7 @@ import games.BaseMenu;
 
 public class Menu extends BaseMenu<JButton, Model, View, Controller> {
 
-        Menu(){
+        Menu() {
                 super("Click-based games",
                       Arrays.asList(FifteenPuzzle.class, TicTacToe.class, MineSweeper.class));
         }

@@ -14,7 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import java.lang.reaflect.Constructor;
+import java.lang.reflect.Constructor;
 
 public abstract class BaseMenu<T extends JComponent, MI extends BaseModel, V extends BaseView<T, MI>, C extends BaseController<T,MI,V>> extends JFrame implements ActionListener {
         MI model; // MI is either click.Model or tick.Model, i.e. an abstract class
@@ -36,7 +36,7 @@ public abstract class BaseMenu<T extends JComponent, MI extends BaseModel, V ext
                 JButton btn = null;
                 for (Class<? extends MI> cls : games) {
                         try {
-                            btn = new JButton("Start new "+cls.getSimpleName());
+                                btn = new JButton("Start new "+cls.getSimpleName());
                         } catch (Exception e) {
                                 System.out.println("ERROR: could not find title of game.");
                         }
@@ -67,18 +67,16 @@ public abstract class BaseMenu<T extends JComponent, MI extends BaseModel, V ext
 
         protected void addNewGame(){
                 if (view!=null){
-                        view.setVisible(false);
                         view_box.remove(view);
-                        ctrl.setVisible(false);
                         remove(ctrl);
                 }
                 view = createView(model);
                 model.addObserver(view);
-                ctrl = createController(model, view);
                 view_box.add(view);
+                view.setVisible(true);
+                ctrl = createController(model, view);
                 add(ctrl);
                 ctrl.setVisible(true);
-                view.setVisible(true);
                 pack();
         }
 
@@ -98,7 +96,8 @@ public abstract class BaseMenu<T extends JComponent, MI extends BaseModel, V ext
                                         Constructor<? extends MI> c = cls.getConstructor();
                                         model = c.newInstance();
                                 } catch (Exception e) {
-                                        System.out.println("ERROR: Could not instantiate "+cls.getName());
+                                        System.out.println("ERROR: Could not instantiate "+cls.getName()+"; stack trace:");
+                                        e.printStackTrace();
                                 }
                         }
                 }
@@ -110,8 +109,6 @@ public abstract class BaseMenu<T extends JComponent, MI extends BaseModel, V ext
                 requestFocus();
 
         }
-        };
-
 
 }
 

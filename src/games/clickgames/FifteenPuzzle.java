@@ -113,8 +113,12 @@ public class FifteenPuzzle extends Model {
         ///////////////////////////////////////////////////////////////////////////////////////
         // shuffle the game
 
-        private boolean inrange(int n){
-                return (0 <= n && n < game.length);
+        private boolean inrangeRows(int m){
+                return (0 <= m && m < height);
+        }
+
+        private boolean inrangeCols(int n){
+                return (0 <= n && n < width);
         }
 
         private void shuffle(){
@@ -129,9 +133,9 @@ public class FifteenPuzzle extends Model {
                 int m = emptySq.m;
                 int n = emptySq.n;
                 if (vertical){
-                        if (inrange(emptySq.m+delta)) m += delta;
+                        if (inrangeRows(emptySq.m+delta)) m += delta;
                 } else {
-                        if (inrange(emptySq.n+delta)) n += delta;
+                        if (inrangeCols(emptySq.n+delta)) n += delta;
                 }
                 leftClick(m, n);
         }

@@ -8,23 +8,22 @@ import javax.swing.JPanel;
 
 
 public abstract class BaseView<T extends JComponent, M extends BaseModel> extends JPanel implements MatrixObserverInterface {
-        int width, height; // used by BaseMenu; TODO getters
         protected M model;
         protected T [][] grid;
 
-        public BaseView(M m){
+        public BaseView(M m) {
                 model = m;
                 model.addObserver(this);
-                int W = model.getWidth(), H = model.getHeight();
-                setLayout(new GridLayout(W,H));
+                int H = model.getHeight(), W = model.getWidth();
+                setLayout(new GridLayout(H,W));
                 int bs = model.getSquareSize();
-                setPreferredSize(new Dimension(W*bs, H*bs));
+                setPreferredSize(new Dimension(W*bs, H*bs)); // Dimension(x, y)
                 addMatrix();
                 setVisible(true);
         }
 
 
-        private void addMatrix(){
+        private void addMatrix() {
                 initMatrix();
                 for (int i=0; i<model.getHeight(); i++){
                         for (int j=0; j<model.getWidth(); j++){
@@ -45,7 +44,7 @@ public abstract class BaseView<T extends JComponent, M extends BaseModel> extend
         //// Implemented functions from `MatrixObserverInterface`
 
         @Override
-        public void updateMatrix(){
+        public void updateMatrix() {
                 int element;
                 for (int i=0; i < model.getHeight(); i++){
                         for (int j=0; j < model.getWidth(); j++){

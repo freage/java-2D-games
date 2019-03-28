@@ -20,7 +20,7 @@ public abstract class BaseModel {
         protected int height;
 
 
-        public void initialise(int W, int H){
+        public void initialise(int H, int W){
                 observers = new LinkedList<MatrixObserverInterface>();
                 width = W;
                 height = H;
