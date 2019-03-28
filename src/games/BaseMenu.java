@@ -30,7 +30,7 @@ public abstract class BaseMenu<T extends JComponent, MI extends BaseModel, V ext
                 button_box = new JPanel();
                 button_box.setVisible(true);
                 button_box.setLayout(new FlowLayout());
-                button_box.setBackground(Color.BLUE);
+                button_box.setBackground(Color.GRAY);
                 add(button_box);
 
                 JButton btn = null;
@@ -58,7 +58,7 @@ public abstract class BaseMenu<T extends JComponent, MI extends BaseModel, V ext
                 view_box = new JPanel();
                 view_box.setVisible(true);
                 view_box.setLayout(new FlowLayout());
-                view_box.setBackground(Color.GREEN);
+                view_box.setBackground(new Color(100, 100, 100));
                 add(view_box);
 
                 pack();

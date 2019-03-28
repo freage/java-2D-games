@@ -48,6 +48,24 @@ The `restart` functionality in Snake has been broken. It does not work when you 
 * Update: Now the Models became abstract classes instead of interfaces, and the View got an abstract `BaseView`. Trying to abstract as much as possible, as to get a canonical way of doing things. 
 * Update: Now there is a `BaseMenu`! There is also a `BaseController` but they have very little in common.
 
+Click game variations
+---------------------
+* Other dimensions of 4x4 in the 15-puzzle sems to work.
+* Other variations in tic-tac-toe? Then what should be the rule for winning?
+* Minesweeper: allow "double click" functionality.
+
+Tick game variations
+-------------------
+* Snake:
+
+    * Walls, no torus.
+    * Moebius strip instead of torus, and other topology.
+    * Walls in the middle of the field. Maybe some randomness in the construction.
+    * Measuring user clicks per cheese.
+    * Levels; after clearing XX cheeses on the current level, advanced to new level (small snake again) with other topology.
+
+* Pong; single player pong against wall; two player pong with threading.
+
 UML diagram
 ------------
 Make sure the UML diagram is up to date.
