@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 
 
 public abstract class BaseView<T extends JComponent, M extends BaseModel> extends JPanel implements MatrixObserverInterface {
-    int width, height; // used by BaseMenu; TODO getters
+        int width, height; // used by BaseMenu; TODO getters
         protected M model;
         protected T [][] grid;
 
@@ -46,7 +46,6 @@ public abstract class BaseView<T extends JComponent, M extends BaseModel> extend
 
         @Override
         public void updateMatrix(){
-            System.out.println("BaseView::updateMatrix()");
                 int element;
                 for (int i=0; i < model.getHeight(); i++){
                         for (int j=0; j < model.getWidth(); j++){

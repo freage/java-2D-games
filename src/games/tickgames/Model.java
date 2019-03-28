@@ -26,7 +26,7 @@ public abstract class Model extends BaseModel {
 
         @Override
         public String getInstructions() {
-            return "Press <space> to restart game.";
+                return "Press <space> to restart game.";
         }
 
 }

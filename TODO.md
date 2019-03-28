@@ -45,7 +45,8 @@ The `restart` functionality in Snake has been broken. It does not work when you 
     * Wait, why is there even a restart-function in the Click-games? They always create new instances.
     * Maybe a shared Menu, with a click- and a tick-instance? Pros and cons of compiling separately.
     * Maybe easiest to make a shared basemenu first and then merge?
-* Update: Now the Models became abstract classes instead of interfaces, and the View got an abstract `BaseView`. Trying to abstract as much as possible, as to get a canonical way of doing things. Working towards a `BaseMenu`!
+* Update: Now the Models became abstract classes instead of interfaces, and the View got an abstract `BaseView`. Trying to abstract as much as possible, as to get a canonical way of doing things. 
+* Update: Now there is a `BaseMenu`! There is also a `BaseController` but they have very little in common.
 
 UML diagram
 ------------
