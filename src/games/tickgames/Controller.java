@@ -12,43 +12,50 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Timer;
 
+import games.BaseController;
 
-public class Controller extends JPanel implements KeyListener, ActionListener {
+public class Controller extends BaseController<JLabel, Model, View> implements KeyListener, ActionListener {
         private final static int UP = 38;
         private final static int DOWN = 40;
         private final static int LEFT = 37;
         private final static int RIGHT = 39;
         private final static int SPACE = 32;
-        int width = 300;
-        int height = 100;
-        JLabel status;
+        // int width = 300;
+        // int height = 100;
+        // JLabel status;
 
         private int request;
         private Timer timer;
-        private Model model;
-        View view;
+        // private Model model;
+        // View view;
 //      boolean newrequest;
 
 
         Controller(Model m, View v){
-                model = m;
-                view = v;
+                    super(m, v, 300, 100);
+                // model = m;
+                // view = v;
                 view.addKeyListener(this);
-                setPreferredSize(new Dimension(width, height));
+                // setPreferredSize(new Dimension(width, height));
                 addLabels();
 
                 request = Model.NORTH;
                 timer = new Timer(100, this);
+                // start();
+
+
+        }
+
+    void start() {
+                model.start();
                 timer.start();
+    }
 
-
-        }
-
-        private void addLabels(){
-                add(new JLabel("Press <space> to restart game"));
-                status = new JLabel();
-                add(status);
-        }
+        // private void addLabels(){
+        //         add(new JLabel("Press <space> to restart game"));
+        //         status = new JLabel();
+        //         add(status);
+        // }
 
         private void setResult(String str){
                 status.setText(str);
@@ -62,7 +69,6 @@ public class Controller extends JPanel implements KeyListener, ActionListener {
         @Override
         public void keyPressed(KeyEvent arg0) {
                 int keynr = arg0.getKeyCode();
-             System.out.println("Controller: Pressed keynr "+keynr);
                 if (keynr==UP)
                         setRequest(Model.NORTH);
                 else if (keynr==DOWN)
@@ -91,16 +97,16 @@ public class Controller extends JPanel implements KeyListener, ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent arg0) {
-            System.out.println("Controller::actionPerformed();");
-            if (request == Model.RESTART) {
-                System.out.println("Restart requested but nothing happens?");
-            }
+            // System.out.println("Controller::actionPerformed();");
+            // if (request == Model.RESTART) {
+            //     System.out.println("Restart requested but nothing happens?");
+            // }
                 model.simulate(request);
 //              view.paintMatrix();
                 request = Model.NONE;
                 if (model.isOver()) {
                         setResult(model.getResult());
-                        System.out.println("Model::isOver()");
+                        // System.out.println("Model::isOver()");
                 }
         }
 

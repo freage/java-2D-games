@@ -41,7 +41,7 @@ public class Menu extends BaseMenu<JButton, Model, View, Controller> {
         // }
 
         Menu(){
-            super("Click-based games", 600, 100,
+            super("Click-based games", // 600, 100,
                   Arrays.asList(FifteenPuzzle.class, TicTacToe.class, MineSweeper.class));
                 // setVisible(true);
                 // setDefaultCloseOperation(EXIT_ON_CLOSE);

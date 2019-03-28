@@ -22,8 +22,7 @@ public abstract class BaseController<T extends JComponent, M extends BaseModel, 
     }
 
     protected void addLabels(){
-        // add(new JLabel(model.getInstructions()));
-        status = new JLabel();
+        status = new JLabel(model.getInstructions());
         status.setVisible(true);
         add(status);
     }

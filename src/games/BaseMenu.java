@@ -20,7 +20,7 @@ import java.lang.reflect.Constructor;
 
 public abstract class BaseMenu<T extends JComponent, MI extends BaseModel, V extends BaseView<T, MI>, C extends BaseController<T,MI,V>> extends JFrame implements ActionListener {
         MI model; // MI is either click.Model or tick.Model, i.e. an abstract class
-        C ctrl;
+        protected C ctrl;
         V view;
         List<Class<? extends MI>> games;
         List<JButton> buttons = new ArrayList<JButton>();
@@ -50,7 +50,8 @@ public abstract class BaseMenu<T extends JComponent, MI extends BaseModel, V ext
                 }
         }
 
-    public BaseMenu(String title, int width, int height, List<Class<? extends MI>> g) {
+    public BaseMenu(String title, // int width, int height,
+                    List<Class<? extends MI>> g) {
                 super(title);
                 games = g;
                 setVisible(true);
@@ -71,7 +72,7 @@ public abstract class BaseMenu<T extends JComponent, MI extends BaseModel, V ext
 
         }
 
-        private void addNewGame(){
+        protected void addNewGame(){
                 if (view!=null){
                         view.setVisible(false);
                         view_box.remove(view);
@@ -115,7 +116,9 @@ public abstract class BaseMenu<T extends JComponent, MI extends BaseModel, V ext
                         }
                 }
                 addNewGame();
+                requestFocus(); // else Focus will be on the latest added/used button and subclasses with KeyListeners will not work.
         }
+        };
 
 
 }

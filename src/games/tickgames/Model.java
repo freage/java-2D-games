@@ -24,4 +24,9 @@ public abstract class Model extends BaseModel {
 
         abstract Color translate(int element);
 
+        @Override
+        public String getInstructions() {
+            return "Press <space> to restart game.";
+        }
+
 }

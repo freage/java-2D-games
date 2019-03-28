@@ -103,6 +103,11 @@ public abstract class BaseModel {
                 else throw new IllegalArgumentException("Height must be positive");
         }
 
+    /** The text next to the game. Override if it should be different. */
+    public String getInstructions() {
+        return "";
+    }
+
         //////////////////////////////////////////////////
         // Observer-related:
 
