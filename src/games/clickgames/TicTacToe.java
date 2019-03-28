@@ -14,11 +14,11 @@ public class TicTacToe extends Model {
         //////////////////////////////////////////////////////////////////////////////////////////////////////
         // public methods:
 
-        public TicTacToe(){
+        public TicTacToe() {
                 start();
         }
 
-        private void start(){
+        private void start() {
                 initialise(3,3);
                 nextplayer = O;
         }
@@ -62,33 +62,33 @@ public class TicTacToe extends Model {
                 return game[m][n]==0;
         }
 
-        private void execute(int m, int n){
+        private void execute(int m, int n) {
                 set(m, n, nextplayer);
                 nextplayer = nextplayer % 2 + 1;
                 if (hasThreeInARow())
                         isOver = true;
         }
 
-        private boolean hasThreeInARow(){
+        private boolean hasThreeInARow() {
                 // rows?
-                for (int i=0; i<game.length; i++){
+                for (int i=0; i<game.length; i++) {
                         if (checkRow(i))
                                 return true;
                 } // columns?
-                for (int i=0; i<game.length; i++){
+                for (int i=0; i<game.length; i++) {
                         if (checkColumn(i))
                                 return true;
                 } // diagonals?
                 return checkDiagonals();
         }
 
-        private void setWinner(int i){
+        private void setWinner(int i) {
                 result = translateString(i)+" has won";
         }
 
-        private boolean checkRow(int m){
-                if (game[m][0]!=0){ // check if first square in row `m` is non-zero
-                        if (game[m][0]==game[m][1] && game[m][0]==game[m][2]){
+        private boolean checkRow(int m) {
+                if (game[m][0]!=0) { // check if first square in row `m` is non-zero
+                        if (game[m][0]==game[m][1] && game[m][0]==game[m][2]) {
                                 setWinner(game[m][0]);
                                 return true;
                         }
@@ -96,9 +96,9 @@ public class TicTacToe extends Model {
                 return false;
         }
 
-        private boolean checkColumn(int n){
-                if (game[0][n]!=0){ // check if first square in column `m` is non-zero
-                        if (game[0][n]==game[1][n] && game[0][n]==game[2][n]){
+        private boolean checkColumn(int n) {
+                if (game[0][n]!=0) { // check if first square in column `m` is non-zero
+                        if (game[0][n]==game[1][n] && game[0][n]==game[2][n]) {
                                 setWinner(game[0][n]);
                                 return true;
                         }
@@ -106,14 +106,14 @@ public class TicTacToe extends Model {
                 return false;
         }
 
-        private boolean checkDiagonals(){
-                if (game[1][1]!=0){
+        private boolean checkDiagonals() {
+                if (game[1][1]!=0) {
                         // main diagonal
-                        if (game[1][1]==game[0][0] && game[1][1]==game[2][2]){
+                        if (game[1][1]==game[0][0] && game[1][1]==game[2][2]) {
                                 setWinner(game[1][1]);
                                 return true;
                         } // anti-diagonal
-                        if (game[1][1]==game[0][2] && game[1][1]==game[2][0]){
+                        if (game[1][1]==game[0][2] && game[1][1]==game[2][0]) {
                                 setWinner(game[1][1]);
                                 return true;
                         }

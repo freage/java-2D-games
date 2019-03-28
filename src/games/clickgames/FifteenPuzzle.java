@@ -11,7 +11,7 @@ public class FifteenPuzzle extends Model {
         private int winner = 1; // only one player
 
 
-        public FifteenPuzzle(){
+        public FifteenPuzzle() {
                 start();
         }
 
@@ -34,7 +34,7 @@ public class FifteenPuzzle extends Model {
         }
 
         @Override
-        public void restart(){
+        public void restart() {
                 start();
         }
 
@@ -88,7 +88,7 @@ public class FifteenPuzzle extends Model {
         /**
          * fill matrix with numbers 1-15,0 and shuffle
          */
-        private void start(){
+        private void start() {
                 initialise(4,4);
                 fill();
                 // set the position of the empty square
@@ -113,26 +113,26 @@ public class FifteenPuzzle extends Model {
         ///////////////////////////////////////////////////////////////////////////////////////
         // shuffle the game
 
-        private boolean inrangeRows(int m){
+        private boolean inrangeRows(int m) {
                 return (0 <= m && m < height);
         }
 
-        private boolean inrangeCols(int n){
+        private boolean inrangeCols(int n) {
                 return (0 <= n && n < width);
         }
 
-        private void shuffle(){
-                for (int i=0; i < 200; i++){
+        private void shuffle() {
+                for (int i=0; i < 200; i++) {
                         randomMove();
                 }
         }
-        private void randomMove(){
+        private void randomMove() {
                 boolean vertical = rgen.nextBoolean();
                 boolean decrease = rgen.nextBoolean();
                 int delta = decrease?-1:1;
                 int m = emptySq.m;
                 int n = emptySq.n;
-                if (vertical){
+                if (vertical) {
                         if (inrangeRows(emptySq.m+delta)) m += delta;
                 } else {
                         if (inrangeCols(emptySq.n+delta)) n += delta;
@@ -146,7 +146,7 @@ public class FifteenPuzzle extends Model {
 
         @Override
         public String translateString(int i) {
-                if (i==0){
+                if (i==0) {
                         return "";
                 } else return ""+i;
         }

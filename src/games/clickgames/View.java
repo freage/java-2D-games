@@ -8,7 +8,7 @@ import games.BaseView;
 
 public class View extends BaseView<JButton, Model> {
 
-        public View(Model model){
+        public View(Model model) {
                 super(model);
         }
 

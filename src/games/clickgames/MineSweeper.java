@@ -26,30 +26,30 @@ public class MineSweeper extends Model {
                 start();
         }
 
-        private void start(){
+        private void start() {
                 initialise(15,15);
                 addMines(numberofmines);
                 addNumbers();
                 loadMatrix();
         }
 
-        private void addMines(int number){
+        private void addMines(int number) {
                 solution = new int[height][width];
                 int i=0;
                 while (i<number) {
                         int m = rgen.nextInt(height);
                         int n = rgen.nextInt(width);
-                        if (solution[m][n]==EMPTY){
+                        if (solution[m][n]==EMPTY) {
                                 solution[m][n] = MINE;
                                 i++;
                         }
                 }
         }
 
-        private void addNumbers(){
-                for (int i=0; i<height; i++){
-                        for (int j=0; j<width; j++){
-                                if (solution[i][j]!=MINE){
+        private void addNumbers() {
+                for (int i=0; i<height; i++) {
+                        for (int j=0; j<width; j++) {
+                                if (solution[i][j]!=MINE) {
                                         int neighbours = neighbours(i, j);
                                         solution[i][j] = neighbours;
                                 }
@@ -58,11 +58,11 @@ public class MineSweeper extends Model {
         }
 
 
-        private int neighbours(int m, int n){
+        private int neighbours(int m, int n) {
                 int mines = 0;
-                for (int i=m-1; i<m+2; i++){
+                for (int i=m-1; i<m+2; i++) {
                         if (isOutOfRange(i));
-                        else for (int j=n-1; j<n+2; j++){
+                        else for (int j=n-1; j<n+2; j++) {
                                 if (isOutOfRange(j));
                                 else if (solution[i][j]==MINE)
                                         mines++;
@@ -72,28 +72,28 @@ public class MineSweeper extends Model {
         }
 
 
-        private boolean isOutOfRange(int i){
+        private boolean isOutOfRange(int i) {
                 return (i<0 || i>= game.length);
         }
 
-        private void loadMatrix(){
-                for (int i=0; i<height; i++){
-                        for (int j=0; j<width; j++){
+        private void loadMatrix() {
+                for (int i=0; i<height; i++) {
+                        for (int j=0; j<width; j++) {
                                 game[i][j] = COVERED;
                         }
                 }
         }
 
-        private void uncover(int m, int n){
+        private void uncover(int m, int n) {
                 set(m, n, solution[m][n]);
                 if (game[m][n]==EMPTY)
                         uncoverAllNeighbours(m, n);
         }
 
-        private void uncoverAllNeighbours(int m, int n){
-                for (int i=m-1; i<m+2; i++){
+        private void uncoverAllNeighbours(int m, int n) {
+                for (int i=m-1; i<m+2; i++) {
                         if (isOutOfRange(i));
-                        else for (int j=n-1; j<n+2; j++){
+                        else for (int j=n-1; j<n+2; j++) {
                                 if (isOutOfRange(j));
                                 else if (game[i][j]==COVERED)
                                         uncover(i, j);
@@ -104,12 +104,12 @@ public class MineSweeper extends Model {
 
         @Override
         public void leftClick(int m, int n) {
-                if (game[m][n]==COVERED){
+                if (game[m][n]==COVERED) {
                         uncover(m,n);
-                        if (solution[m][n]==MINE){
+                        if (solution[m][n]==MINE) {
                                 result = "You blew it up!";
                                 isOver = true;
-                        } else if (hasWon()){
+                        } else if (hasWon()) {
                                 result = "You won!";
                                 isOver = true;
                         }
@@ -117,9 +117,9 @@ public class MineSweeper extends Model {
 
         }
 
-        private boolean hasWon(){
-                for (int i=0; i<height; i++){
-                        for (int j=0; j<width; j++){
+        private boolean hasWon() {
+                for (int i=0; i<height; i++) {
+                        for (int j=0; j<width; j++) {
                                 if (game[i][j] == COVERED || game[i][j]==FLAGGED)
                                         if (solution[i][j]!=MINE) return false;
                         }
@@ -154,10 +154,10 @@ public class MineSweeper extends Model {
 
         @Override
         public void rightClick(int m, int n) {
-                if (game[m][n]==COVERED){
+                if (game[m][n]==COVERED) {
                         set(m, n, FLAGGED);
                 }
-                else if (game[m][n]==FLAGGED){
+                else if (game[m][n]==FLAGGED) {
                         set(m, n, COVERED);
                 }
         }
@@ -202,7 +202,7 @@ public class MineSweeper extends Model {
                 return new Font(Font.DIALOG, Font.BOLD, 20);
         }
 
-        public void setMines(int i){
+        public void setMines(int i) {
                 if (i > 0)
                         numberofmines = i;
                 else throw new IllegalArgumentException("Number of mines must be positive");
