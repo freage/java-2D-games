@@ -17,6 +17,7 @@ FIXED
 
 * Merge `MatrixObservers` into `BaseModel`. FIXED
 * In `tickgames`, merge `Simulation` into `Controller`. FIXED.
+* Merged `AdvancedSnake` (cheese and points) into `Snake`; keeping empty class for "real" advanced snake.
 * Real 15-puzzle (guaranteed to solve) by applying a set of random valid moves. Seems to actually be done correctly - check this. Yep, FIXED.
 * Move `Position` to the top package? FIXED.
 * Start using `Position` in the 15-puzzle for the empty square. FIXED.
@@ -29,7 +30,6 @@ TODO list
 * When starting a new game (or restarting) in `click`, the old View does not become garbage collected, since there is a reference to it in the Observer list. Fix this!!!
     * Nope, that should not be true (not seen in trace print). (Restarting calls `BaseModel::initialise()`, which creates a new observer list and discards the old.) No, real reason should be that we also create a new Model anyway, so if there are no references to the old one, it should be fine...
 * Abstract a `BaseMenu` for the menus to inherit from. Possible?
-* Consider merging the snake models. Not done in UML-diagram.
 * Avoid calling methods from constructors.
 * Have the control panels display meaningful information. Snake does not reset the control panel properly. 
 
@@ -37,7 +37,7 @@ Click game variations
 ---------------------
 * Other dimensions of 4x4 in the 15-puzzle sems to work.
 * Other variations in tic-tac-toe? Then what should be the rule for winning?
-* Minesweeper: allow "double click" functionality.
+* Minesweeper: allow "double click" functionality, as an option.
 
 Tick game variations
 -------------------
@@ -60,6 +60,7 @@ Missing in the diagram:
 * The View and the Controller should have access to the Model
 * The Controller should have access to the View.
 * Maybe the Menu does not need the View? -- Yes, it does, to add the visual component.
+* The `AdvancedSnake` is empty as of now.
 
 Model initialisation
 ---------------------

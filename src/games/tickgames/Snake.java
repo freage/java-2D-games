@@ -13,8 +13,7 @@ import games.Position;
 import games.BaseModel;
 
 public class Snake extends Model {
-        // level, points, game (i.e. matrix) and isOver are found in tickgames.Model
-        private int direction; // found the tickgames.Model Interface
+        private int direction; // possible directions found the tickgames.Model Interface
         private LinkedList<Position> snake;
 
         // all possible objects on the board
@@ -25,16 +24,20 @@ public class Snake extends Model {
         final static int HEAD = 4;
 
         // other:
-        int calls; // see further AdvancedSnake
-        int cheeses; // see further AdvancedSnake
-        Random rgen = new Random(); // for new random positions
+        int calls; // keep track of ticks, as to know when to add a new cheese
+        int cheeses; // have at most 3 cheeses at the board
+        Random rgen; // for new random positions
 
 
         // GAME CONSTRUCTOR
 
         public Snake(){
                 super(20, 20);
+                rgen = new Random();
         }
+
+        /////////////////////////////////////////////////////////////////////
+        // INITIALIZATION; Implementation of functions declared in BaseModel
 
         @Override
         protected void reset() {
@@ -54,36 +57,6 @@ public class Snake extends Model {
                 buildSnake();
         }
 
-        // PUBLIC IMPLEMENTED METHODS AND SELECTORS
-
-        @Override
-        public void simulate(int request){
-                if (!isOver) {
-                        if (request!=NONE && request!=-direction)
-                                direction = request;
-                        move();
-                }
-        }
-
-        @Override
-        public Color translate(int element) {
-                if (element==EMPTY)
-                        return Color.BLACK;
-                if (element==WALL)
-                        return Color.GRAY;
-                if (element==SELF)
-                        return Color.RED;
-                if (element==HEAD)
-                        return Color.ORANGE;
-                if (element==CHEESE)
-                        return Color.YELLOW;
-                return null;
-        }
-
-
-        // PRIVATE HELP FUNCTIONS
-
-        // used in constructor
         private void buildSnake(){
                 snake = new LinkedList<Position>();
                 // add a head:
@@ -105,7 +78,42 @@ public class Snake extends Model {
                 snake.addLast(pos);
         }
 
-        // used by public method simulate(); called by AdvancedSnake
+        ////////////////////////////////////////////////////////////////////////////
+        // Functions declared in tick.Model
+
+        @Override
+        public void simulate(int request){
+                if (!isOver) {
+                        if (request!=NONE && request!=-direction)
+                                direction = request;
+                        move();
+                }
+                calls++;
+                if (calls%10==0 && cheeses < 3){
+                        addCheese();
+                }
+        }
+
+        @Override
+        public Color translate(int element) {
+                if (element==EMPTY)
+                        return Color.BLACK;
+                if (element==WALL)
+                        return Color.GRAY;
+                if (element==SELF)
+                        return Color.RED;
+                if (element==HEAD)
+                        return Color.ORANGE;
+                if (element==CHEESE)
+                        return Color.YELLOW;
+                return null;
+        }
+
+
+        //////////////////////////////////////////////////////////////////////////////
+        // PRIVATE HELP FUNCTIONS for model logic
+
+        // used by public method simulate()
         void move(){
                 int object = advance();
                 if (object == WALL || object == SELF){
@@ -113,6 +121,9 @@ public class Snake extends Model {
                 } else if (object == CHEESE){
                         eatCheese();
                 } else if (object==EMPTY) popTail();
+                if (isOver){
+                        result = "You got "+points+" points.";
+                }
         }
 
         // used by private method move()
@@ -147,15 +158,31 @@ public class Snake extends Model {
         // used by move()
         void eatCheese(){
                 cheeses--;
+                points++;
         }
+
         // used by move()
         private void popTail(){
                 Position tailpos = snake.pollLast();
                 set(tailpos.m, tailpos.n, EMPTY);
         }
 
+        // used by simulate()
+        void addCheese(){
+                boolean ok = false;
+                while (!ok){
+                        int m = rgen.nextInt(game.length);
+                        int n = rgen.nextInt(game.length);
+                        if (game[m][n] == EMPTY){
+                                set(m, n, CHEESE);
+                                ok = true;
+                        }
+                }
+                cheeses++;
+        }
 
 
+        ////////////////////////////////////////////////////////////////////
         // MAIN METHOD (for debugging)
 
         public static void main(String[] args) {
