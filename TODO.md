@@ -27,11 +27,11 @@ FIXED
 
 TODO list
 
-* When starting a new game (or restarting) in `click`, the old View does not become garbage collected, since there is a reference to it in the Observer list. Fix this!!!
-    * Nope, that should not be true (not seen in trace print). (Restarting calls `BaseModel::initialise()`, which creates a new observer list and discards the old.) No, real reason should be that we also create a new Model anyway, so if there are no references to the old one, it should be fine...
-* Abstract a `BaseMenu` for the menus to inherit from. Possible?
+* Change the BaseMenu, so that it calls restart instead of creating a new game from scratch, in the case that the user wants play the same game again. (Avoids having the old model/view/controller garbage collected.) Maybe also keep a deactivated instance of model/view/controller for each game?
+* Add a general restart functionality like the one in snake (pressing space), controlled by the menu instead of the controller.
 * Avoid calling methods from constructors.
 * Have the control panels display meaningful information. Snake does not reset the control panel properly. 
+* Implement another tick game. A simple pong has been suggested.
 
 Click game variations
 ---------------------
@@ -64,12 +64,6 @@ Missing in the diagram:
 
 Model initialisation
 ---------------------
-Consider fixing this:
-
-* Decide whether there should even be a `restart()` functionality or one should simply create a new model at restart. The game initialization has been standardized, so there is theoretical support for restarting, but it has not been tested, besides in Snake only. 
-* To test the restart functionality, one needs to change the BaseMenu, so that it calls restart instead of creating a new game from scratch, in the case that the user wants play the same game again.
-* The restart works in Snake. The Controller does the restarting itself, not the Menu. Maybe the Menu should do that instead.
-
 This is how initialisation works:
 
 * `Model()` creates an empty matrix;
