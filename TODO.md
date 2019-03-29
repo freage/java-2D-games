@@ -30,23 +30,8 @@ TODO list
     * Nope, that should not be true (not seen in trace print). (Restarting calls `BaseModel::initialise()`, which creates a new observer list and discards the old.) No, real reason should be that we also create a new Model anyway, so if there are no references to the old one, it should be fine...
 * Abstract a `BaseMenu` for the menus to inherit from. Possible?
 * Consider merging the snake models. Not done in UML-diagram.
-
-A bug - restarting snake
----------
-The `restart` functionality in Snake has been broken. It does not work when you have lost (maybe not in the middle of the game either).
-
-* At "Cleaned snake", it was working. So it must have been `948ef82dbb1c` that broke it.
-* The model seems to restart properly, as shown by trace printouts. 
-* FOUND the problem. Upon restart, this happens: `Model::restart() -> Model::start() -> BaseModel::initialise()` and the last function creates a new observer list. So the old View is discarded by the Model, but not in the Menu. The Model ends up having no observer. This is apparently not a problem in the click-games.
-* Cannot see how come this worked in the commit before, based on the diffs.
-* NOW how to solve this?
-* As mentioned under "Changing the code", `click` creates new views in a problematic way. However you probably want something scalable allowing for multiple games in the menu, just like in `click`. 
-    * So how about doing that generic `BaseMenu<T extends JComponent>`? 
-    * Wait, why is there even a restart-function in the Click-games? They always create new instances.
-    * Maybe a shared Menu, with a click- and a tick-instance? Pros and cons of compiling separately.
-    * Maybe easiest to make a shared basemenu first and then merge?
-* Update: Now the Models became abstract classes instead of interfaces, and the View got an abstract `BaseView`. Trying to abstract as much as possible, as to get a canonical way of doing things. 
-* Update: Now there is a `BaseMenu`! There is also a `BaseController` but they have very little in common.
+* Avoid calling methods from constructors.
+* Have the control panels display meaningful information. Snake does not reset the control panel properly. 
 
 Click game variations
 ---------------------
@@ -80,22 +65,20 @@ Model initialisation
 ---------------------
 Consider fixing this:
 
-* Have a `BaseModel` constructor. FIXED.
-* Do not call functions e.g. `start()` from constructor at all. FIXED in the models.
-* The `initialise()` stuff is constructor-stuff, but it is called at restart as well, so it cannot simply be moved to the constructor. UPDATE: Has been broken down into other functions now.
-* Decide whether there should even be a `restart()` functionality or one should simply create a new model at restart. The `notifyObservers() --> updateMatrix()` functionality which redraws the entire matrix is only used when restartting snake, it seems. UPDATE: Now there is theoretical support for restarting, but it has not been tested. 
+* Decide whether there should even be a `restart()` functionality or one should simply create a new model at restart. The game initialization has been standardized, so there is theoretical support for restarting, but it has not been tested, besides in Snake only. 
 * To test the restart functionality, one needs to change the BaseMenu, so that it calls restart instead of creating a new game from scratch, in the case that the user wants play the same game again.
-* The above changes have only been done in `click`, so `tick` should be broken now.
+* The restart works in Snake. The Controller does the restarting itself, not the Menu. Maybe the Menu should do that instead.
 
 This is how initialisation works:
 
 * `Model()` creates an empty matrix;
 * `View(M)` creates a matrix without content from the model, which is not yet ready.
+* The View is added as an observer to the model.
 * `Constructor(M,V)` creates eventual listeners and/or the control panel with instructions or buttons.
 * The BaseMenu calls `ctrl.start()` which calls the following
     * `model.start()`, calling 
         * `model.reset()` (reset variables), and 
-        * `model.fill()` (fill the matrix with content for starting the game)
+        * `model.fill()` (fill the matrix with content for starting the game, may call `set`)
     * `view.updateAll()`, redrawing the view; only time this is used
     * `ctrl.run()`, starts releasing events that the model can react on, like the timer or listening to user events.
 * The BaseMenu can in the future call `ctrl.restart()` which calls

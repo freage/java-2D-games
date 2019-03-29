@@ -30,9 +30,14 @@ public class Controller extends BaseController<JLabel, Model, View> implements K
                 timer = new Timer(100, this);
         }
 
-        void start() {
-                model.start();
+        protected void run() {
+                super.run();
                 timer.start();
+        }
+
+        protected void pause() {
+                super.pause();
+                timer.stop();
         }
 
         private void setResult(String str){
@@ -46,6 +51,7 @@ public class Controller extends BaseController<JLabel, Model, View> implements K
 
         @Override
         public void keyPressed(KeyEvent arg0) {
+            if (running) {
                 int keynr = arg0.getKeyCode();
                 if (keynr==UP)
                         setRequest(Model.NORTH);
@@ -56,9 +62,10 @@ public class Controller extends BaseController<JLabel, Model, View> implements K
                 else if (keynr==RIGHT)
                         setRequest(Model.EAST);
                 else if (keynr==SPACE) {
-                        setRequest(Model.RESTART);
-                        System.out.println("Restart requested");
+                        // TODO: This function probably should be called by the Menu instead?
+                        restart();
                 }
+            }
         }
 
         @Override
@@ -73,13 +80,16 @@ public class Controller extends BaseController<JLabel, Model, View> implements K
 
         }
 
+        /** Called each time the timer fires an event, i.e. once each "tick". */
         @Override
         public void actionPerformed(ActionEvent arg0) {
+            if (running) {
                 model.simulate(request);
                 request = Model.NONE;
                 if (model.isOver()) {
                         setResult(model.getResult());
                 }
+            }
         }
 
 

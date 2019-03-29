@@ -33,43 +33,36 @@ public class Snake extends Model {
         // GAME CONSTRUCTOR
 
         public Snake(){
-            initialise(20,20);
-                // start();
+                super(20, 20);
         }
 
         @Override
-        void start(){
-            System.out.println("Snake::start()");
+        protected void reset() {
+                super.reset();
                 calls = 0;
                 cheeses = 0;
-
-                // without this line, the old snake does not disappear at `restart()`
-                // FIX: start new view instance (?) at restart, as in clickgames
-                updateAll();
-                buildSnake();
                 title = "Snake";
         }
 
+        @Override
+        protected void fill() {
+                for (int i=0; i<height; i++) {
+                        for (int j=0; j<width; j++) {
+                                game[i][j] = EMPTY;
+                        }
+                }
+                buildSnake();
+        }
 
         // PUBLIC IMPLEMENTED METHODS AND SELECTORS
 
         @Override
         public void simulate(int request){
-                if (!isOver || request==RESTART) {
-                        if (request==NONE);
-                        else if (request==RESTART)
-                                restart();
-                        else if (request!=-direction)
+                if (!isOver) {
+                        if (request!=NONE && request!=-direction)
                                 direction = request;
                         move();
                 }
-        }
-
-        @Override
-        public void restart(){
-            System.out.println("Snake::restart()");
-            initialise(20,20);
-                start();
         }
 
         @Override

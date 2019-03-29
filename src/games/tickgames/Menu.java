@@ -24,7 +24,6 @@ public class Menu extends BaseMenu<JLabel, Model, View, Controller> {
         protected void addNewGame() {
                 super.addNewGame();
                 this.addKeyListener(ctrl);
-                ctrl.start(); // TODO: move to base so that the Model/Controller can be private
         }
 
         @Override
