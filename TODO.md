@@ -44,12 +44,24 @@ Tick game variations
 * Snake:
 
     * Walls, no torus.
-    * Moebius strip instead of torus, and other topology.
+    * Moebius strip instead of torus, and other topology. Mark strange portals with gradients?
     * Walls in the middle of the field. Maybe some randomness in the construction.
     * Measuring user clicks per cheese.
     * Levels; after clearing XX cheeses on the current level, advanced to new level (small snake again) with other topology.
+    * Funny topology: interleaving columns `delta_n` is always `+/- 2`; has to be odd width to be able to reach all cheeses once passing through the edge. Better have the snake have different colors when it is in even/odd column position.
 
 * Pong; single player pong against wall; two player pong with threading.
+
+Advanced Snake
+--------------
+Added leveling functionality. Only two levels. Issues:
+
+* If hitting enter to restart, it restarts the current level, even if you failed and should restart at level 0. If you have not failed, it is reasonable to restart at the same level.
+* Fire a leveling event to the Controller? Avoid funny recursion in `actionPerformed`.
+* Display level info in the control panel, not in the terminal.
+* Pausing and counting down should be done in the Controller.
+* Resizing the game grid can be tricky, but it would be nice to have a larger grid when the topology is strange.
+* While we check that the initial head position is not inside a wall, we do not check the other segments... Actually in the ordinary snake, the segments behind the body can start outside the board as well. But here it leaves a visual hole in the wall, while the model thinks there is still a wall there.
 
 UML diagram
 ------------

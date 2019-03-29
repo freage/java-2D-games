@@ -13,8 +13,8 @@ import games.Position;
 import games.BaseModel;
 
 public class Snake extends Model {
-        private int direction; // possible directions found the tickgames.Model Interface
-        private LinkedList<Position> snake;
+        protected int direction; // possible directions found the tickgames.Model Interface
+        protected LinkedList<Position> snake;
 
         // all possible objects on the board
         final static int WALL = 1;
@@ -27,6 +27,7 @@ public class Snake extends Model {
         int calls; // keep track of ticks, as to know when to add a new cheese
         int cheeses; // have at most 3 cheeses at the board
         Random rgen; // for new random positions
+        boolean pause = false;
 
 
         // GAME CONSTRUCTOR
@@ -57,11 +58,14 @@ public class Snake extends Model {
                 buildSnake();
         }
 
-        private void buildSnake(){
+        protected void buildSnake(){
                 snake = new LinkedList<Position>();
                 // add a head:
-                int m = rgen.nextInt(game.length);
-                int n = rgen.nextInt(game.length);
+                int m, n;
+                do {
+                        m = rgen.nextInt(game.length);
+                        n = rgen.nextInt(game.length);
+                } while (game[m][n]==WALL);
                 addSegment(m, n, HEAD);
                 // a body segment:
                 addSegment((m + 1) % game.length, n, SELF);
@@ -83,14 +87,14 @@ public class Snake extends Model {
 
         @Override
         public void simulate(int request){
-                if (!isOver) {
+                if (!isOver && !pause) {
                         if (request!=NONE && request!=-direction)
                                 direction = request;
                         move();
-                }
-                calls++;
-                if (calls%10==0 && cheeses < 3){
-                        addCheese();
+                        calls++;
+                        if (calls%10==0 && cheeses < 3){
+                                addCheese();
+                        }
                 }
         }
 
@@ -127,26 +131,30 @@ public class Snake extends Model {
         }
 
         // used by private method move()
-        private int advance(){
-                int dm = 0, dn = 0;
-                if (direction == NORTH){
-                        dm = -1;
-                        dn = 0;
-                } else if (direction == SOUTH){
-                        dm = 1;
-                        dn = 0;
-                } else if (direction == WEST){
-                        dm = 0;
-                        dn = -1;
-                } else if (direction == EAST){
-                        dm = 0;
-                        dn = 1;
-                }
+        protected int advance(){
+                int adir = Math.abs(direction);
+                // the second factor is just the sign
+                int dm = (adir & 1) * direction;
+                int dn = (adir >> 1) * (direction >> 1);
+                // int dm = 0, dn = 0;
+                // if (direction == NORTH){
+                //         dm = -1;
+                //         dn = 0;
+                // } else if (direction == SOUTH){
+                //         dm = 1;
+                //         dn = 0;
+                // } else if (direction == WEST){
+                //         dm = 0;
+                //         dn = -1;
+                // } else if (direction == EAST){
+                //         dm = 0;
+                //         dn = 1;
+                // }
                 Position headpos = snake.peekFirst();
                 int headM = (headpos.m + game.length + dm) % game.length;
                 int headN = (headpos.n + game.length + dn) % game.length;
                 int object = game[headM][headN];
-                if (object != HEAD || object != WALL){
+                if (object != SELF && object != WALL){
                         set(headpos.m, headpos.n, SELF);
                         Position newpos = new Position(headM, headN);
                         set(newpos.m, newpos.n, HEAD);
@@ -169,15 +177,13 @@ public class Snake extends Model {
 
         // used by simulate()
         void addCheese(){
-                boolean ok = false;
-                while (!ok){
-                        int m = rgen.nextInt(game.length);
-                        int n = rgen.nextInt(game.length);
-                        if (game[m][n] == EMPTY){
-                                set(m, n, CHEESE);
-                                ok = true;
-                        }
-                }
+                int m, n;
+                do {
+                        m = rgen.nextInt(game.length);
+                        n = rgen.nextInt(game.length);
+
+                } while (! (game[m][n] == EMPTY));
+                set(m, n, CHEESE);
                 cheeses++;
         }
 

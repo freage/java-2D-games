@@ -6,10 +6,11 @@ import games.BaseModel;
 
 public abstract class Model extends BaseModel {
 
-        static int NORTH = 1;
-        static int SOUTH = -1;
-        static int WEST = 2;
-        static int EAST = -2;
+    // changing these will crash the hacks in the snake navigation...
+        static int NORTH = -1;
+        static int SOUTH = 1;
+        static int WEST = -2;
+        static int EAST = 2;
         static int NONE = 0;
 
         Model(int H, int W) {
