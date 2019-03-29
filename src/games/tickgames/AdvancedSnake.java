@@ -21,37 +21,40 @@ public class AdvancedSnake extends Snake {
 
     AdvancedSnake ref = this;
     abstract class Level {
-        int size;
+        // int size;
         int pointLimit;
 
-        Level(int S, int P) {
-            size = S;
+        Level(// int S,
+              int P) {
+            // size = S;
             pointLimit = P;
         }
 
+        ////////////////////////////////////////////////////////
+        // METHODS to override
+
         /** Add all the walls. */
-        abstract void addWalls();
+        void addWalls() {}
 
         /** Give the next position when you pass through an edge of the matrix. */
-        abstract Position advance(Position head, int direction);
-
-
-    }
-    Level torus = new Level(20, 10) {
-            @Override
-            void addWalls() {}
-
-            @Override
-            Position advance(Position head, int direction) {
+        Position advance(Position head, int direction) {
                 int adir = Math.abs(direction);
+                // int north_south = (adir & 1); // 1 if north/south, 0 otherwise
+                // int east_west = (adir >> 1); // 1 if east/west, 0 otherwise
                 int dm = (adir & 1) * direction;
-                int dn = (adir >> 1) * (direction >> 1);
+                int dn = (adir >> 1) * (direction / 2);
                 int M = (head.m + ref.height + dm) % ref.height;
                 int N = (head.n + ref.width + dn) % ref.width;
                 return new Position(M, N);
-            }
+        }
+
+
+    }
+    Level torus = new Level(10) {
+            // Standard torus
         };
-    Level plane = new Level(20, 5) {
+    Level plane = new Level(5) {
+            // A square, i.e. all edges are walls.
             @Override
             void addWalls() {
                 for (int i=0; i<ref.height; i++) {
@@ -63,23 +66,68 @@ public class AdvancedSnake extends Snake {
                     ref.set(height-1, j, WALL);
                 }
             }
+        };
 
+    Level inv_plane = new Level(5) {
+            // The walls form a plus instead of a square. Torus edges. Basically the same as a square.
+            @Override
+            void addWalls() {
+                for (int i=0; i<ref.height; i++) {
+                    ref.set(i, ref.width/2, WALL);
+                    ref.set(i, ref.width/2-1, WALL);
+                }
+                for (int j=0; j<ref.width; j++) {
+                    ref.set(ref.height/2, j, WALL);
+                    ref.set(ref.height/2-1, j, WALL);
+                }
+            }
+        };
+
+    Level mirrored_columns = new Level(10) {
+            // The right/left edges are ordinary torus edges.
+            // However, the up/down edges have you enter the *same* wall you exited, in the mirrored column.
             @Override
             Position advance(Position head, int direction) {
-                int adir = Math.abs(direction);
-                int dm = (adir & 1) * direction;
-                int dn = (adir >> 1) * (direction >> 1);
-                if ( (head.m + dm == ref.height) || (head.n + dn == ref.width) )
-                    assert(false); // hit a wall
-                int M = (head.m + ref.height + dm) % ref.height;
-                int N = (head.n + ref.width + dn) % ref.width;
-                return new Position(M, N);
+                Position p = super.advance(head, direction);
+                boolean exit_north = (head.m == 0) && (direction == NORTH);
+                boolean exit_south = (head.m == ref.height-1) && (direction == SOUTH);
+                if (exit_north || exit_south) {
+                    p.m = head.m;
+                    p.n = ref.width - 1 - head.n;
+                    ref.direction = -direction;
+                }
+                return p;
+            }
+        };
+
+    Level corners = new Level(5) {
+            // A square, i.e. all edges are walls.
+            @Override
+            void addWalls() {
+                int dh = ref.height/6;
+                int dw = ref.width/6;
+                // rows (columns constant)
+                for (int i=dh; i<2*dh; i++) {
+                    ref.set(i, dw, WALL);
+                    ref.set(height-1-i, dw, WALL);
+                    ref.set(i, width-1-dw, WALL);
+                    ref.set(height-1-i, width-1-dw, WALL);
+                }
+                // columns (rows constant)
+                for (int j=dw; j<2*dw; j++) {
+                    ref.set(dh, j, WALL);
+                    ref.set(dh, width-1-j, WALL);
+                    ref.set(height-1-dh, j, WALL);
+                    ref.set(height-1-dh, width-1-j, WALL);
+                }
             }
         };
 
     List<Level> levels = Arrays.asList( torus,
-                                        plane
-
+                                        plane,
+                                        inv_plane,
+                                        mirrored_columns,
+                                        corners
                                        );
 
 

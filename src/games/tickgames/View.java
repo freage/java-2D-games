@@ -10,7 +10,8 @@ public class View extends BaseView<JLabel, Model> {
 
         View(Model mo){
                 super(mo);
-                setPreferredSize(new Dimension(300, 350)); // TODO: avoid hardcoding
+                int s = model.getSquareSize();
+                setPreferredSize(new Dimension(model.getWidth()*s, model.getHeight()*s));
         }
 
         ///////////////////////////////////////////////////////////////
@@ -23,10 +24,8 @@ public class View extends BaseView<JLabel, Model> {
 
         @Override
         protected void addSquare(int i, int j) {
-            JLabel square = new JLabel("");
-            square.setVisible(true);
+            JLabel square = new JLabel();
             square.setOpaque(true);
-            square.setSize(10, 10);
             grid[i][j] = square;
             this.add(square);
         }

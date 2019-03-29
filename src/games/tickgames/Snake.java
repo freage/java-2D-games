@@ -135,7 +135,7 @@ public class Snake extends Model {
                 int adir = Math.abs(direction);
                 // the second factor is just the sign
                 int dm = (adir & 1) * direction;
-                int dn = (adir >> 1) * (direction >> 1);
+                int dn = (adir >> 1) * (direction / 2);
                 // int dm = 0, dn = 0;
                 // if (direction == NORTH){
                 //         dm = -1;
@@ -186,6 +186,15 @@ public class Snake extends Model {
                 set(m, n, CHEESE);
                 cheeses++;
         }
+
+    ///////////////////////////////////////////////////////////////////
+    // Selectors for the VIEW
+
+        @Override
+        public int getSquareSize(){
+            return 15;
+        }
+
 
 
         ////////////////////////////////////////////////////////////////////
