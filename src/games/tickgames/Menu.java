@@ -17,7 +17,7 @@ public class Menu extends BaseMenu<JLabel, Model, View, Controller> {
 
         Menu() {
                 super("Tick-based games",
-                      Arrays.asList(Snake.class, AdvancedSnake.class));
+                      Arrays.asList(Snake.class, AdvancedSnake.class, Tetris.class));
         }
 
         @Override

@@ -11,13 +11,12 @@ import javax.swing.Timer;
 import games.BaseController;
 
 public class Controller extends BaseController<JLabel, Model, View> implements KeyListener, ActionListener {
-        private final static int UP = 38;
-        private final static int DOWN = 40;
-        private final static int LEFT = 37;
-        private final static int RIGHT = 39;
-        private final static int SPACE = 32;
+        final static int UP = 38;
+        final static int DOWN = 40;
+        final static int LEFT = 37;
+        final static int RIGHT = 39;
+        final static int SPACE = 32;
 
-        private int request;
         private Timer timer;
 
 
@@ -25,9 +24,7 @@ public class Controller extends BaseController<JLabel, Model, View> implements K
                 super(m, v, 300, 100);
                 view.addKeyListener(this);
                 addLabels();
-
-                request = Model.NORTH;
-                timer = new Timer(100, this);
+                timer = new Timer(m.getTick(), this);
         }
 
         protected void run() {
@@ -44,27 +41,14 @@ public class Controller extends BaseController<JLabel, Model, View> implements K
                 status.setText(str);
         }
 
-        // reset after each actionevent
-        private void setRequest(int i){
-                request = i;
-        }
-
         @Override
         public void keyPressed(KeyEvent arg0) {
             if (running) {
                 int keynr = arg0.getKeyCode();
-                if (keynr==UP)
-                        setRequest(Model.NORTH);
-                else if (keynr==DOWN)
-                        setRequest(Model.SOUTH);
-                else if (keynr==LEFT)
-                        setRequest(Model.WEST);
-                else if (keynr==RIGHT)
-                        setRequest(Model.EAST);
-                else if (keynr==SPACE) {
+                if (keynr==SPACE) {
                         // TODO: This function probably should be called by the Menu instead?
                         restart();
-                }
+                } else model.request(keynr);
             }
         }
 
@@ -84,8 +68,7 @@ public class Controller extends BaseController<JLabel, Model, View> implements K
         @Override
         public void actionPerformed(ActionEvent arg0) {
             if (running) {
-                model.simulate(request);
-                request = Model.NONE;
+                model.simulate();
                 if (model.isOver()) {
                         setResult(model.getResult());
                 }

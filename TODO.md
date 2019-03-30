@@ -50,7 +50,21 @@ Tick game variations
     * Levels; after clearing XX cheeses on the current level, advanced to new level (small snake again) with other topology.
     * Funny topology: interleaving columns `delta_n` is always `+/- 2`; has to be odd width to be able to reach all cheeses once passing through the edge. Better have the snake have different colors when it is in even/odd column position.
 
-* Pong; single player pong against wall; two player pong with threading.
+* Pong? Single player pong against wall; two player pong with threading. That could be hard, though, it is better with games that consists of squares.
+* Tetris. Sort of works, still a little buggy. 
+
+Tetris
+-------
+Issues:
+
+* ISSUE: No support for rotating the blocks. No random rotation at start either.
+* ISSUE: A block cannot be moved at the last row before freezing. Solution: Freezing should be done the tick after touching the heap.
+* BUG: Horizontally inserting a block into a hole does not make it stick - it continues to fall down. Understandable, because it stuck "under" the heap "top line", so it is not detected.
+* BUG? Still not sure if the point checking and collapsing of rows is done correctly. Have not seen anything clearly incorrect yet.
+* BUG? At least before, it seemed from the stdout prints, that new blocks were created long before they appeared - even before the previous one had frozen.
+* BUG? Go through everything again and think about what methods should be synchronized.
+* ISSUE: Add preview of the next block? Might be hard, what class should display it and where? Also, there is an assumption in the code about only one brick existing at the time that becomes invalid if you add a preview.
+* BUG? Have not tried to see what happens if you lose. The game might crash.
 
 Advanced Snake
 --------------

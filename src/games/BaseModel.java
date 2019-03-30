@@ -13,17 +13,20 @@ public abstract class BaseModel {
         protected int level;
         protected String result;
         protected static String title = "GameTitle";
-        protected Random rgen = new Random();
         private LinkedList<MatrixObserverInterface> observers;
         protected Font font = new Font(Font.DIALOG, Font.PLAIN, 20);
         protected int width;
         protected int height;
+        protected Random rgen; // random generator
+        protected int squareSize = 1;
+
 
         public BaseModel(int H, int W) {
                 observers = new LinkedList<MatrixObserverInterface>();
                 height = H;
                 width = W;
                 game = new int[height][width];
+                rgen = new Random();
         }
 
         /** When restarting the game: reset all variables.
@@ -101,8 +104,8 @@ public abstract class BaseModel {
         }
 
         /** The squares in the grid. Override if it should be different. */
-        public int getSquareSize(){
-            return 1;
+        public final int getSquareSize(){
+            return squareSize;
         }
 
         // TODO: are these setters even used? Seems to be for the Controller.

@@ -166,8 +166,8 @@ public class AdvancedSnake extends Snake {
         }
 
         @Override
-        public void simulate(int request){
-            super.simulate(request);
+        public void simulate(){
+            super.simulate();
             if (isOver && !allLevelsCleared) {
                 if (points >= level.pointLimit) {
                     if (! pause)

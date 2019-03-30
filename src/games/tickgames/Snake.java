@@ -26,15 +26,17 @@ public class Snake extends Model {
         // other:
         int calls; // keep track of ticks, as to know when to add a new cheese
         int cheeses; // have at most 3 cheeses at the board
-        Random rgen; // for new random positions
         boolean pause = false;
+        private int request; // to have only one request per tick
 
 
         // GAME CONSTRUCTOR
 
         public Snake(){
                 super(20, 20);
-                rgen = new Random();
+                title = "Snake";
+                squareSize = 15;
+                tick = 100;
         }
 
         /////////////////////////////////////////////////////////////////////
@@ -45,7 +47,7 @@ public class Snake extends Model {
                 super.reset();
                 calls = 0;
                 cheeses = 0;
-                title = "Snake";
+                request = NONE;
         }
 
         @Override
@@ -86,7 +88,7 @@ public class Snake extends Model {
         // Functions declared in tick.Model
 
         @Override
-        public void simulate(int request){
+        public void simulate(){
                 if (!isOver && !pause) {
                         if (request!=NONE && request!=-direction)
                                 direction = request;
@@ -96,6 +98,20 @@ public class Snake extends Model {
                                 addCheese();
                         }
                 }
+                request = NONE;
+        }
+
+        // reset after each actionevent
+        @Override
+        public void request(int keynr){
+                if (keynr==Controller.UP)
+                        request = NORTH;
+                else if (keynr==Controller.DOWN)
+                        request = SOUTH;
+                else if (keynr==Controller.LEFT)
+                        request = WEST;
+                else if (keynr==Controller.RIGHT)
+                        request = EAST;
         }
 
         @Override
@@ -186,15 +202,6 @@ public class Snake extends Model {
                 set(m, n, CHEESE);
                 cheeses++;
         }
-
-    ///////////////////////////////////////////////////////////////////
-    // Selectors for the VIEW
-
-        @Override
-        public int getSquareSize(){
-            return 15;
-        }
-
 
 
         ////////////////////////////////////////////////////////////////////

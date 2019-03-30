@@ -1,8 +1,8 @@
 HELLO=hello/Hello
 # Hello world program (for testing)
 
-SNAKE=games/tickgames/Menu
-# Play snake
+TICKGAME=games/tickgames/Menu
+# Menu where you choose between snake, snake with levels, and tetris
 
 CLICKGAME=games/clickgames/Menu
 # Menu where you choose between 15-puzzle, tic-tac-toe and minesweeper
@@ -15,11 +15,11 @@ RUN=java --class-path bin
 c_hello: 	src/$(HELLO).java
 	$(COMPILE) $<
 
-c_snake:  	src/$(SNAKE).java
+c_tick:  	src/$(TICKGAME).java
 	$(COMPILE) $<
 
-snake:	c_snake
-	$(RUN) $(SNAKE)
+tick:	c_tick
+	$(RUN) $(TICKGAME)
 
 c_click:  	src/$(CLICKGAME).java
 	$(COMPILE) $<
@@ -27,7 +27,7 @@ c_click:  	src/$(CLICKGAME).java
 click:	c_click
 	$(RUN) $(CLICKGAME)
 
-test_all: c_snake c_click
+test_all: c_tick c_click
 
 
 hello:	c_hello
