@@ -75,6 +75,8 @@ Added leveling functionality. Levels:
 * "Inverted square": the edges have been moved to form a plus and the edges are torus edges.
 * Mirrored columns: when exiting north/south you will enter the *same* wall in the mirrored column. Ordinary torus edges in east/west. (Adding a vertical bar wall could be interesting? No, at the same time, this prevents the funny collisions.)
 * Four L-corners: 4 L-shaped walls, as if originally in the corners but moved towards the centrum.
+* Möbius strip.
+* "2D columns": The snake always advances 2 steps when going horizontally and the width is odd, so it is either always in odd or even columns, but changes to the other mode when it exits a wall on the left/right side.
 
 Issues:
 
@@ -83,8 +85,11 @@ Issues:
 * Display level info in the control panel, not in the terminal.
 * Pausing and counting down should be done in the Controller.
 * Resizing the game grid can be tricky, but it would be nice to have a larger grid when the topology is strange.
-* While we check that the initial head position is not inside a wall, we do not check the other segments... Actually in the ordinary snake, the segments behind the body can start outside the board as well. But here it leaves a hole in the wall, both in the model and the view. Any cheese appearing there cannot be taken without collision.
-* Add "portal walls", maybe light blue, signalling that this is neither a wall nor an ordinary torus edge.
+* While we check that the initial head position is not inside a wall, we do not check the other segments... Actually in the ordinary snake, the segments behind the body can start outside the board as well. But here it leaves a hole in the wall, both in the model and the view. Any cheese appearing there cannot be taken without collision. FIXED.
+* Add "portal walls", maybe light blue, signalling that this is neither a wall nor an ordinary torus edge. FIXED.
+* Sometimes the commands seem to have no effect. FIXED: the `request` variable was reset in the case of interleaving executions. I removed this "feature".
+* BUG? Go through everything again and think about what methods should be synchronized.
+* The `columns2D` snake does not have visible portals. West/east walls should be portals.
 
 UML diagram
 ------------
@@ -114,3 +119,21 @@ This is how initialisation works:
 * The BaseMenu can in the future call `ctrl.restart()` which calls
     * `ctrl.pause()`, having the controller stop listening to timer and/or user events,
     * `ctrl.start()`, letting the model and the view reset themselves before resuming listening.
+
+Mutex locks in tick games
+------------------------
+Reads and writes of `int`s are atomic. If you want atomic read/write of another variable, declare it `volatile`. 
+
+Two snake-functions are called by events (ticks or user actions) from the Controller, `simulate()` and `request(int)`. Can they overlap and is it a problem?
+* `request()` and `request()`: No, they just overwrite an atomic-access variable and we want the last write anyway.
+* `request()` and `simulate()`: `simulate()` uses the variable that `request()` is overwriting. Fixed by copying it to a local variable.
+* `simulate()` and `simulate()` (if the ticks are too short, when the computer is busy):
+    * The `direction` could change while calculating new position. Fixed by copying it to a local variable.
+    * The `snake` could change while updating it. 
+        * `move()` and `move()` interleaving: Put the changes in `move()` in a synchronized block locking `snake`.
+        * `popTail()` and `popTail()` interleaving: `popTail()` only accesses it once, it is sufficient to declare `snake` volatile.
+        * `popTail()` and `move()` interleaving: since there is only one access in `popTail()`, the lock plus atomic access is sufficient.
+
+That covers it in `Snake`. TODO: Go through `AdvancedSnake` as well.
+
+TODO: Go through `Tetris`.

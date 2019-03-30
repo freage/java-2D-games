@@ -21,12 +21,9 @@ public class AdvancedSnake extends Snake {
 
     AdvancedSnake ref = this;
     abstract class Level {
-        // int size;
         int pointLimit;
 
-        Level(// int S,
-              int P) {
-            // size = S;
+        Level(int P) {
             pointLimit = P;
         }
 
@@ -47,6 +44,12 @@ public class AdvancedSnake extends Snake {
                 int N = (head.n + ref.width + dn) % ref.width;
                 return new Position(M, N);
         }
+
+        int isAlt(Position p) {
+                return NALT;
+        }
+
+
 
 
     }
@@ -87,10 +90,18 @@ public class AdvancedSnake extends Snake {
             // The right/left edges are ordinary torus edges.
             // However, the up/down edges have you enter the *same* wall you exited, in the mirrored column.
             @Override
+            void addWalls() {
+                for (int j=0; j<ref.width; j++) {
+                    ref.set(0, j, PORTAL);
+                    ref.set(height-1, j, PORTAL);
+                }
+            }
+
+            @Override
             Position advance(Position head, int direction) {
                 Position p = super.advance(head, direction);
-                boolean exit_north = (head.m == 0) && (direction == NORTH);
-                boolean exit_south = (head.m == ref.height-1) && (direction == SOUTH);
+                boolean exit_north = (head.m == 1) && (direction == NORTH);
+                boolean exit_south = (head.m == ref.height-2) && (direction == SOUTH);
                 if (exit_north || exit_south) {
                     p.m = head.m;
                     p.n = ref.width - 1 - head.n;
@@ -123,11 +134,69 @@ public class AdvancedSnake extends Snake {
             }
         };
 
+    Level moebius_strip = new Level(10) {
+            // north/south edge are walls
+            // east/west edge are torus edges, except that the m-coordinate is mirrored
+            @Override
+            void addWalls() {
+                for (int i=0; i<ref.height; i++) {
+                    ref.set(i, 0, PORTAL);
+                    ref.set(i, width-1, PORTAL);
+                }
+                for (int j=0; j<ref.width; j++) {
+                    ref.set(0, j, WALL);
+                    ref.set(height-1, j, WALL);
+                }
+            }
+            @Override
+            Position advance(Position head, int direction) {
+                Position p = super.advance(head, direction);
+                boolean exit_west = (head.n == 1) && (direction == WEST);
+                boolean exit_east = (head.n == ref.width-2) && (direction == EAST);
+                if (exit_west || exit_east) {
+                    p.m = ref.height - 1 - head.m;
+                    p.n = ref.width - 1 - head.n;
+                }
+                return p;
+            }
+        };
+
+    Level columns2D = new Level(10) {
+            @Override
+            void addWalls() {
+                // for (int i=0; i<ref.height; i++) {
+                //     ref.set(i, 0, PORTAL);
+                //     ref.set(i, width-1, PORTAL);
+                // }
+            }
+            @Override
+            Position advance(Position head, int direction) {
+                int adir = Math.abs(direction);
+                // int north_south = (adir & 1); // 1 if north/south, 0 otherwise
+                // int east_west = (adir >> 1); // 1 if east/west, 0 otherwise
+                int dm = (adir & 1) * direction;
+                int dn = (adir >> 1) * direction; // change here
+                int M = (head.m + ref.height + dm) % ref.height;
+                int N = (head.n + ref.width + dn) % ref.width;
+                return new Position(M, N);
+            }
+            @Override
+            int isAlt(Position p) {
+                return (p.n % 2) << 3;
+                // if (p.n % 2 == 1)
+                //     return ALT;
+                // else
+                //     return NALT;
+            }
+        };
+
     List<Level> levels = Arrays.asList( torus,
                                         plane,
                                         inv_plane,
                                         mirrored_columns,
-                                        corners
+                                        corners,
+                                        moebius_strip,
+                                        columns2D
                                        );
 
 
@@ -135,7 +204,7 @@ public class AdvancedSnake extends Snake {
     // LOGIC
 
         public AdvancedSnake() {
-                super();
+                super(20, 21);
                 lvlptr = 0;
                 level = levels.get(lvlptr);
                 allLevelsCleared = false;
@@ -154,19 +223,23 @@ public class AdvancedSnake extends Snake {
 
         @Override
         protected int advance(){
+            int object;
+            synchronized (this.snake) {
                 Position headpos = snake.peekFirst();
                 Position newpos = level.advance(headpos, direction);
-                int object = game[newpos.m][newpos.n];
-                if (object != SELF && object != WALL){
-                        set(headpos.m, headpos.n, SELF);
-                        set(newpos.m, newpos.n, HEAD);
+                object = game[newpos.m][newpos.n];
+                if ((object & ~ALT) != SELF && object != WALL) {
+                // if (object != SELF && object != WALL){
+                        set(headpos.m, headpos.n, isAlt(headpos) | SELF);
+                        set(newpos.m, newpos.n, isAlt(headpos) | HEAD);
                         snake.addFirst(newpos);
                 }
+            }
                 return object;
         }
 
         @Override
-        public void simulate(){
+        public void simulate() {
             super.simulate();
             if (isOver && !allLevelsCleared) {
                 if (points >= level.pointLimit) {
@@ -190,6 +263,10 @@ public class AdvancedSnake extends Snake {
                 System.out.println("Pausing..."+wait);
                 if (++wait > 10) pause = false;
             }
+        }
+        @Override
+        protected int isAlt(Position p) {
+                return level.isAlt(p);
         }
 
         // used by move()

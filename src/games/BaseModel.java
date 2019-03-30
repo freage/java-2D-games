@@ -29,6 +29,12 @@ public abstract class BaseModel {
                 rgen = new Random();
         }
 
+        // protected final void resize(int H, int W) {
+        //         height = H;
+        //         width = W;
+        //         game = new int[height][width];
+        // }
+
         /** When restarting the game: reset all variables.
          * Override this if you want to reset additional game-specific variables, after a super-call. */
         protected void reset() {
