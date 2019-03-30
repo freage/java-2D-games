@@ -43,12 +43,7 @@ Tick game variations
 -------------------
 * Snake:
 
-    * Walls, no torus.
-    * Moebius strip instead of torus, and other topology. Mark strange portals with gradients?
-    * Walls in the middle of the field. Maybe some randomness in the construction.
     * Measuring user clicks per cheese.
-    * Levels; after clearing XX cheeses on the current level, advanced to new level (small snake again) with other topology.
-    * Funny topology: interleaving columns `delta_n` is always `+/- 2`; has to be odd width to be able to reach all cheeses once passing through the edge. Better have the snake have different colors when it is in even/odd column position.
 
 * Pong? Single player pong against wall; two player pong with threading. That could be hard, though, it is better with games that consists of squares.
 * Tetris. Sort of works, still a little buggy. 
@@ -68,15 +63,7 @@ Issues:
 
 Advanced Snake
 --------------
-Added leveling functionality. Levels:
-
-* Ordinary torus
-* A square (walls along the edges)
-* "Inverted square": the edges have been moved to form a plus and the edges are torus edges.
-* Mirrored columns: when exiting north/south you will enter the *same* wall in the mirrored column. Ordinary torus edges in east/west. (Adding a vertical bar wall could be interesting? No, at the same time, this prevents the funny collisions.)
-* Four L-corners: 4 L-shaped walls, as if originally in the corners but moved towards the centrum.
-* Möbius strip.
-* "2D columns": The snake always advances 2 steps when going horizontally and the width is odd, so it is either always in odd or even columns, but changes to the other mode when it exits a wall on the left/right side.
+Added leveling functionality. See `snakelevels.md`.
 
 Issues:
 
@@ -100,40 +87,12 @@ Missing in the diagram:
 * The View and the Controller should have access to the Model
 * The Controller should have access to the View.
 * Maybe the Menu does not need the View? -- Yes, it does, to add the visual component.
-* The `AdvancedSnake` is empty as of now.
-
-Model initialisation
----------------------
-This is how initialisation works:
-
-* `Model()` creates an empty matrix;
-* `View(M)` creates a matrix without content from the model, which is not yet ready.
-* The View is added as an observer to the model.
-* `Constructor(M,V)` creates eventual listeners and/or the control panel with instructions or buttons.
-* The BaseMenu calls `ctrl.start()` which calls the following
-    * `model.start()`, calling 
-        * `model.reset()` (reset variables), and 
-        * `model.fill()` (fill the matrix with content for starting the game, may call `set`)
-    * `view.updateAll()`, redrawing the view; only time this is used
-    * `ctrl.run()`, starts releasing events that the model can react on, like the timer or listening to user events.
-* The BaseMenu can in the future call `ctrl.restart()` which calls
-    * `ctrl.pause()`, having the controller stop listening to timer and/or user events,
-    * `ctrl.start()`, letting the model and the view reset themselves before resuming listening.
+* Tetris.
 
 Mutex locks in tick games
 ------------------------
-Reads and writes of `int`s are atomic. If you want atomic read/write of another variable, declare it `volatile`. 
+See `multithreading.md`.
 
-Two snake-functions are called by events (ticks or user actions) from the Controller, `simulate()` and `request(int)`. Can they overlap and is it a problem?
-* `request()` and `request()`: No, they just overwrite an atomic-access variable and we want the last write anyway.
-* `request()` and `simulate()`: `simulate()` uses the variable that `request()` is overwriting. Fixed by copying it to a local variable.
-* `simulate()` and `simulate()` (if the ticks are too short, when the computer is busy):
-    * The `direction` could change while calculating new position. Fixed by copying it to a local variable.
-    * The `snake` could change while updating it. 
-        * `move()` and `move()` interleaving: Put the changes in `move()` in a synchronized block locking `snake`.
-        * `popTail()` and `popTail()` interleaving: `popTail()` only accesses it once, it is sufficient to declare `snake` volatile.
-        * `popTail()` and `move()` interleaving: since there is only one access in `popTail()`, the lock plus atomic access is sufficient.
-
-That covers it in `Snake`. TODO: Go through `AdvancedSnake` as well.
+`Snake` has been covered. TODO: Go through `AdvancedSnake` as well.
 
 TODO: Go through `Tetris`.
