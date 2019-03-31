@@ -12,7 +12,7 @@ public abstract class Model extends BaseModel {
         static final int WEST = -2;
         static final int EAST = 2;
         static final int NONE = 0;
-    protected int tick;
+        protected int tick;
 
         Model(int H, int W) {
                 super(H, W);

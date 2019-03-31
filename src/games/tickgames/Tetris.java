@@ -7,7 +7,7 @@ import java.awt.Color;
 
 public class Tetris extends Model {
     Tetris ref = this;
-    // "Colors":
+    // "Colors" in the game grid:
     final static int EMPTY = 0;
     final static int LONG = 1;
     final static int SQUARE = 2;
@@ -17,165 +17,236 @@ public class Tetris extends Model {
     final static int LEFT_BOLT = 6;
     final static int RIGHT_BOLT = 7;
 
-    // TODO sed s/brick/block/g
 
-    class Brick {
+    // "Requests"
+    enum Request {LEFT, RIGHT, DOWN, DROP, ROTATE_CW, ROTATE_CCW, DUMMY};
+
+    class P extends Position { P(int m, int n) {super(m,n);} } // Easier constructor...
+
+    // TODO sed s/brick/block/g
+    class RB { // RB = rotation block
         Position[] squares;
-        Position[] initial; // should be constant
-        int color;
-        Position dimensions; // should be constant
-        Position boxUL; // upper left corner of minimal enclosing box
-        String name; // for debugging
-        Brick(Position[] squares, Position dimensions, int color, String name) {
+        Position dim; // dimensions of minimal enclosing rectangle
+        Position UL; // the offset of `dim` relative the 3x3 enclosing box
+
+        RB(Position[] squares, Position dim, Position UL) {
             this.squares = squares;
-            // deep copy squares -> initial
-            this.initial = new Position[squares.length];
-            for (int i=0; i<initial.length; i++) {
-                initial[i] = new Position(squares[i].m, squares[i].n);
-            }
-            boxUL = new Position(dimensions.m, dimensions.n);
+            this.dim = dim;
+            this.UL = UL;
+        }
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    // ALL BLOCKS and their rotations
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /** the HALFPLUS
+     *     . x .   . . .   . x .   . x .
+     *     . x x   x x x   x x .   x x x
+     *     . x .   . x .   . x .   . . .
+     */
+    Block halfplus = new Block(
+    new RB[] {
+        new RB(new P[] { new P(0,1), new P(1,1), new P(2,1), new P(1,2) }, new P(3,2), new P(0,1)),
+        new RB(new P[] { new P(1,0), new P(1,1), new P(1,2), new P(2,1) }, new P(2,3), new P(1,0)),
+        new RB(new P[] { new P(0,1), new P(1,1), new P(2,1), new P(1,0) }, new P(3,2), new P(0,0)),
+        new RB(new P[] { new P(1,0), new P(1,1), new P(1,2), new P(0,1) }, new P(2,3), new P(0,0)) },
+    HALFPLUS, "halfplus");
+
+
+
+
+
+    class Block {
+        RB[] rotations; // should be constant
+        int rotptr; // current index in `rotations`
+        int color;
+        Position boxUL; // upper left corner of enclosing 3x3 box
+        String name; // for debugging
+        boolean contact;
+
+        Block(RB[] rotations, int color, String name) {
+            this.rotations = rotations;
             this.color = color;
-            this.dimensions = dimensions;
             this.name = name;
+            boxUL = new Position(0, 0);
         }
 
-        synchronized void newBrick() {
-            System.out.println("Tetris::Brick::newBrick() "+ name);
-            for (int i=0; i<initial.length; i++) {
-                squares[i].m = initial[i].m;
-                squares[i].n = initial[i].n;
-            }
-            int offset = rgen.nextInt(ref.width - dimensions.n);
-            for (Position s : squares) {
-                s.n += offset;
-            }
+        synchronized void newBlock() {
+            System.out.println("Tetris::Block::newBlock() "+ name);
+            // pick a rotation
+            rotptr = rgen.nextInt(rotations.length);
+            // pick a horizonal position for the min-UL
+            int offset = rgen.nextInt(ref.width - rotations[rotptr].dim.n);
+            // set the offset for the 3x3-UL
             boxUL.m = 0;
-            boxUL.n = offset;
+            boxUL.n = offset - rotations[rotptr].UL.n;
+            contact = false;
         }
 
         void tick() {
-            move(Model.NONE, true);
+            move(Request.DUMMY, true);
         }
 
-        void request(int r) {
+        void request(Request r) {
             move(r, false);
         }
 
-        synchronized void move(int request, boolean tick) {
+        synchronized void move(Request request, boolean tick) {
             // TODO anything else that should be synchronized?
-            // TODO add support for rotation (space?)
-
-            // first erase the brick and increase (fall) all y-coordinates with 1
-            for (Position s : squares) {
-                set(s.m, s.n, EMPTY);
-                if (tick) {
-                    s.m++;
-                    boxUL.m++;
-                }
+            // assume a contact check is done in `simulate()` before calling the function...
+            // first erase the block
+            for (Position s : rotations[rotptr].squares) {
+                set(boxUL.m + s.m, boxUL.n + s.n, EMPTY);
             }
+            // Then move it
+            if (tick) {
+                boxUL.m++;
+                calcMove(request); // for the contact check
+            }
+            else if (request == Request.DROP) {
+                while (!contact)
+                    calcMove(Request.DOWN);
+            }
+            else calcMove(request);
+
+            // then redraw the block
+            for (Position s : rotations[rotptr].squares) {
+                set(boxUL.m + s.m, boxUL.n + s.n, color);
+            }
+        }
+
+        private void calcMove(Request request) {
             /** Moving left/right:
              * We want to avoid overwriting other blocks when moving left/right,
              * so first we do collsion check.
+             * This will only work if the block has been temporarily deleted, as done in `move()`.
              */
-            boolean noCollision = true;
+            boolean collision = false;
+            int tmpptr; // for rotation
             switch (request) {
-            case WEST:
-                if (boxUL.n > 0) {
-                    for (Position s : squares) noCollision = noCollision && (game[s.m][s.n-1] == EMPTY);
-                    if (noCollision) {
-                        for (Position s : squares) s.n--;
-                        boxUL.n--;
+            case LEFT:
+                if (boxUL.n + rotations[rotptr].UL.n > 0) {
+                    for (Position s : rotations[rotptr].squares) {
+                        collision = collision || (game[boxUL.m + s.m][boxUL.n + s.n - 1] != EMPTY);
                     }
-
+                    if (!collision) boxUL.n--;
                 }
                 break;
-            case EAST:
-                if (boxUL.n + dimensions.n < ref.width) {
-                    for (Position s : squares) noCollision = noCollision && (game[s.m][s.n+1] == EMPTY);
-                    if (noCollision) {
-                        for (Position s : squares) s.n++;
-                        boxUL.n++;
+            case RIGHT:
+                if (boxUL.n + rotations[rotptr].UL.n + rotations[rotptr].dim.n < ref.width) {
+                    for (Position s : rotations[rotptr].squares) {
+                        collision = collision || (game[boxUL.m + s.m][boxUL.n + s.n + 1] != EMPTY);
                     }
+                    if (!collision) boxUL.n++;
                 }
                 break;
-            case SOUTH:
-                int minDrop = ref.height;
-                for (Position s : squares)
-                    minDrop = Math.min(minDrop, columnTops[s.n]-s.m-1);
-                for (Position s : squares)
-                    s.m += minDrop;
-                boxUL.m += minDrop;
+            case DOWN:
+                if (contact) return; // RETURN early: there is nothing to be done
+                if (boxUL.m + rotations[rotptr].UL.m + rotations[rotptr].dim.m < ref.height) {
+                    for (Position s : rotations[rotptr].squares) {
+                        collision = collision || (game[boxUL.m + s.m + 1][boxUL.n + s.n] != EMPTY);
+                    }
+                    if (!collision) boxUL.m++;
+                }
+                break;
+            case ROTATE_CW:
+                tmpptr = (rotptr + 1) % rotations.length;
+                rotateCollision(tmpptr);
+                break;
+            case ROTATE_CCW:
+                tmpptr = (rotations.length + rotptr - 1) % rotations.length;
+                rotateCollision(tmpptr);
                 break;
             default:
                 break;
             }
-            // then redraw the brick
-            for (Position s : squares) {
-                set(s.m, s.n, color);
+            // FINALLY, check if we contact the other blocks or the floor now
+            contact = true;
+            // avoid out-of-bounds access: if we are not on the floor, check the surrounding squares
+            if (boxUL.m + rotations[rotptr].UL.m + rotations[rotptr].dim.m < ref.height) {
+                contact = false;
+                for (Position s : rotations[rotptr].squares) {
+                    contact = contact || (game[boxUL.m + s.m + 1][boxUL.n + s.n] != EMPTY);
+                }
             }
         }
 
+        private void rotateCollision(int tmpptr) {
+            // avoid out-of-bounds access:
+            if ((boxUL.n + rotations[tmpptr].UL.n >= 0) // not outside left wall
+                && // not outside right wall
+                (boxUL.n + rotations[tmpptr].UL.n + rotations[tmpptr].dim.n <= ref.width)
+                && // not below floor
+                (boxUL.m + rotations[tmpptr].UL.m + rotations[tmpptr].dim.m <= ref.height)
+                ) {
+                boolean collision = false;
+                for (Position s : rotations[tmpptr].squares) {
+                    collision = collision || (game[boxUL.m + s.m][boxUL.n + s.n] != EMPTY);
+                }
+                if (! collision)
+                    rotptr = tmpptr;
+            }
+        }
 
         // TODO: Should `contacts()` and `transfer()` be synchronized as well?
 
-        boolean contacts() { // does the brick touch the heap?
-            for (Position s : squares) {
-                if (ref.columnTops[s.n] == s.m+1 )
-                    return true;
-            }
-            return false;
+        boolean contacts() { // does the block touch the heap?
+            return contact;
         }
 
         void transfer() { // when you hit the heap, transfer the squares to the heap
-            for (Position s : squares) {
-                ref.columnTops[s.n] = Math.min(ref.columnTops[s.n], s.m);
+            for (Position s : rotations[rotptr].squares) {
+                ref.columnTops[boxUL.n + s.n] = Math.min(ref.columnTops[boxUL.n + s.n], boxUL.m + s.m);
             }
         }
     }
 
-    Brick longOne = new Brick(new Position[] {new Position(0,0),
-                                              new Position(1,0),
-                                              new Position(2,0),
-                                              new Position(3,0) },
-        new Position(4,1), LONG, "long");
-    Brick square = new Brick(new Position[] {new Position(0,0),
-                                             new Position(1,0),
-                                             new Position(0,1),
-                                             new Position(1,1) },
-        new Position(2,2), SQUARE, "square");
-    Brick halfplus = new Brick(new Position[] {new Position(0,0),
-                                               new Position(1,0),
-                                               new Position(2,0),
-                                               new Position(1,1) },
-        new Position(3,2), HALFPLUS, "halfplus");
-    Brick downL = new Brick(new Position[] {new Position(0,0),
-                                            new Position(1,0),
-                                            new Position(2,0),
-                                            new Position(2,1) },
-        new Position(3,2), DOWN_L, "down_l");
-    Brick upL = new Brick(new Position[] {new Position(0,0),
-                                          new Position(1,0),
-                                          new Position(2,0),
-                                          new Position(0,1) },
-        new Position(3,2), UP_L, "up_l");
-    Brick leftBolt = new Brick(new Position[] {new Position(0,0),
-                                               new Position(1,0),
-                                               new Position(1,1),
-                                               new Position(2,1) },
-        new Position(3,2), LEFT_BOLT, "left_bolt");
+    // Brick longOne = new Brick(new Position[] {new Position(0,0),
+    //                                           new Position(1,0),
+    //                                           new Position(2,0),
+    //                                           new Position(3,0) },
+    //     new Position(4,1), LONG, "long");
+    // Brick square = new Brick(new Position[] {new Position(0,0),
+    //                                          new Position(1,0),
+    //                                          new Position(0,1),
+    //                                          new Position(1,1) },
+    //     new Position(2,2), SQUARE, "square");
+    // Brick halfplus = new Brick(new Position[] {new Position(0,0),
+    //                                            new Position(1,0),
+    //                                            new Position(2,0),
+    //                                            new Position(1,1) },
+    //     new Position(3,2), HALFPLUS, "halfplus");
+    // Brick downL = new Brick(new Position[] {new Position(0,0),
+    //                                         new Position(1,0),
+    //                                         new Position(2,0),
+    //                                         new Position(2,1) },
+    //     new Position(3,2), DOWN_L, "down_l");
+    // Brick upL = new Brick(new Position[] {new Position(0,0),
+    //                                       new Position(1,0),
+    //                                       new Position(2,0),
+    //                                       new Position(0,1) },
+    //     new Position(3,2), UP_L, "up_l");
+    // Brick leftBolt = new Brick(new Position[] {new Position(0,0),
+    //                                            new Position(1,0),
+    //                                            new Position(1,1),
+    //                                            new Position(2,1) },
+    //     new Position(3,2), LEFT_BOLT, "left_bolt");
 
-    Brick rightBolt = new Brick(new Position[] {new Position(0,1),
-                                               new Position(1,1),
-                                               new Position(1,0),
-                                               new Position(2,0) },
-        new Position(3,2), RIGHT_BOLT, "right_bolt");
+    // Brick rightBolt = new Brick(new Position[] {new Position(0,1),
+    //                                            new Position(1,1),
+    //                                            new Position(1,0),
+    //                                            new Position(2,0) },
+    //     new Position(3,2), RIGHT_BOLT, "right_bolt");
     /////////////////////////////////////////////////////////////////////////////////////////////
-    //////////// END of Bricks //////////////////////////////////////////////////////////////////
+    //////////// END of Blocks //////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////
 
-    List<Brick> allTypes = Arrays.asList(longOne, square, halfplus, downL, upL, leftBolt, rightBolt); // Yes, instances, they are inactive until invoked. There is never more than one visible. Invoking (creating a "new" brick) means just resetting that instance. TODO this will be a problem if you want a preview of the next one...
-    Brick brick; // current incoming
-    int[] columnTops; // y-coordinates for the top bricks in the heap
+    List<Block> allTypes = Arrays.asList(// longOne, square,
+                                         halfplus //,
+                                         // downL, upL, leftBolt, rightBolt
+                                         ); // Yes, instances, they are inactive until invoked. There is never more than one visible. Invoking (creating a "new" block) means just resetting that instance. TODO this will be a problem if you want a preview of the next one...
+    Block block; // current incoming
+    int[] columnTops; // y-coordinates for the top blocks in the heap
     // private int request; // to have only one request per tick
 
 
@@ -186,10 +257,10 @@ public class Tetris extends Model {
         columnTops = new int[width];
     }
 
-    private void newBrick() {
-        // TODO this should preferrably also be a synchronized method, of Brick (!)
-        brick = allTypes.get(rgen.nextInt(allTypes.size()));
-        brick.newBrick();
+    private void newBlock() {
+        // TODO this should preferrably also be a synchronized method, of Block (!)
+        block = allTypes.get(rgen.nextInt(allTypes.size()));
+        block.newBlock();
     }
 
         /////////////////////////////////////////////////////////////////////
@@ -198,7 +269,7 @@ public class Tetris extends Model {
         @Override
         protected void reset() {
                 super.reset();
-                newBrick();
+                newBlock();
                 for (int j=0; j<width; j++)
                     columnTops[j] = height;
         }
@@ -212,7 +283,7 @@ public class Tetris extends Model {
 
             }
             // initially no content
-            // TODO entering brick maybe?
+            // TODO entering block maybe?
         }
 
         ////////////////////////////////////////////////////////////////////////////
@@ -221,12 +292,13 @@ public class Tetris extends Model {
         @Override
         public void simulate(){
                 if (!isOver) {
-                        brick.tick();
-                        if (brick.contacts()) {
-                            brick.transfer();
+                    // Now the freezing consumes an entire tick. Possible to move before the freezing.
+                        if (block.contacts()) {
+                            block.transfer();
                             pointCheck();
-                            newBrick();
-                        }
+                            newBlock();
+                        } else
+                            block.tick();
                 }
         }
 
@@ -234,15 +306,21 @@ public class Tetris extends Model {
         @Override
         public void request(int keynr){
                 if (keynr==Controller.LEFT)
-                        brick.request(WEST);
+                        block.request(Request.LEFT);
                 else if (keynr==Controller.RIGHT)
-                        brick.request(EAST);
-                else if (keynr==Controller.DOWN) {
-                        brick.request(SOUTH);
+                        block.request(Request.RIGHT);
+                else if (keynr==Controller.ENTER)
+                    block.request(Request.ROTATE_CW);
+                else if (keynr==Controller.UP)
+                    block.request(Request.ROTATE_CCW);
+                else if (keynr==Controller.DOWN)
+                    block.request(Request.DOWN);
+                else if (keynr==Controller.DD) {
+                        block.request(Request.DROP);
                         // and finally
-                        brick.transfer();
+                        block.transfer();
                         pointCheck();
-                        newBrick();
+                        newBlock();
                 }
         }
 
@@ -263,7 +341,7 @@ public class Tetris extends Model {
                 if (element==LEFT_BOLT)
                         return Color.YELLOW;
                 if (element==RIGHT_BOLT)
-                        return Color.ORANGE;
+                        return new Color(0xff, 0x8c, 0x00); // "dark orange" instead of Color.ORANGE;
                 return null;
         }
 

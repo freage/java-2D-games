@@ -16,6 +16,8 @@ public class Controller extends BaseController<JLabel, Model, View> implements K
         final static int LEFT = 37;
         final static int RIGHT = 39;
         final static int SPACE = 32;
+        final static int ENTER = 10;
+        final static int DD = 68;
 
         private Timer timer;
 

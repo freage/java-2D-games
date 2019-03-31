@@ -5,7 +5,7 @@ Multithreading in Java
 ----------------------
 Reads and writes of `int`s (and most other primitive types) are atomic. If you want atomic read/write of another variable, declare it `volatile`. 
 
-Mutex locks can be implicitly added with the keyword `synchronized`. The executions of two synchronized methods on the same object will not interleave. There are also two synchronized blocks, i.e. a block of statements, where you specify the object that should be locked while that block is executing.
+Mutex locks can be implicitly added with the keyword `synchronized`. The executions of two synchronized methods on the same object will not interleave. There are also two synchronized blocks, i.e. a block of statements, where you specify the object that should be locked while that block is executing. (Synchronized blocks can only lock references, not primitive types. If you want to lock a primitive type, copy it to a local variable instead.)
 
 Snake
 -----
