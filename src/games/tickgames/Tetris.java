@@ -52,8 +52,79 @@ public class Tetris extends Model {
         new RB(new P[] { new P(1,0), new P(1,1), new P(1,2), new P(0,1) }, new P(2,3), new P(0,0)) },
     HALFPLUS, "halfplus");
 
+    /** the LONG
+     *     . x .   . . .
+     *     . x .   x x x x
+     *     . x .   . . .
+     *       x
+     */
+    Block longOne = new Block(
+    new RB[] {
+        new RB(new P[] { new P(0,1), new P(1,1), new P(2,1), new P(3,1) }, new P(4,1), new P(0,1)),
+        new RB(new P[] { new P(1,0), new P(1,1), new P(1,2), new P(1,3) }, new P(1,4), new P(1,0)) },
+    LONG, "long");
 
+    /** the SQUARE
+     *     x x .
+     *     x x .
+     *     . . .
+     */
+    Block square = new Block(
+    new RB[] {
+        new RB(new P[] { new P(0,0), new P(0,1), new P(1,0), new P(1,1) }, new P(2,2), new P(0,0)) },
+    SQUARE, "square");
 
+    /** the LEFT BOLT
+     *     x . .   . x x   . x .   . . .
+     *     x x .   x x .   . x x   . x x
+     *     . x .   . . .   . . x   x x .
+     */
+    Block leftBolt = new Block(
+    new RB[] {
+        new RB(new P[] { new P(0,0), new P(1,0), new P(1,1), new P(2,1) }, new P(3,2), new P(0,0)),
+        new RB(new P[] { new P(1,0), new P(1,1), new P(0,1), new P(0,2) }, new P(2,3), new P(0,0)),
+        new RB(new P[] { new P(0,1), new P(1,1), new P(1,2), new P(2,2) }, new P(3,2), new P(0,1)),
+        new RB(new P[] { new P(2,0), new P(2,1), new P(1,1), new P(1,2) }, new P(2,3), new P(1,0)) },
+    LEFT_BOLT, "leftBolt");
+
+    /** the DOWN L
+     *     x x .   . . x   . x .   . . .
+     *     . x .   x x x   . x .   x x x
+     *     . x .   . . .   . x x   x . .
+     */
+    Block downL = new Block(
+    new RB[] {
+        new RB(new P[] { new P(0,0), new P(0,1), new P(1,1), new P(2,1) }, new P(3,2), new P(0,0)),
+        new RB(new P[] { new P(1,0), new P(1,1), new P(1,2), new P(0,2) }, new P(2,3), new P(0,0)),
+        new RB(new P[] { new P(0,1), new P(1,1), new P(2,1), new P(2,2) }, new P(3,2), new P(0,1)),
+        new RB(new P[] { new P(2,0), new P(1,0), new P(1,1), new P(1,2) }, new P(2,3), new P(1,0)) },
+    DOWN_L, "downL");
+
+    /** the RIGHT BOLT
+     *     . . x   . . .   . x .   x x .
+     *     . x x   x x .   x x .   . x x
+     *     . x .   . x x   x . .   . . .
+     */
+    Block rightBolt = new Block(
+    new RB[] {
+        new RB(new P[] { new P(0,2), new P(1,2), new P(1,1), new P(2,1) }, new P(3,2), new P(0,1)),
+        new RB(new P[] { new P(1,0), new P(1,1), new P(2,1), new P(2,2) }, new P(2,3), new P(1,0)),
+        new RB(new P[] { new P(0,1), new P(1,1), new P(1,0), new P(2,0) }, new P(3,2), new P(0,0)),
+        new RB(new P[] { new P(0,0), new P(0,1), new P(1,1), new P(1,2) }, new P(2,3), new P(0,0)) },
+    RIGHT_BOLT, "rightBolt");
+
+    /** the UP L
+     *     . x x   . . .   . x .   x . .
+     *     . x .   x x x   . x .   x x x
+     *     . x .   . . x   x x .   . . .
+     */
+    Block upL = new Block(
+    new RB[] {
+        new RB(new P[] { new P(0,2), new P(0,1), new P(1,1), new P(2,1) }, new P(3,2), new P(0,1)),
+        new RB(new P[] { new P(1,0), new P(1,1), new P(1,2), new P(2,2) }, new P(2,3), new P(1,0)),
+        new RB(new P[] { new P(0,1), new P(1,1), new P(2,1), new P(2,0) }, new P(3,2), new P(0,0)),
+        new RB(new P[] { new P(0,0), new P(1,0), new P(1,1), new P(1,2) }, new P(2,3), new P(0,0)) },
+    UP_L, "upL");
 
 
     class Block {
@@ -94,6 +165,7 @@ public class Tetris extends Model {
         synchronized void move(Request request, boolean tick) {
             // TODO anything else that should be synchronized?
             // assume a contact check is done in `simulate()` before calling the function...
+
             // first erase the block
             for (Position s : rotations[rotptr].squares) {
                 set(boxUL.m + s.m, boxUL.n + s.n, EMPTY);
@@ -116,7 +188,7 @@ public class Tetris extends Model {
         }
 
         private void calcMove(Request request) {
-            /** Moving left/right:
+            /** Moving:
              * We want to avoid overwriting other blocks when moving left/right,
              * so first we do collsion check.
              * This will only work if the block has been temporarily deleted, as done in `move()`.
@@ -188,73 +260,28 @@ public class Tetris extends Model {
             }
         }
 
-        // TODO: Should `contacts()` and `transfer()` be synchronized as well?
-
         boolean contacts() { // does the block touch the heap?
             return contact;
         }
 
-        void transfer() { // when you hit the heap, transfer the squares to the heap
-            for (Position s : rotations[rotptr].squares) {
-                ref.columnTops[boxUL.n + s.n] = Math.min(ref.columnTops[boxUL.n + s.n], boxUL.m + s.m);
-            }
-        }
     }
 
-    // Brick longOne = new Brick(new Position[] {new Position(0,0),
-    //                                           new Position(1,0),
-    //                                           new Position(2,0),
-    //                                           new Position(3,0) },
-    //     new Position(4,1), LONG, "long");
-    // Brick square = new Brick(new Position[] {new Position(0,0),
-    //                                          new Position(1,0),
-    //                                          new Position(0,1),
-    //                                          new Position(1,1) },
-    //     new Position(2,2), SQUARE, "square");
-    // Brick halfplus = new Brick(new Position[] {new Position(0,0),
-    //                                            new Position(1,0),
-    //                                            new Position(2,0),
-    //                                            new Position(1,1) },
-    //     new Position(3,2), HALFPLUS, "halfplus");
-    // Brick downL = new Brick(new Position[] {new Position(0,0),
-    //                                         new Position(1,0),
-    //                                         new Position(2,0),
-    //                                         new Position(2,1) },
-    //     new Position(3,2), DOWN_L, "down_l");
-    // Brick upL = new Brick(new Position[] {new Position(0,0),
-    //                                       new Position(1,0),
-    //                                       new Position(2,0),
-    //                                       new Position(0,1) },
-    //     new Position(3,2), UP_L, "up_l");
-    // Brick leftBolt = new Brick(new Position[] {new Position(0,0),
-    //                                            new Position(1,0),
-    //                                            new Position(1,1),
-    //                                            new Position(2,1) },
-    //     new Position(3,2), LEFT_BOLT, "left_bolt");
-
-    // Brick rightBolt = new Brick(new Position[] {new Position(0,1),
-    //                                            new Position(1,1),
-    //                                            new Position(1,0),
-    //                                            new Position(2,0) },
-    //     new Position(3,2), RIGHT_BOLT, "right_bolt");
     /////////////////////////////////////////////////////////////////////////////////////////////
     //////////// END of Blocks //////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////
 
-    List<Block> allTypes = Arrays.asList(// longOne, square,
-                                         halfplus //,
-                                         // downL, upL, leftBolt, rightBolt
-                                         ); // Yes, instances, they are inactive until invoked. There is never more than one visible. Invoking (creating a "new" block) means just resetting that instance. TODO this will be a problem if you want a preview of the next one...
+    /** Yes, instances, they are inactive until invoked. There is never more than one visible.
+     * Invoking (creating a "new" block) means just resetting the instance of that type.
+     * TODO this will be a problem if you want a preview of the next one...
+     */
+    List<Block> allTypes = Arrays.asList(longOne , square, halfplus, downL, upL, leftBolt, rightBolt);
     Block block; // current incoming
-    int[] columnTops; // y-coordinates for the top blocks in the heap
-    // private int request; // to have only one request per tick
 
 
     public Tetris() {
         super(20, 20);
         squareSize = 20;
         tick = 1000;
-        columnTops = new int[width];
     }
 
     private void newBlock() {
@@ -270,8 +297,6 @@ public class Tetris extends Model {
         protected void reset() {
                 super.reset();
                 newBlock();
-                for (int j=0; j<width; j++)
-                    columnTops[j] = height;
         }
 
         @Override
@@ -282,8 +307,6 @@ public class Tetris extends Model {
                 }
 
             }
-            // initially no content
-            // TODO entering block maybe?
         }
 
         ////////////////////////////////////////////////////////////////////////////
@@ -292,9 +315,7 @@ public class Tetris extends Model {
         @Override
         public void simulate(){
                 if (!isOver) {
-                    // Now the freezing consumes an entire tick. Possible to move before the freezing.
                         if (block.contacts()) {
-                            block.transfer();
                             pointCheck();
                             newBlock();
                         } else
@@ -310,15 +331,14 @@ public class Tetris extends Model {
                 else if (keynr==Controller.RIGHT)
                         block.request(Request.RIGHT);
                 else if (keynr==Controller.ENTER)
-                    block.request(Request.ROTATE_CW);
+                        block.request(Request.ROTATE_CW);
                 else if (keynr==Controller.UP)
-                    block.request(Request.ROTATE_CCW);
+                        block.request(Request.ROTATE_CCW);
                 else if (keynr==Controller.DOWN)
-                    block.request(Request.DOWN);
+                        block.request(Request.DOWN);
                 else if (keynr==Controller.DD) {
                         block.request(Request.DROP);
                         // and finally
-                        block.transfer();
                         pointCheck();
                         newBlock();
                 }
@@ -357,22 +377,12 @@ public class Tetris extends Model {
                 }
             }
             if (completeRow) {
-                System.out.println("Tetris::pointCheck() Row "+i+" is complete!");
                 collapse++;
-                for (int j=0; j<width; j++) {
-                    if (columnTops[j] == i) {
-                        for (int ii=i+collapse; (ii < height) && (game[ii][j] == EMPTY); ii++) {
-                            columnTops[j]++;
-                        }
-                    }
-                }
             }
         }
         points += collapse;
-        for (int j=0; j<width; j++) {
-            columnTops[j] += collapse;
-        }
-        System.out.println("Tetris::pointCheck() "+points+" points!");
+        if (collapse > 0)
+            System.out.println("Tetris::pointCheck() +"+collapse+" --> "+points+" points!");
     }
 
 
