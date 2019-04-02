@@ -82,7 +82,6 @@ Missing in the diagram:
 * The View and the Controller should have access to the Model
 * The Controller should have access to the View.
 * Maybe the Menu does not need the View? -- Yes, it does, to add the visual component.
-* Tetris.
 
 Mutex locks in tick games
 ------------------------
