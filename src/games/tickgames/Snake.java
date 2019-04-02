@@ -88,7 +88,7 @@ public class Snake extends Model {
         }
 
         // used buildSnake()
-        private void addSegment(int m, int n, int element){
+        private void addSegment(int m, int n, int element) {
                 Position pos = new Position(m, n);
                 set(m, n, element);
                 snake.addLast(pos);
@@ -98,22 +98,21 @@ public class Snake extends Model {
         // Functions declared in tick.Model
 
         @Override
-        public void simulate(){
+        public void simulate() {
                 if (!isOver && !pause) {
                     int r = this.request; // local copy because it can be changed by `request()`
                         if (r!=-direction)
                                 direction = r;
                         move();
                         calls++;
-                        if (calls%10==0 && cheeses < 3){
+                        if (calls%10==0 && cheeses < 3) {
                                 addCheese();
                         }
                 }
         }
 
-        // reset after each actionevent (nope, no longer)
         @Override
-        public void request(int keynr){
+        public void request(int keynr) {
                 if (keynr==Controller.UP)
                         request = NORTH;
                 else if (keynr==Controller.DOWN)
@@ -150,36 +149,36 @@ public class Snake extends Model {
         // PRIVATE HELP FUNCTIONS for model logic
 
         // used by public method simulate()
-        void move(){
+        void move() {
                 int object = advance();
-                if (object == WALL || object == SELF){
+                if (object == WALL || object == SELF) {
                         isOver = true;
-                } else if (object == CHEESE){
+                } else if (object == CHEESE) {
                         eatCheese();
                 } else if (object==EMPTY) popTail();
-                if (isOver){
+                if (isOver) {
                         result = "You got "+points+" points.";
                 }
         }
 
         // used by private method move()
-        protected int advance(){
+        protected int advance() {
             int direction = this.direction; // local variable to avoid having it change
                 int adir = Math.abs(direction);
                 // the second factor is just the sign
                 int dm = (adir & 1) * direction;
                 int dn = (adir >> 1) * (direction / 2);
                 // int dm = 0, dn = 0;
-                // if (direction == NORTH){
+                // if (direction == NORTH) {
                 //         dm = -1;
                 //         dn = 0;
-                // } else if (direction == SOUTH){
+                // } else if (direction == SOUTH) {
                 //         dm = 1;
                 //         dn = 0;
-                // } else if (direction == WEST){
+                // } else if (direction == WEST) {
                 //         dm = 0;
                 //         dn = -1;
-                // } else if (direction == EAST){
+                // } else if (direction == EAST) {
                 //         dm = 0;
                 //         dn = 1;
                 // }
@@ -193,8 +192,8 @@ public class Snake extends Model {
                 int headM = (headpos.m + game.length + dm) % game.length;
                 int headN = (headpos.n + game.length + dn) % game.length;
                 object = game[headM][headN];
-                if ((object & ~ALT) != SELF && object != WALL){
-                // if (object != SELF && object != WALL){
+                if ((object & ~ALT) != SELF && object != WALL) {
+                // if (object != SELF && object != WALL) {
                         set(headpos.m, headpos.n, isAlt(headpos) | SELF);
                         Position newpos = new Position(headM, headN);
                         set(newpos.m, newpos.n, isAlt(newpos) | HEAD);
@@ -210,19 +209,19 @@ public class Snake extends Model {
         }
 
         // used by move()
-        void eatCheese(){
+        void eatCheese() {
                 cheeses--;
                 points++;
         }
 
         // used by move()
-        private void popTail(){
+        private void popTail() {
                 Position tailpos = snake.pollLast();
                 set(tailpos.m, tailpos.n, EMPTY);
         }
 
         // used by simulate()
-        void addCheese(){
+        void addCheese() {
                 int m, n;
                 do {
                         m = rgen.nextInt(game.length);

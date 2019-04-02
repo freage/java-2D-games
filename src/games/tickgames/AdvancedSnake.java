@@ -35,18 +35,18 @@ public class AdvancedSnake extends Snake {
 
         /** Give the next position when you pass through an edge of the matrix. */
         Position advance(Position head, int direction) {
-                int adir = Math.abs(direction);
-                // int north_south = (adir & 1); // 1 if north/south, 0 otherwise
-                // int east_west = (adir >> 1); // 1 if east/west, 0 otherwise
-                int dm = (adir & 1) * direction;
-                int dn = (adir >> 1) * (direction / 2);
-                int M = (head.m + ref.height + dm) % ref.height;
-                int N = (head.n + ref.width + dn) % ref.width;
-                return new Position(M, N);
+            int adir = Math.abs(direction);
+            // int north_south = (adir & 1); // 1 if north/south, 0 otherwise
+            // int east_west = (adir >> 1); // 1 if east/west, 0 otherwise
+            int dm = (adir & 1) * direction;
+            int dn = (adir >> 1) * (direction / 2);
+            int M = (head.m + ref.height + dm) % ref.height;
+            int N = (head.n + ref.width + dn) % ref.width;
+            return new Position(M, N);
         }
 
         int isAlt(Position p) {
-                return NALT;
+            return NALT;
         }
 
 
@@ -197,79 +197,78 @@ public class AdvancedSnake extends Snake {
                                         corners,
                                         moebius_strip,
                                         columns2D
-                                       );
+                                        );
 
 
     ///////////////////////////////////////////////////////////////////////////////////
     // LOGIC
 
-        public AdvancedSnake() {
-                super(20, 21);
-                lvlptr = 0;
-                level = levels.get(lvlptr);
-                allLevelsCleared = false;
-        }
+    public AdvancedSnake() {
+        super(20, 21);
+        lvlptr = 0;
+        level = levels.get(lvlptr);
+        allLevelsCleared = false;
+    }
 
-        @Override
-        protected void fill() {
-                for (int i=0; i<height; i++) {
-                        for (int j=0; j<width; j++) {
-                                set(i, j, EMPTY);
-                        }
-                }
-                level.addWalls();
-                buildSnake();
-        }
-
-        @Override
-        protected int advance(){
-            int object;
-            synchronized (this.snake) {
-                Position headpos = snake.peekFirst();
-                Position newpos = level.advance(headpos, direction);
-                object = game[newpos.m][newpos.n];
-                if ((object & ~ALT) != SELF && object != WALL) {
-                // if (object != SELF && object != WALL){
-                        set(headpos.m, headpos.n, isAlt(headpos) | SELF);
-                        set(newpos.m, newpos.n, isAlt(headpos) | HEAD);
-                        snake.addFirst(newpos);
-                }
-            }
-                return object;
-        }
-
-        @Override
-        public void simulate() {
-            super.simulate();
-            if (isOver && !allLevelsCleared) {
-                if (points >= level.pointLimit) {
-                    if (! pause)
-                        System.out.println("You cleared level "+lvlptr+"!");
-                    if (lvlptr < levels.size()-1 ) {
-                        level = levels.get(++lvlptr);
-                        // fire a leveling event to the Controller; to have a proper reset
-                        reset();
-                        fill();
-                        pause = true;
-                        isOver = false;
-                        wait = 0;
-                    } else {
-                        isOver = true;
-                        allLevelsCleared = true;
-                        System.out.println("You cleared all levels!");
-                    }
-                }
-            } else if (pause) {
-                System.out.println("Pausing..."+wait);
-                if (++wait > 10) pause = false;
+    @Override
+    protected void fill() {
+        for (int i=0; i<height; i++) {
+            for (int j=0; j<width; j++) {
+                set(i, j, EMPTY);
             }
         }
-        @Override
-        protected int isAlt(Position p) {
-                return level.isAlt(p);
-        }
+        level.addWalls();
+        buildSnake();
+    }
 
-        // used by move()
+    @Override
+    protected int advance() {
+        int object;
+        synchronized (this.snake) {
+            Position headpos = snake.peekFirst();
+            Position newpos = level.advance(headpos, direction);
+            object = game[newpos.m][newpos.n];
+            if ((object & ~ALT) != SELF && object != WALL) {
+                set(headpos.m, headpos.n, isAlt(headpos) | SELF);
+                set(newpos.m, newpos.n, isAlt(headpos) | HEAD);
+                snake.addFirst(newpos);
+            }
+        }
+        return object;
+    }
+
+    @Override
+    public void simulate() {
+        super.simulate();
+        if (isOver && !allLevelsCleared) {
+            if (points >= level.pointLimit) {
+                if (! pause)
+                    System.out.println("You cleared level "+lvlptr+"!");
+                if (lvlptr < levels.size()-1 ) {
+                    level = levels.get(++lvlptr);
+                    // fire a leveling event to the Controller; to have a proper reset
+                    reset();
+                    fill();
+                    pause = true;
+                    isOver = false;
+                    wait = 0;
+                } else {
+                    isOver = true;
+                    allLevelsCleared = true;
+                    System.out.println("You cleared all levels!");
+                }
+            }
+        } else if (pause) {
+            System.out.println("Pausing..."+wait);
+            if (++wait > 10) pause = false;
+        }
+    }
+    @Override
+    protected int isAlt(Position p) {
+        return level.isAlt(p);
+    }
+
+    // used by move()
     @Override
     void eatCheese() {
         super.eatCheese();
