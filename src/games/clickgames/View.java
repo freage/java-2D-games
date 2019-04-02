@@ -25,12 +25,12 @@ public class View extends BaseView<JButton, Model> {
 
         @Override
         protected void addSquare(int i, int j) {
-                JButton knapp = new JButton();
-                knapp.setMargin(new Insets(2, 4, 2, 4));
-                knapp.setFont(model.getFont());
-                knapp.setVisible(true);
-                grid[i][j] = knapp;
-                this.add(knapp);
+                JButton square = new JButton();
+                square.setMargin(new Insets(2, 4, 2, 4));
+                square.setFont(model.getFont());
+                square.setVisible(true);
+                grid[i][j] = square;
+                this.add(square);
         }
 
         ///////////////////////////////////////////////////////////////
@@ -39,11 +39,11 @@ public class View extends BaseView<JButton, Model> {
 
         @Override
         public void updateSquare(int i, int j, int number) {
-                JButton knapp = grid[i][j];
+                JButton square = grid[i][j];
                 String content = model.translateString(number);
-                knapp.setBackground(model.translateBgColor(number));
-                knapp.setForeground(model.translateTextColor(number));
-                knapp.setText(content);
+                square.setBackground(model.translateBgColor(number));
+                square.setForeground(model.translateTextColor(number));
+                square.setText(content);
         }
 
 

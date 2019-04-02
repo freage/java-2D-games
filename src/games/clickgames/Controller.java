@@ -26,7 +26,6 @@ public class Controller extends BaseController<JButton, Model, View> implements 
         public Controller(Model mo, View vi){
                 super(mo, vi, 200, 100);
                 knappar = view.getButtons();
-                addLabels();
                 addListeners();
         }
 

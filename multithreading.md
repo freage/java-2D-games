@@ -25,4 +25,7 @@ TODO
 
 Tetris
 ------
+Two tetris-functions are called by events (ticks or user actions) from the Controller, `simulate()` and `request(int)`. Can they overlap and is it a problem?
+* `request()` and `request()`: The result of `request()` has been made atomic: calling `block.request()` is a synchronized function and there is a lock on `this` for the action (dropping down) that is done in several steps. 
+
 TODO

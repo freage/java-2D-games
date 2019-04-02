@@ -23,7 +23,6 @@ public class Tetris extends Model {
 
     class P extends Position { P(int m, int n) {super(m,n);} } // Easier constructor...
 
-    // TODO sed s/brick/block/g
     class RB { // RB = rotation block
         Position[] squares;
         Position dim; // dimensions of minimal enclosing rectangle
@@ -45,12 +44,12 @@ public class Tetris extends Model {
      *     . x .   . x .   . x .   . . .
      */
     Block halfplus = new Block(
-    new RB[] {
-        new RB(new P[] { new P(0,1), new P(1,1), new P(2,1), new P(1,2) }, new P(3,2), new P(0,1)),
-        new RB(new P[] { new P(1,0), new P(1,1), new P(1,2), new P(2,1) }, new P(2,3), new P(1,0)),
-        new RB(new P[] { new P(0,1), new P(1,1), new P(2,1), new P(1,0) }, new P(3,2), new P(0,0)),
-        new RB(new P[] { new P(1,0), new P(1,1), new P(1,2), new P(0,1) }, new P(2,3), new P(0,0)) },
-    HALFPLUS, "halfplus");
+        new RB[] {
+            new RB(new P[] { new P(0,1), new P(1,1), new P(2,1), new P(1,2) }, new P(3,2), new P(0,1)),
+            new RB(new P[] { new P(1,0), new P(1,1), new P(1,2), new P(2,1) }, new P(2,3), new P(1,0)),
+            new RB(new P[] { new P(0,1), new P(1,1), new P(2,1), new P(1,0) }, new P(3,2), new P(0,0)),
+            new RB(new P[] { new P(1,0), new P(1,1), new P(1,2), new P(0,1) }, new P(2,3), new P(0,0)) },
+        HALFPLUS, "halfplus");
 
     /** the LONG
      *     . x .   . . .
@@ -59,10 +58,10 @@ public class Tetris extends Model {
      *       x
      */
     Block longOne = new Block(
-    new RB[] {
-        new RB(new P[] { new P(0,1), new P(1,1), new P(2,1), new P(3,1) }, new P(4,1), new P(0,1)),
-        new RB(new P[] { new P(1,0), new P(1,1), new P(1,2), new P(1,3) }, new P(1,4), new P(1,0)) },
-    LONG, "long");
+       new RB[] {
+           new RB(new P[] { new P(0,1), new P(1,1), new P(2,1), new P(3,1) }, new P(4,1), new P(0,1)),
+           new RB(new P[] { new P(1,0), new P(1,1), new P(1,2), new P(1,3) }, new P(1,4), new P(1,0)) },
+       LONG, "long");
 
     /** the SQUARE
      *     x x .
@@ -70,9 +69,9 @@ public class Tetris extends Model {
      *     . . .
      */
     Block square = new Block(
-    new RB[] {
-        new RB(new P[] { new P(0,0), new P(0,1), new P(1,0), new P(1,1) }, new P(2,2), new P(0,0)) },
-    SQUARE, "square");
+      new RB[] {
+          new RB(new P[] { new P(0,0), new P(0,1), new P(1,0), new P(1,1) }, new P(2,2), new P(0,0)) },
+      SQUARE, "square");
 
     /** the LEFT BOLT
      *     x . .   . x x   . x .   . . .
@@ -80,12 +79,12 @@ public class Tetris extends Model {
      *     . x .   . . .   . . x   x x .
      */
     Block leftBolt = new Block(
-    new RB[] {
-        new RB(new P[] { new P(0,0), new P(1,0), new P(1,1), new P(2,1) }, new P(3,2), new P(0,0)),
-        new RB(new P[] { new P(1,0), new P(1,1), new P(0,1), new P(0,2) }, new P(2,3), new P(0,0)),
-        new RB(new P[] { new P(0,1), new P(1,1), new P(1,2), new P(2,2) }, new P(3,2), new P(0,1)),
-        new RB(new P[] { new P(2,0), new P(2,1), new P(1,1), new P(1,2) }, new P(2,3), new P(1,0)) },
-    LEFT_BOLT, "leftBolt");
+        new RB[] {
+            new RB(new P[] { new P(0,0), new P(1,0), new P(1,1), new P(2,1) }, new P(3,2), new P(0,0)),
+            new RB(new P[] { new P(1,0), new P(1,1), new P(0,1), new P(0,2) }, new P(2,3), new P(0,0)),
+            new RB(new P[] { new P(0,1), new P(1,1), new P(1,2), new P(2,2) }, new P(3,2), new P(0,1)),
+            new RB(new P[] { new P(2,0), new P(2,1), new P(1,1), new P(1,2) }, new P(2,3), new P(1,0)) },
+        LEFT_BOLT, "leftBolt");
 
     /** the DOWN L
      *     x x .   . . x   . x .   . . .
@@ -93,12 +92,12 @@ public class Tetris extends Model {
      *     . x .   . . .   . x x   x . .
      */
     Block downL = new Block(
-    new RB[] {
-        new RB(new P[] { new P(0,0), new P(0,1), new P(1,1), new P(2,1) }, new P(3,2), new P(0,0)),
-        new RB(new P[] { new P(1,0), new P(1,1), new P(1,2), new P(0,2) }, new P(2,3), new P(0,0)),
-        new RB(new P[] { new P(0,1), new P(1,1), new P(2,1), new P(2,2) }, new P(3,2), new P(0,1)),
-        new RB(new P[] { new P(2,0), new P(1,0), new P(1,1), new P(1,2) }, new P(2,3), new P(1,0)) },
-    DOWN_L, "downL");
+        new RB[] {
+            new RB(new P[] { new P(0,0), new P(0,1), new P(1,1), new P(2,1) }, new P(3,2), new P(0,0)),
+            new RB(new P[] { new P(1,0), new P(1,1), new P(1,2), new P(0,2) }, new P(2,3), new P(0,0)),
+            new RB(new P[] { new P(0,1), new P(1,1), new P(2,1), new P(2,2) }, new P(3,2), new P(0,1)),
+            new RB(new P[] { new P(2,0), new P(1,0), new P(1,1), new P(1,2) }, new P(2,3), new P(1,0)) },
+        DOWN_L, "downL");
 
     /** the RIGHT BOLT
      *     . . x   . . .   . x .   x x .
@@ -106,12 +105,12 @@ public class Tetris extends Model {
      *     . x .   . x x   x . .   . . .
      */
     Block rightBolt = new Block(
-    new RB[] {
-        new RB(new P[] { new P(0,2), new P(1,2), new P(1,1), new P(2,1) }, new P(3,2), new P(0,1)),
-        new RB(new P[] { new P(1,0), new P(1,1), new P(2,1), new P(2,2) }, new P(2,3), new P(1,0)),
-        new RB(new P[] { new P(0,1), new P(1,1), new P(1,0), new P(2,0) }, new P(3,2), new P(0,0)),
-        new RB(new P[] { new P(0,0), new P(0,1), new P(1,1), new P(1,2) }, new P(2,3), new P(0,0)) },
-    RIGHT_BOLT, "rightBolt");
+        new RB[] {
+            new RB(new P[] { new P(0,2), new P(1,2), new P(1,1), new P(2,1) }, new P(3,2), new P(0,1)),
+            new RB(new P[] { new P(1,0), new P(1,1), new P(2,1), new P(2,2) }, new P(2,3), new P(1,0)),
+            new RB(new P[] { new P(0,1), new P(1,1), new P(1,0), new P(2,0) }, new P(3,2), new P(0,0)),
+            new RB(new P[] { new P(0,0), new P(0,1), new P(1,1), new P(1,2) }, new P(2,3), new P(0,0)) },
+        RIGHT_BOLT, "rightBolt");
 
     /** the UP L
      *     . x x   . . .   . x .   x . .
@@ -119,21 +118,24 @@ public class Tetris extends Model {
      *     . x .   . . x   x x .   . . .
      */
     Block upL = new Block(
-    new RB[] {
-        new RB(new P[] { new P(0,2), new P(0,1), new P(1,1), new P(2,1) }, new P(3,2), new P(0,1)),
-        new RB(new P[] { new P(1,0), new P(1,1), new P(1,2), new P(2,2) }, new P(2,3), new P(1,0)),
-        new RB(new P[] { new P(0,1), new P(1,1), new P(2,1), new P(2,0) }, new P(3,2), new P(0,0)),
-        new RB(new P[] { new P(0,0), new P(1,0), new P(1,1), new P(1,2) }, new P(2,3), new P(0,0)) },
-    UP_L, "upL");
+        new RB[] {
+            new RB(new P[] { new P(0,2), new P(0,1), new P(1,1), new P(2,1) }, new P(3,2), new P(0,1)),
+            new RB(new P[] { new P(1,0), new P(1,1), new P(1,2), new P(2,2) }, new P(2,3), new P(1,0)),
+            new RB(new P[] { new P(0,1), new P(1,1), new P(2,1), new P(2,0) }, new P(3,2), new P(0,0)),
+            new RB(new P[] { new P(0,0), new P(1,0), new P(1,1), new P(1,2) }, new P(2,3), new P(0,0)) },
+        UP_L, "upL");
 
 
     class Block {
-        RB[] rotations; // should be constant
-        int rotptr; // current index in `rotations`
-        int color;
-        Position boxUL; // upper left corner of enclosing 3x3 box
-        String name; // for debugging
-        boolean contact;
+        private RB[] rotations; // should be constant
+        private int rotptr; // current index in `rotations`
+        private int color;
+        private Position boxUL; // upper left corner of enclosing 3x3 box
+        private String name; // for debugging
+        private boolean contact;
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////
+        // INTERFACE for Tetris class
 
         Block(RB[] rotations, int color, String name) {
             this.rotations = rotations;
@@ -154,6 +156,21 @@ public class Tetris extends Model {
             contact = false;
         }
 
+        synchronized void drawNewBlock() {
+            // draw the block
+            if (!collisionCheck(0,0)) {
+                contactCheck();
+                setVisible(true);
+                if (contact && rotations[rotptr].UL.m == 0) {
+                    ref.setOver();
+                }
+            } else {
+                ref.setOver();
+                // draw the block partially; the lower part that fits
+                drawPartial();
+            }
+        }
+
         void tick() {
             move(Request.DUMMY, true);
         }
@@ -162,14 +179,21 @@ public class Tetris extends Model {
             move(r, false);
         }
 
-        synchronized void move(Request request, boolean tick) {
-            // TODO anything else that should be synchronized?
+        /** does the block touch the heap? */
+        boolean contacts() {
+            return contact;
+        }
+
+
+        //////////////////////////////////////////////////////////////////////////////////////////
+        // private HELP FUNCTIONS
+
+        private synchronized void move(Request request, boolean tick) {
             // assume a contact check is done in `simulate()` before calling the function...
 
             // first erase the block
-            for (Position s : rotations[rotptr].squares) {
-                set(boxUL.m + s.m, boxUL.n + s.n, EMPTY);
-            }
+            setVisible(false);
+
             // Then move it
             if (tick) {
                 boxUL.m++;
@@ -182,8 +206,12 @@ public class Tetris extends Model {
             else calcMove(request);
 
             // then redraw the block
+            setVisible(true);
+        }
+
+        private void setVisible(boolean flag) {
             for (Position s : rotations[rotptr].squares) {
-                set(boxUL.m + s.m, boxUL.n + s.n, color);
+                set(boxUL.m + s.m, boxUL.n + s.n, flag?color:EMPTY);
             }
         }
 
@@ -193,32 +221,22 @@ public class Tetris extends Model {
              * so first we do collsion check.
              * This will only work if the block has been temporarily deleted, as done in `move()`.
              */
-            boolean collision = false;
             int tmpptr; // for rotation
             switch (request) {
             case LEFT:
                 if (boxUL.n + rotations[rotptr].UL.n > 0) {
-                    for (Position s : rotations[rotptr].squares) {
-                        collision = collision || (game[boxUL.m + s.m][boxUL.n + s.n - 1] != EMPTY);
-                    }
-                    if (!collision) boxUL.n--;
+                    if (!collisionCheck(0,-1)) boxUL.n--;
                 }
                 break;
             case RIGHT:
                 if (boxUL.n + rotations[rotptr].UL.n + rotations[rotptr].dim.n < ref.width) {
-                    for (Position s : rotations[rotptr].squares) {
-                        collision = collision || (game[boxUL.m + s.m][boxUL.n + s.n + 1] != EMPTY);
-                    }
-                    if (!collision) boxUL.n++;
+                    if (!collisionCheck(0,1)) boxUL.n++;
                 }
                 break;
             case DOWN:
                 if (contact) return; // RETURN early: there is nothing to be done
                 if (boxUL.m + rotations[rotptr].UL.m + rotations[rotptr].dim.m < ref.height) {
-                    for (Position s : rotations[rotptr].squares) {
-                        collision = collision || (game[boxUL.m + s.m + 1][boxUL.n + s.n] != EMPTY);
-                    }
-                    if (!collision) boxUL.m++;
+                    if (!collisionCheck(1,0)) boxUL.m++;
                 }
                 break;
             case ROTATE_CW:
@@ -233,6 +251,19 @@ public class Tetris extends Model {
                 break;
             }
             // FINALLY, check if we contact the other blocks or the floor now
+            contactCheck();
+        }
+
+        private boolean collisionCheck(int dm, int dn) {
+            boolean collision = false;
+            for (Position s : rotations[rotptr].squares) {
+                collision = collision || (game[boxUL.m + s.m + dm][boxUL.n + s.n + dn] != EMPTY);
+            }
+            return collision;
+        }
+
+
+        private void contactCheck() {
             contact = true;
             // avoid out-of-bounds access: if we are not on the floor, check the surrounding squares
             if (boxUL.m + rotations[rotptr].UL.m + rotations[rotptr].dim.m < ref.height) {
@@ -260,8 +291,23 @@ public class Tetris extends Model {
             }
         }
 
-        boolean contacts() { // does the block touch the heap?
-            return contact;
+        private void drawPartial() {
+            // first decide the offset
+            int offset;
+            // TODO think about the range here
+            for (offset=0; offset<rotations[rotptr].UL.m+rotations[rotptr].dim.m; offset++) {
+                boolean collision = false;
+                for (Position s : rotations[rotptr].squares) {
+                    if (boxUL.m + s.m - offset >= 0)
+                        collision = collision || (game[boxUL.m + s.m - offset][boxUL.n + s.n] != EMPTY);
+                }
+                if (!collision) break;
+            }
+            // then draw the block (the squares that are visible)
+            for (Position s : rotations[rotptr].squares) {
+                if (boxUL.m + s.m - offset >= 0)
+                    set(boxUL.m + s.m - offset, boxUL.n + s.n, color);
+            }
         }
 
     }
@@ -285,85 +331,96 @@ public class Tetris extends Model {
     }
 
     private void newBlock() {
-        // TODO this should preferrably also be a synchronized method, of Block (!)
-        block = allTypes.get(rgen.nextInt(allTypes.size()));
-        block.newBlock();
+        synchronized (this) {
+            block = allTypes.get(rgen.nextInt(allTypes.size()));
+            block.newBlock();
+        }
     }
 
-        /////////////////////////////////////////////////////////////////////
-        // INITIALIZATION; Implementation of functions declared in BaseModel
+    /////////////////////////////////////////////////////////////////////
+    // INITIALIZATION; Implementation of functions declared in BaseModel
 
-        @Override
-        protected void reset() {
-                super.reset();
-                newBlock();
-        }
+    @Override
+    protected void reset() {
+        super.reset();
+        newBlock();
+    }
 
-        @Override
-        protected void fill() {
-            for (int i=0; i<height; i++) {
-                for (int j=0; j<width; j++) {
-                    game[i][j] = EMPTY;
-                }
-
+    @Override
+    protected void fill() {
+        for (int i=0; i<height; i++) {
+            for (int j=0; j<width; j++) {
+                game[i][j] = EMPTY;
             }
         }
+        block.drawNewBlock();
+    }
 
-        ////////////////////////////////////////////////////////////////////////////
-        // Functions declared in tick.Model
+    ////////////////////////////////////////////////////////////////////////////
+    // Functions declared in tick.Model
 
-        @Override
-        public void simulate(){
-                if (!isOver) {
-                        if (block.contacts()) {
-                            pointCheck();
-                            newBlock();
-                        } else
-                            block.tick();
+    @Override
+    public void simulate() {
+        if (!isOver) {
+            synchronized (this) {
+                if (block.contacts()) {
+                    pointCheck();
+                    newBlock();
+                    block.drawNewBlock();
+                } else
+                    block.tick();
+            }
+        }
+    }
+
+    @Override
+    public void request(int keynr) {
+        if (!isOver) {
+            if (keynr==Controller.LEFT)
+                block.request(Request.LEFT);
+            else if (keynr==Controller.RIGHT)
+                block.request(Request.RIGHT);
+            else if (keynr==Controller.ENTER)
+                block.request(Request.ROTATE_CW);
+            else if (keynr==Controller.UP)
+                block.request(Request.ROTATE_CCW);
+            else if (keynr==Controller.DOWN)
+                block.request(Request.DOWN);
+            else if (keynr==Controller.DD) {
+                synchronized (this) {
+                    block.request(Request.DROP);
+                    // and finally
+                    pointCheck();
+                    newBlock();
+                    block.drawNewBlock();
                 }
+            }
         }
+    }
 
-        // reset after each actionevent
-        @Override
-        public void request(int keynr){
-                if (keynr==Controller.LEFT)
-                        block.request(Request.LEFT);
-                else if (keynr==Controller.RIGHT)
-                        block.request(Request.RIGHT);
-                else if (keynr==Controller.ENTER)
-                        block.request(Request.ROTATE_CW);
-                else if (keynr==Controller.UP)
-                        block.request(Request.ROTATE_CCW);
-                else if (keynr==Controller.DOWN)
-                        block.request(Request.DOWN);
-                else if (keynr==Controller.DD) {
-                        block.request(Request.DROP);
-                        // and finally
-                        pointCheck();
-                        newBlock();
-                }
-        }
+    @Override
+    public Color translate(int element) {
+        if (element==EMPTY)
+            return Color.GRAY;
+        if (element==LONG)
+            return Color.RED;
+        if (element==SQUARE)
+            return Color.BLUE;
+        if (element==HALFPLUS)
+            return Color.GREEN;
+        if (element==UP_L)
+            return Color.MAGENTA;
+        if (element==DOWN_L)
+            return Color.CYAN;
+        if (element==LEFT_BOLT)
+            return Color.YELLOW;
+        if (element==RIGHT_BOLT)
+            return new Color(0xff, 0x8c, 0x00); // "dark orange" instead of Color.ORANGE;
+        return null;
+    }
 
-        @Override
-        public Color translate(int element) {
-                if (element==EMPTY)
-                        return Color.GRAY;
-                if (element==LONG)
-                        return Color.RED;
-                if (element==SQUARE)
-                        return Color.BLUE;
-                if (element==HALFPLUS)
-                        return Color.GREEN;
-                if (element==UP_L)
-                        return Color.MAGENTA;
-                if (element==DOWN_L)
-                        return Color.CYAN;
-                if (element==LEFT_BOLT)
-                        return Color.YELLOW;
-                if (element==RIGHT_BOLT)
-                        return new Color(0xff, 0x8c, 0x00); // "dark orange" instead of Color.ORANGE;
-                return null;
-        }
+    //////////////////////////////////////////////////////////////////////////////
+    // private HELP FUNCTIONS
 
     private void pointCheck() {
         boolean completeRow;
@@ -376,15 +433,16 @@ public class Tetris extends Model {
                     set(i+collapse, j, game[i][j]);
                 }
             }
-            if (completeRow) {
-                collapse++;
-            }
+            if (completeRow) collapse++;
         }
         points += collapse;
         if (collapse > 0)
             System.out.println("Tetris::pointCheck() +"+collapse+" --> "+points+" points!");
     }
 
-
+    void setOver() {
+        isOver = true;
+        result = "Game over! Your score: "+points+" points.";
+    }
 
 }

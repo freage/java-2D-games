@@ -25,15 +25,16 @@ public class Controller extends BaseController<JLabel, Model, View> implements K
         Controller(Model m, View v){
                 super(m, v, 300, 100);
                 view.addKeyListener(this);
-                addLabels();
                 timer = new Timer(m.getTick(), this);
         }
 
+        @Override
         protected void run() {
                 super.run();
                 timer.start();
         }
 
+        @Override
         protected void pause() {
                 super.pause();
                 timer.stop();

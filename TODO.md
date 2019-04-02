@@ -55,7 +55,6 @@ Issues:
 * BUG? At least before, it seemed from the stdout prints, that new blocks were created long before they appeared - even before the previous one had frozen.
 * BUG? Go through everything again and think about what methods should be synchronized.
 * ISSUE: Add preview of the next block? Might be hard, what class should display it and where? Also, there is an assumption in the code about only one brick existing at the time that becomes invalid if you add a preview.
-* BUG? Have not tried to see what happens if you lose. The game might crash.
 
 Advanced Snake
 --------------

@@ -21,11 +21,7 @@ public abstract class BaseController<T extends JComponent, M extends BaseModel, 
                 height = he;
                 setPreferredSize(new Dimension(width, height));
                 running = false;
-        }
-
-        // TODO: add this call to suitable function
-        protected void addLabels() {
-                status = new JLabel(model.getInstructions());
+                status = new JLabel();
                 status.setVisible(true);
                 add(status);
         }
@@ -48,6 +44,7 @@ public abstract class BaseController<T extends JComponent, M extends BaseModel, 
         public final void start() {
                 model.start();
                 view.updateMatrix(); // Should be the only time this function is used.
+                status.setText(model.getInstructions());
                 run();
         }
 
