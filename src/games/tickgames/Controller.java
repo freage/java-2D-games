@@ -22,7 +22,7 @@ public class Controller extends BaseController<JLabel, Model, View> implements K
         private Timer timer;
 
 
-        Controller(Model m, View v){
+        Controller(Model m, View v) {
                 super(m, v, 300, 100);
                 view.addKeyListener(this);
                 timer = new Timer(m.getTick(), this);
@@ -40,7 +40,7 @@ public class Controller extends BaseController<JLabel, Model, View> implements K
                 timer.stop();
         }
 
-        private void setResult(String str){
+        private void setResult(String str) {
                 status.setText(str);
         }
 

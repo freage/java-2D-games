@@ -4,7 +4,7 @@ Cleaning
 * Stop using capitalised method names, instead of camel case. 
 
 Fixed in all the implemented models.  <--- TODO: I was in the midst of this.
-Fixed in `tick.Controller`. Fixing it in `tick.View` seems to have introduced a bug.
+Fixed in `tick.Controller`, `tick.View` and `tick.Menu`.
 
 NOT fixed in `click.Controller` nor `click.Menu`.
 
@@ -28,10 +28,9 @@ FIXED
 TODO list
 
 * Change the BaseMenu, so that it calls restart instead of creating a new game from scratch, in the case that the user wants play the same game again. (Avoids having the old model/view/controller garbage collected.) Maybe also keep a deactivated instance of model/view/controller for each game?
-* Add a general restart functionality like the one in snake (pressing space), controlled by the menu instead of the controller.
+* Add a general restart functionality like the one in snake (pressing space), controlled by the menu instead of the controller. There is a general one in `tick.Controller` now.
 * Avoid calling methods from constructors.
-* Have the control panels display meaningful information. Snake does not reset the control panel properly. 
-* Implement another tick game. A simple pong has been suggested.
+* Have the control panels display meaningful information.
 
 Click game variations
 ---------------------
@@ -48,13 +47,8 @@ Tick game variations
 * Pong? Single player pong against wall; two player pong with threading. That could be hard, though, it is better with games that consists of squares.
 * Tetris. Sort of works, still a little buggy. 
 
-Tetris
--------
-Issues:
-
-* BUG? At least before, it seemed from the stdout prints, that new blocks were created long before they appeared - even before the previous one had frozen.
-* BUG? Go through everything again and think about what methods should be synchronized.
-* ISSUE: Add preview of the next block? Might be hard, what class should display it and where? Also, there is an assumption in the code about only one brick existing at the time that becomes invalid if you add a preview.
+    * ISSUE: Add preview of the next block? Might be hard, what class should display it and where? Also, there is an assumption in the code about only one brick existing at the time that becomes invalid if you add a preview.
+    * Maybe not have it so wide as 20 squares. It becomes too easy.
 
 Advanced Snake
 --------------

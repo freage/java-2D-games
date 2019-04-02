@@ -8,7 +8,7 @@ import games.BaseView;
 public class View extends BaseView<JLabel, Model> {
         JLabel[][] grid;
 
-        View(Model mo){
+        View(Model mo) {
                 super(mo);
                 int s = model.getSquareSize();
                 setPreferredSize(new Dimension(model.getWidth()*s, model.getHeight()*s));

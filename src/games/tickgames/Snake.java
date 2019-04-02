@@ -75,7 +75,9 @@ public class Snake extends Model {
                 do {
                         m = rgen.nextInt(game.length);
                         n = rgen.nextInt(game.length);
-                } while ((game[m][n]!=EMPTY) || (game[m+1][n]!=EMPTY) || (game[m+2][n]!=EMPTY));
+                } while ((game[m][n]!=EMPTY)
+                         || (game[(m+1)%game.length][n]!=EMPTY)
+                         || (game[(m+2)%game.length][n]!=EMPTY));
                 addSegment(m, n, isAlt(new Position(m,n)) | HEAD);
                 // a body segment:
                 addSegment((m + 1) % game.length, n, isAlt(new Position(m,n)) | SELF);
@@ -204,7 +206,7 @@ public class Snake extends Model {
 
         /** Override this if you want to use a different colored snake in certain positions. */
         protected int isAlt(Position p) {
-                return ALT;
+                return NALT;
         }
 
         // used by move()
