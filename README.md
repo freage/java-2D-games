@@ -25,17 +25,29 @@ Considering the games separately, this OOP design might slow down the games some
 
 * polymorphism and inheritance, the Java way
 * MVC pattern
-* Java's Swing library
+* Java's Swing library for 2D-graphics
 * multithreading and mutex locks, the Java way
 * Java's generics
 * reflections in Java (a little bit in the Menu class)
 
-Design details
--------------
-There is an UML diagram showing the relations between the classes. The obvious MVC-relations between the Model, the View and the Controller are not included, to avoid having the diagram cluttered with relation lines.
+Run the code
+-----------
+In the top directory of this repository, there is a Makefile, which both compiles the code and runs it. There are two types of games, "click games" and "tick games", so run either
 
-The multithreading safety reasoning is in [a separate file](multithreading.md).
+    make click
+    
+to start the **Click games menu**, where you can choose between Tick-tac-toe, 15-puzzle and Minesweeper, or
 
-The levels in the "advanced snake" are described in [a separate file](snakelevels.md).
+    make tick
+    
+to start the **Tick games menu**, where you can choose between Snake (ordinary snake on a torus), Advanced Snake (it has levels with different topologies) and Tetris.
 
-Details of parts of the design are described in [a separate file](design.md).
+
+Code and design overview
+-------------------
+This top folder contains:
+
+* `src/` - the source code
+* `makefile` - a makefile for compiling and running the code
+* `bin/` - the binaries will be generated to this location
+* `doc/`- explanation of selected parts of the design

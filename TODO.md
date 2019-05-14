@@ -47,7 +47,7 @@ Tick game variations
 
     * Measuring user clicks per cheese.
 
-* Pong? Single player pong against wall; two player pong with threading. That could be hard, though, it is better with games that consists of squares.
+* Pong? Single player pong against wall; two player pong with threading. That could be hard, though; it is better with games that consists of squares.
 * Tetris. Sort of works, still a little buggy. 
 
     * ISSUE: Add preview of the next block? Might be hard, what class should display it and where? Also, there is an assumption in the code about only one brick existing at the time that becomes invalid if you add a preview.

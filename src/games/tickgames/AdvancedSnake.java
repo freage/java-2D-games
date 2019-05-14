@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Arrays;
 
 /* Extensions to SnakeModel
- * - planned: increase level
- * - planned: add optional walls
+ * - increase level
+ * - add optional walls
  *
  */
 
