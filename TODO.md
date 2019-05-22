@@ -12,21 +12,11 @@ Remove the debug trace printing.
 
 Standardised indentation: change to 4 spaces instead of 8.
 
+Make sure the UML diagram is up to date.
+
+
 Changing the code
 ----------------
-
-FIXED
-
-* Merge `MatrixObservers` into `BaseModel`. FIXED
-* In `tickgames`, merge `Simulation` into `Controller`. FIXED.
-* Merged `AdvancedSnake` (cheese and points) into `Snake`; keeping empty class for "real" advanced snake. FIXED.
-* Real 15-puzzle (guaranteed to solve) by applying a set of random valid moves. Seems to actually be done correctly - check this. Yep, FIXED.
-* Move `Position` to the top package? FIXED.
-* Start using `Position` in the 15-puzzle for the empty square. FIXED.
-* Abstract a `BaseView` for the views to inherit from. FIXED.
-* Change the Model interfaces to abstract classes inheriting from `BaseModel`. FIXED.
-* Make sure the notifying (model notifying the observer/view) is done in a canonical way. FIXED.
-* Add a new tick-game besides Snake. FIXED.
 
 TODO list
 
@@ -35,23 +25,12 @@ TODO list
 * Avoid calling methods from constructors.
 * Have the control panels display meaningful information.
 
-Click game variations
----------------------
-* Other dimensions of 4x4 in the 15-puzzle sems to work.
-* Other variations in tic-tac-toe? Then what should be the rule for winning?
+New features to add:
+
 * Minesweeper: allow "double click" functionality, as an option.
+* Snake: Measuring user clicks per cheese.
+* Tetris: Add preview of the next block? Might be hard, what class should display it and where? Also, there is an assumption in the code about only one brick existing at the time that becomes invalid if you add a preview.
 
-Tick game variations
--------------------
-* Snake:
-
-    * Measuring user clicks per cheese.
-
-* Pong? Single player pong against wall; two player pong with threading. That could be hard, though; it is better with games that consists of squares.
-* Tetris. Sort of works, still a little buggy. 
-
-    * ISSUE: Add preview of the next block? Might be hard, what class should display it and where? Also, there is an assumption in the code about only one brick existing at the time that becomes invalid if you add a preview.
-    * Maybe not have it so wide as 20 squares. It becomes too easy.
 
 Advanced Snake
 --------------
@@ -74,14 +53,6 @@ Both Tetris and Snake have point counting; AdvancedSnake also have levelling. We
 * Let the Model add status updates to an event queue and let the Controller empty it after each call to `Model::simulate()`. As we only want the latest update, it can even be a boolean flag that the model sets and the controller unsets after getting the latest message. `boolean Model::hasUpdate()` could even unset it itself upon being called.
 * A less elegant way is having the Controller pass the Model an object that it should consider as its `stdout`.
 
-UML diagram
-------------
-Make sure the UML diagram is up to date.
-
-Missing in the diagram:
-
-* The View and the Controller should have access to the Model
-* The Controller should have access to the View.
 
 Mutex locks in tick games
 ------------------------
