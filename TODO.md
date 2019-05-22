@@ -1,18 +1,7 @@
 Cleaning
 --------
-* Go through the code and change comments and variable names into English. 
-* Stop using capitalised method names, instead of camel case. 
-
-Fixed in all the implemented models.  <--- TODO: I was in the midst of this.
-Fixed in `tick`.
-Fixed in `click`.
-
 
 Remove the debug trace printing.
-
-Standardised indentation: change to 4 spaces instead of 8.
-Fixed in `click`.
-
 
 Make sure the UML diagram is up to date.
 

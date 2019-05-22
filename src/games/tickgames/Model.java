@@ -7,33 +7,33 @@ import games.BaseModel;
 public abstract class Model extends BaseModel {
 
     // changing these will crash the hacks in the snake navigation...
-        static final int NORTH = -1;
-        static final int SOUTH = 1;
-        static final int WEST = -2;
-        static final int EAST = 2;
-        static final int NONE = 0;
-        protected int tick;
+    static final int NORTH = -1;
+    static final int SOUTH = 1;
+    static final int WEST = -2;
+    static final int EAST = 2;
+    static final int NONE = 0;
+    protected int tick;
 
-        Model(int H, int W) {
-                super(H, W);
-        }
+    Model(int H, int W) {
+        super(H, W);
+    }
 
-        /**
-         * Called after every ActionEvent created by Timer in Controller class
-         */
-        abstract void simulate();
+    /**
+     * Called after every ActionEvent created by Timer in Controller class
+     */
+    abstract void simulate();
 
-        abstract void request(int key);
+    abstract void request(int key);
 
-        abstract Color translate(int element);
+    abstract Color translate(int element);
 
-        public final int getTick() {
-            return tick;
-        }
+    public final int getTick() {
+        return tick;
+    }
 
-        @Override
-        public String getInstructions() {
-                return "Press <space> to restart game.";
-        }
+    @Override
+    public String getInstructions() {
+        return "Press <space> to restart game.";
+    }
 
 }
