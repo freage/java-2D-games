@@ -144,11 +144,6 @@ public class FifteenPuzzle extends Model {
     }
 
     @Override
-    public String getTitle() {
-        return "15-puzzle";
-    }
-
-    @Override
     public Color translateTextColor(int i) {
         return Color.BLACK;
     }

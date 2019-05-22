@@ -11,24 +11,18 @@ public class TicTacToe extends Model {
     private static final int EMPTY = 0;
     private int nextplayer;
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////
-    // public methods:
-
     public TicTacToe() {
         super(3, 3);
         squareSize = 75;
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Initialisation
+
     @Override
     protected void reset() {
         super.reset();
         nextplayer = O;
-    }
-
-    @Override
-    public void leftClick(int m, int n) {
-        if (isValid(m, n))
-            execute(m, n);
     }
 
     @Override
@@ -38,27 +32,7 @@ public class TicTacToe extends Model {
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    // getters:
-
-    @Override
-    public String translateString(int i) {
-        if (i==EMPTY)
-            return "";
-        if (i==X)
-            return "X";
-        if (i==O)
-            return "O";
-        else return null;
-    }
-
-    @Override
-    public String getTitle() {
-        return "Tic-tac-toe";
-    }
-
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // help functions:
+    // help functions - execute a move:
 
     private boolean isValid(int m, int n) { // is the square empty?
         return game[m][n]==0;
@@ -71,6 +45,10 @@ public class TicTacToe extends Model {
             isOver = true;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // help functions - check for a winner:
+
+
     private boolean hasThreeInARow() {
         // rows?
         for (int i=0; i<game.length; i++) {
@@ -82,10 +60,6 @@ public class TicTacToe extends Model {
                 return true;
         } // diagonals?
         return checkDiagonals();
-    }
-
-    private void setWinner(int i) {
-        result = translateString(i)+" has won";
     }
 
     private boolean checkRow(int m) {
@@ -123,9 +97,38 @@ public class TicTacToe extends Model {
         return false;
     }
 
+    private void setWinner(int i) {
+        result = translateString(i)+" has won";
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Interface for Controller:
+
+    @Override
+    public void leftClick(int m, int n) {
+        if (isValid(m, n))
+            execute(m, n);
+    }
+
+
     @Override
     public void rightClick(int m, int n) {
         // nothing happens at a right click
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    // Interface for View:
+
+    @Override
+    public String translateString(int i) {
+        if (i==EMPTY)
+            return "";
+        if (i==X)
+            return "X";
+        if (i==O)
+            return "O";
+        else return null;
     }
 
     @Override
