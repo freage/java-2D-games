@@ -45,15 +45,17 @@ to start the **Tick games menu**, where you can choose between Snake (ordinary s
 
 Code and design overview
 -------------------
-This top folder contains:
+This repository contains:
 
 * `src/` - the source code
-  * `src/games` - the top package `games`, contains some shared classes and two subpackages
-     * `src/games/clickgames`
-     * `src/games/tickgames`
+  * `games/` - the top package `games`, contains some shared classes and two subpackages
+     * `clickgames/` - package
+     * `tickgames/` - package
 * `makefile` - a makefile for compiling and running the code
 * `bin/` - the binaries will be generated to this location
 * `doc/`- explanation of selected parts of the design
+  * `img/` - screenshots and other images in the markdown documentation
+  * `graphics-uml.dia` - a UML diagram drawn in the Dia program
 
 
 Click games
