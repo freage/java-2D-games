@@ -51,3 +51,30 @@ This top folder contains:
 * `makefile` - a makefile for compiling and running the code
 * `bin/` - the binaries will be generated to this location
 * `doc/`- explanation of selected parts of the design
+
+
+Tick games
+===========
+If you run `make tick`, you should get the following menu:
+
+![tick-menu](doc/img/tick-menu.png "Menu for tick games")
+
+Here you may choose between snake and tetris.
+
+![snake](doc/img/snake.png "Snake game")
+
+The controls for Snake are
+
+* arrows left/right/up/down: change direction to west/east/north/south (if possible)
+* `space`: restart
+
+![tetris](doc/img/tetris.png "Tetris")
+
+The controls for Tetris are
+
+* arrows left/right: move left or right
+* arrow down: move down
+* `D`: drop down
+* arrow up: rotate counter-clockwise
+* `enter`: rotate clockwise
+* `space`: restart

@@ -325,7 +325,7 @@ public class Tetris extends Model {
 
 
     public Tetris() {
-        super(20, 20);
+        super(20, 10);
         squareSize = 20;
         tick = 1000;
     }
