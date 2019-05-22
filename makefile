@@ -1,6 +1,3 @@
-HELLO=hello/Hello
-# Hello world program (for testing)
-
 TICKGAME=games/tickgames/Menu
 # Menu where you choose between snake, snake with levels, and tetris
 
@@ -11,9 +8,6 @@ CLICKGAME=games/clickgames/Menu
 COMPILE=javac --source-path src -d bin
 
 RUN=java --class-path bin
-
-c_hello: 	src/$(HELLO).java
-	$(COMPILE) $<
 
 c_tick:  	src/$(TICKGAME).java
 	$(COMPILE) $<
@@ -29,9 +23,6 @@ click:	c_click
 
 test_all: c_tick c_click
 
-
-hello:	c_hello
-	$(RUN) $(HELLO)
 
 wc:
 	cat src/games/*.java src/games/*/*.java | wc

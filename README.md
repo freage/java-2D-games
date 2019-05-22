@@ -1,7 +1,7 @@
 Package `games`
 ===============
 
-This is originally from a course assignment from a first year OOP course. I have added additional games, but kept some of the ideas (MVC-pattern with Model inheritance to reuse code) from the lab.
+This is originally from a course assignment from a first year OOP course. I have added additional games, but kept some of the ideas (MVC-pattern with Model inheritance to reuse code) from the course lab assignment.
 
 Background
 -----------
@@ -135,6 +135,6 @@ The controls for Tetris are
 
 Advanced Snake
 -------------
-This version of Snake has levels, with different topologies. You need to clear a certain number of points to advance to the next level. You can change the number of points to clear at a certain level in `AdvancedSnake.java`, as well as change the order of levels, modify their topology or add new levels. You can learn more about the levels [here](doc/snakelevels.md).
+This version of Snake has levels, with different topologies. You need to clear a certain number of points to advance to the next level. You can change the number of points to clear at a certain level in `AdvancedSnake.java`, as well as change the order of levels, modify their topology or add new levels. You can learn more about the levels in ["Snake Levels"](doc/snakelevels.md).
 
 If you hit `restart` (by pressing `space`), you will restart at the same level, not at the first level. This is partially for debug purposes, but also because some levels are hard anyway, so I kept it that way. If you want to restart at the first level, start a new game by pressing the "Advanced Snake" button.

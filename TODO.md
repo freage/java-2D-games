@@ -11,6 +11,10 @@ Remove the `hello` package I used for debugging.
 Changing the code
 ----------------
 
+Minimum
+
+* Have the code be multithreading safe. Write a safety proof. Done for parts of the code already.
+
 TODO list
 
 * Change the BaseMenu, so that it calls restart instead of creating a new game from scratch, in the case that the user wants play the same game again. (Avoids having the old model/view/controller garbage collected.) Maybe also keep a deactivated instance of model/view/controller for each game?
