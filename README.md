@@ -55,7 +55,7 @@ This repository contains:
 * `bin/` - the binaries will be generated to this location
 * `doc/`- explanation of selected parts of the design
   * `img/` - screenshots and other images in the markdown documentation
-  * `graphics-uml.dia` - a UML diagram drawn in the Dia program
+  * `graphics-uml.dia` - a UML diagram drawn in the [diagram editor *Dia*](https://sourceforge.net/projects/dia-installer/) (`dia` in APT)
 
 
 Click games
