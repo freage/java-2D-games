@@ -5,7 +5,7 @@ Documentation
 ### UML diagram
 There is an UML diagram showing the relations between the classes. The obvious MVC-relations between the Model, the View and the Controller are not included, to avoid having the diagram cluttered with relation lines.
 
-![uml-diagram](uml-diagram.png "UML diagram")
+![uml-diagram](img/uml-diagram.png "UML diagram")
 
 Both in **tickgames** and **clickgames**, there is an MVC-pattern. It is quite similar, so these components inherit from abstract base classes `BaseModel`, `BaseView`, and so on.
 
