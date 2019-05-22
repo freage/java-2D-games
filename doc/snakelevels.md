@@ -30,7 +30,7 @@ Other levels have walls, that the snake cannot pass through. They are coloured g
 
 There are also *portals*. They are walls you can pass through, but you will end up somewhere unexpected (but it is deterministic). They are coloured blue.
 
-![snake-portals](snake_portals.png "These portals have you exit at the same edge, but with in the mirrored column.")
+![snake-portal](snake_portal.png "These portals have you exit at the same edge, but with in the mirrored column.")
 
 ![snake-moebius-strip](snake_moebius_strip.png "This topology is a Möbius strip.")
 
