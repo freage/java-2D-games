@@ -14,7 +14,7 @@ public class MineSweeper extends Model {
         // here the mines are stored
         private int[][] solution;
         // the matrix visible for the user is in BaseModel.game
-        private int numberofmines = 30;
+        private int numberofmines;
 
         private static final int EMPTY = 0;
         private static final int MINE = 9;
@@ -27,6 +27,8 @@ public class MineSweeper extends Model {
 
         public MineSweeper() {
                 super(15,15);
+                squareSize = 35;
+                numberofmines = 30;
                 font = new Font(Font.DIALOG, Font.BOLD, 20);
         }
 
@@ -231,11 +233,6 @@ public class MineSweeper extends Model {
                         return new Color(229, 229, 229);
                 else
                         return new Color(204, 204, 204);
-        }
-
-        @Override
-        public int getSquareSize() {
-                return 35;
         }
 
         // TODO: is this even used somewhere?

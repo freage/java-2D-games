@@ -53,6 +53,46 @@ This top folder contains:
 * `doc/`- explanation of selected parts of the design
 
 
+Click games
+===========
+If you run `make click`, you should get the following menu:
+
+![click-menu](doc/img/click-menu.png "Menu for click games")
+
+Here you may choose between 15-puzzle, Tic-tac-toe and Minesweeper.
+
+15-puzzle
+---------
+![15-puzzle](doc/img/15-puzzle.png "15-puzzle")
+
+The 15-puzzle is always a valid permutation. You can change the size in the constructor `FifteenPuzzle()` if you want other dimensions like `3x3` or `5x4`, the code supports this too.
+
+Tic-tac-toe
+----------
+![tic-tac-toe](doc/img/tic-tac-toe.png "Tic-tac-toe")
+
+Standard tic-tac-toe.
+
+Minesweeper
+-----------
+![minesweeper-start](doc/img/minesweeper-start.png "Playing minesweeper")
+
+If you cannot render unicode signs, change the code to display `M` for mine and `F` for flag. Search in `MineSweeper.java` for the word "unicode" and change in the function `translateString(int)`.
+
+The controls are
+
+* Left click: uncover that square
+* Right click: flag that square, if it is still covered
+
+Double clicking to uncover that square and all its neighbours has not been implemented. However if you uncover an empty square, all its neighbours will be recursively uncovered.
+
+![minesweeper-flag](doc/img/minesweeper-flag.png "Flagging mines")
+
+If you want a different size of the board or a different number of mines, change it in the constructor `MineSweeper()`.
+
+![minesweeper-lost](doc/img/minesweeper-lost.png "The user clicked on a mine.")
+
+
 Tick games
 ===========
 If you run `make tick`, you should get the following menu:
@@ -61,12 +101,18 @@ If you run `make tick`, you should get the following menu:
 
 Here you may choose between snake and tetris.
 
+Snake
+------
+
 ![snake](doc/img/snake.png "Snake game")
 
 The controls for Snake are
 
 * arrows left/right/up/down: change direction to west/east/north/south (if possible)
 * `space`: restart
+
+Tetris
+------
 
 ![tetris](doc/img/tetris.png "Tetris")
 

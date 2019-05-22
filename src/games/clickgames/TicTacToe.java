@@ -16,6 +16,7 @@ public class TicTacToe extends Model {
 
         public TicTacToe() {
                 super(3, 3);
+                squareSize = 75;
         }
 
         @Override
@@ -138,13 +139,6 @@ public class TicTacToe extends Model {
                         return Color.GRAY;
                 else return Color.CYAN;
         }
-
-        @Override
-        public int getSquareSize() {
-                return 75;
-        }
-
-
 
 
 }

@@ -13,6 +13,7 @@ public class FifteenPuzzle extends Model {
 
         public FifteenPuzzle() {
                 super(4,4);
+                squareSize = 50;
         }
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -158,11 +159,5 @@ public class FifteenPuzzle extends Model {
                         return Color.GRAY;
                 else return Color.CYAN;
         }
-
-        @Override
-        public int getSquareSize() {
-                return 50;
-        }
-
 
 }
