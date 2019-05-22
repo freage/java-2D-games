@@ -119,20 +119,17 @@ public class MineSweeper extends Model {
 
     @Override
     public void leftClick(int m, int n) {
-        if (!isOver) {
-            if (game[m][n]==COVERED) {
-                uncover(m,n);
-                if (solution[m][n]==MINE) {
-                    result = "You blew it up!";
-                    isOver = true;
-                } else if (hasWon()) {
-                    result = "You won!";
-                    isOver = true;
-                }
-                if (isOver) uncoverAllMines();
+        if (game[m][n]==COVERED) {
+            uncover(m,n);
+            if (solution[m][n]==MINE) {
+                result = "You blew it up!";
+                isOver = true;
+            } else if (hasWon()) {
+                result = "You won!";
+                isOver = true;
             }
+            if (isOver) uncoverAllMines();
         }
-
     }
 
     private boolean hasWon() {
