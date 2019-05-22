@@ -42,6 +42,8 @@ to start the **Click games menu**, where you can choose between Tick-tac-toe, 15
     
 to start the **Tick games menu**, where you can choose between Snake (ordinary snake on a torus), Advanced Snake (it has levels with different topologies) and Tetris.
 
+### Software requirements
+The latest changes were developed in Java 11, but the code probably supports Java 7, the version I learnt when I took my OOP course and wrote the base for this repository. You also need `make` support to run the Makefiles. To edit the UML diagram, you need the Dia editor.
 
 Code and design overview
 -------------------
