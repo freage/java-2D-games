@@ -72,7 +72,7 @@ Here you may choose between 15-puzzle, Tic-tac-toe and Minesweeper.
 ---------
 ![15-puzzle](doc/img/15-puzzle.png "15-puzzle")
 
-The 15-puzzle is always a valid permutation. You can change the size in the constructor `FifteenPuzzle()` if you want other dimensions like `3x3` or `5x4`, the code supports this too.
+The 15-puzzle is always a valid permutation. You can change the size in the constructor `FifteenPuzzle()` if you want other dimensions like `3x3` or `5x4`; the code supports this too.
 
 Tic-tac-toe
 ----------
@@ -93,9 +93,9 @@ The controls are
 
 Double clicking to uncover that square and all its neighbours has not been implemented. However if you uncover an empty square, all its neighbours will be recursively uncovered.
 
-![minesweeper-flag](doc/img/minesweeper-flag.png "Flagging mines")
-
 If you want a different size of the board or a different number of mines, change it in the constructor `MineSweeper()`.
+
+![minesweeper-flag](doc/img/minesweeper-flag.png "Flagging mines")
 
 ![minesweeper-lost](doc/img/minesweeper-lost.png "The user clicked on a mine.")
 
