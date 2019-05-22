@@ -27,12 +27,19 @@ public class MineSweeper extends Model {
         font = new Font(Font.DIALOG, Font.BOLD, 20);
     }
 
+
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    // BaseMenu function implementations
+
     @Override
     protected void fill() {
         addMines(numberofmines);
         addNumbers();
         loadMatrix();
     }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    // private help functions - setting up the game
 
     private void addMines(int number) {
         solution = new int[height][width];
@@ -51,15 +58,15 @@ public class MineSweeper extends Model {
         for (int i=0; i<height; i++) {
             for (int j=0; j<width; j++) {
                 if (solution[i][j]!=MINE) {
-                    int neighbours = neighbours(i, j);
-                    solution[i][j] = neighbours;
+                    int neighbors = countNeighborMines(i, j);
+                    solution[i][j] = neighbors;
                 }
             }
         }
     }
 
 
-    private int neighbours(int m, int n) {
+    private int countNeighborMines(int m, int n) {
         int mines = 0;
         for (int i=m-1; i<m+2; i++) {
             if (isOutOfRange(i));
@@ -85,13 +92,16 @@ public class MineSweeper extends Model {
         }
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    // private help functions - while playing the game
+
     private void uncover(int m, int n) {
         set(m, n, solution[m][n]);
         if (game[m][n]==EMPTY)
-            uncoverAllNeighbours(m, n);
+            uncoverAllNeighbors(m, n);
     }
 
-    private void uncoverAllNeighbours(int m, int n) {
+    private void uncoverAllNeighbors(int m, int n) {
         for (int i=m-1; i<m+2; i++) {
             if (isOutOfRange(i));
             else for (int j=n-1; j<n+2; j++) {
@@ -116,6 +126,19 @@ public class MineSweeper extends Model {
         }
     }
 
+    private boolean hasWon() {
+        for (int i=0; i<height; i++) {
+            for (int j=0; j<width; j++) {
+                if (game[i][j] == COVERED || game[i][j]==FLAGGED)
+                    if (solution[i][j]!=MINE) return false;
+            }
+        }
+        youWon = true;
+        return true;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
+    // Interface for the Controller
 
     @Override
     public void leftClick(int m, int n) {
@@ -132,17 +155,18 @@ public class MineSweeper extends Model {
         }
     }
 
-    private boolean hasWon() {
-        for (int i=0; i<height; i++) {
-            for (int j=0; j<width; j++) {
-                if (game[i][j] == COVERED || game[i][j]==FLAGGED)
-                    if (solution[i][j]!=MINE) return false;
-            }
+    @Override
+    public void rightClick(int m, int n) {
+        if (game[m][n]==COVERED) {
+            set(m, n, FLAGGED);
         }
-        youWon = true;
-        return true;
+        else if (game[m][n]==FLAGGED) {
+            set(m, n, COVERED);
+        }
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    // Interface for the View - colours etc.
 
     @Override
     public String translateString(int i) {
@@ -163,22 +187,6 @@ public class MineSweeper extends Model {
             str = "🚩"; // unicode flag
         else str = ""+i;
         return str;
-    }
-
-
-    public static void main(String[] args) {
-        MineSweeper ms = new MineSweeper();
-        ms.printMatrix(ms.game);
-    }
-
-    @Override
-    public void rightClick(int m, int n) {
-        if (game[m][n]==COVERED) {
-            set(m, n, FLAGGED);
-        }
-        else if (game[m][n]==FLAGGED) {
-            set(m, n, COVERED);
-        }
     }
 
     @Override

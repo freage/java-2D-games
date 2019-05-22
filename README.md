@@ -99,6 +99,7 @@ If you want a different size of the board or a different number of mines, change
 
 ![minesweeper-lost](doc/img/minesweeper-lost.png "The user clicked on a mine.")
 
+![minesweeper-won](doc/img/minesweeper-won.png "All mines are displayed when you win.")
 
 Tick games
 ===========
