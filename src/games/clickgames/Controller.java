@@ -10,79 +10,73 @@ import javax.swing.JPanel;
 
 import games.BaseController;
 
-/* Denna controller uppdaterar endast modellen, inte vyn.
- * Vyn lyssnar istället själv på modellens förändringar.
- * Denna klass är också en JPanel som presenterar status, instruktioner etc.
- */
-
-
 
 public class Controller extends BaseController<JButton, Model, View> implements MouseListener {
-        JButton[][] knappar; // har en referens till knapparna, som uppdateras
-        JLabel instruktioner;
-        private static final int RIGHT = 3;
-        private static final int LEFT = 1;
+    JButton[][] buttons; // a reference to the buttons from the View
+    JLabel instructions; // not used?
+    private static final int RIGHT = 3;
+    private static final int LEFT = 1;
 
-        public Controller(Model mo, View vi){
-                super(mo, vi, 200, 100);
-                knappar = view.getButtons();
-                addListeners();
+    public Controller(Model m, View v){
+        super(m, v, 200, 100);
+        buttons = view.getButtons();
+        addListeners();
+    }
+
+    private void addListeners(){
+        for (int i=0; i<buttons.length; i++){
+            for (int j=0; j<buttons[i].length; j++){
+                JButton button = buttons[i][j];
+                button.addMouseListener(this);
+            }
         }
-
-        private void addListeners(){
-                for (int i=0; i<knappar.length; i++){
-                        for (int j=0; j<knappar[i].length; j++){
-                                JButton knapp = knappar[i][j];
-                                knapp.addMouseListener(this);
-                        }
-                }
-        }
+    }
 
 
-        @Override
-        public void mouseClicked(MouseEvent me) {
-            if (running) {
-                Object source = me.getSource();
-                JButton knapp;
-                for (int i=0; i<knappar.length; i++){
-                        for (int j=0; j<knappar[i].length; j++){
-                                knapp = knappar[i][j];
-                                if (source==knapp && !model.isOver()){
-                                        int musknapp = me.getButton();
-                                        if (musknapp==LEFT)
-                                                model.leftClick(i, j);
-                                        else if (musknapp==RIGHT)
-                                                model.rightClick(i, j);
-                                        if (model.isOver())
-                                                status.setText(model.getResult());
-                                }
-                        }
+    @Override
+    public void mouseClicked(MouseEvent me) {
+        if (running) {
+            Object source = me.getSource();
+            JButton button;
+            for (int i=0; i<buttons.length; i++){
+                for (int j=0; j<buttons[i].length; j++){
+                    button = buttons[i][j];
+                    if (source==button && !model.isOver()){
+                        int mouseButton = me.getButton();
+                        if (mouseButton==LEFT)
+                            model.leftClick(i, j);
+                        else if (mouseButton==RIGHT)
+                            model.rightClick(i, j);
+                        if (model.isOver())
+                            status.setText(model.getResult());
+                    }
                 }
             }
         }
+    }
 
-        @Override
-        public void mouseEntered(MouseEvent e) {
-                // TODO Auto-generated method stub
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        // TODO Auto-generated method stub
 
-        }
+    }
 
-        @Override
-        public void mouseExited(MouseEvent e) {
-                // TODO Auto-generated method stub
+    @Override
+    public void mouseExited(MouseEvent e) {
+        // TODO Auto-generated method stub
 
-        }
+    }
 
-        @Override
-        public void mousePressed(MouseEvent e) {
-                // TODO Auto-generated method stub
+    @Override
+    public void mousePressed(MouseEvent e) {
+        // TODO Auto-generated method stub
 
-        }
+    }
 
-        @Override
-        public void mouseReleased(MouseEvent e) {
-                // TODO Auto-generated method stub
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        // TODO Auto-generated method stub
 
-        }
+    }
 
 }

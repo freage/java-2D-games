@@ -5,14 +5,18 @@ Cleaning
 
 Fixed in all the implemented models.  <--- TODO: I was in the midst of this.
 Fixed in `tick`.
+Fixed in `click`.
 
-NOT fixed in `click.Controller` nor `click.Menu`.
 
 Remove the debug trace printing.
 
 Standardised indentation: change to 4 spaces instead of 8.
+Fixed in `click`.
+
 
 Make sure the UML diagram is up to date.
+
+Remove the `hello` package I used for debugging.
 
 
 Changing the code
@@ -24,6 +28,7 @@ TODO list
 * Add a general restart functionality like the one in snake (pressing space), controlled by the menu instead of the controller. There is a general one in `tick.Controller` now.
 * Avoid calling methods from constructors.
 * Have the control panels display meaningful information.
+* Implement `leftClick(int,int)` in `click.Model`, since it is so generic.
 
 New features to add:
 
