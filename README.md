@@ -48,6 +48,9 @@ Code and design overview
 This top folder contains:
 
 * `src/` - the source code
+  * `src/games` - the top package `games`, contains some shared classes and two subpackages
+     * `src/games/clickgames`
+     * `src/games/tickgames`
 * `makefile` - a makefile for compiling and running the code
 * `bin/` - the binaries will be generated to this location
 * `doc/`- explanation of selected parts of the design
