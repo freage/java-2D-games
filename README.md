@@ -12,6 +12,9 @@ The instructions were something like this:
 
 > **Using an MVC pattern, in Java's Swing 2D graphics library, implement a GUI for at least two games** from a suggested list (I chose Tic-tac-toe and 15-puzzle). Realising that these games are all very similar implementation-wise, and the View and Controller can be reused, you should do a Model base class / interface and have your games subclass/implement this Model. It should be easy to add a third game simply by just subclassing the Model class (and maybe change a couple of rows in the main program).
 
+![original-task-uml](doc/img/original-task-uml.png "UML diagram for the original task.")
+
+
 ### My modifications
 After the course assignment was done, I first added Minesweeper as a third game subclassing Model.
 
