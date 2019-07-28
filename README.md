@@ -1,12 +1,14 @@
 Package `games`
 ===============
 
-This is originally from a course assignment from a first year OOP course. I have added additional games, but kept some of the ideas (MVC-pattern with Model inheritance to reuse code) from the course lab assignment.
+*A GUI with simple 2D games. Scroll down for screenshots!*
+
+This is originally from a course assignment in an OOP course, back in my first year of university. The project has since grown and been altered. I have added additional games, but kept some of the ideas (MVC-pattern with Model inheritance to reuse code) from the course lab assignment.
 
 Background
 -----------
 ### Original assignment
-Using an MVC pattern, in Java's Swing 2D graphics library, implement a GUI for at least two games from a suggested list (I chose Tic-tac-toe and 15-puzzle). Realising that these games are all very similar implementation-wise, and the View and Controller can be reused, you should do a Model base class / interface and have your games subclass/implement this Model. It should be easy to add a third game simply by just subclassing the Model class (and maybe change a couple of rows in the main program).
+**Using an MVC pattern, in Java's Swing 2D graphics library, implement a GUI for at least two games** from a suggested list (I chose Tic-tac-toe and 15-puzzle). Realising that these games are all very similar implementation-wise, and the View and Controller can be reused, you should do a Model base class / interface and have your games subclass/implement this Model. It should be easy to add a third game simply by just subclassing the Model class (and maybe change a couple of rows in the main program).
 
 ### My modifications
 After the course assignment was done, I first added Minesweeper as a third game subclassing Model.

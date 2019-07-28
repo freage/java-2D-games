@@ -5,8 +5,6 @@ Remove the debug trace printing.
 
 Make sure the UML diagram is up to date.
 
-Remove the `hello` package I used for debugging.
-
 
 Changing the code
 ----------------
