@@ -3,7 +3,7 @@ Package `games`
 
 *A GUI with simple 2D games. Scroll down for screenshots!*
 
-This is originally from a course assignment in an OOP course, back in my first year of university. The project has since grown and been altered. I have added additional games, but kept some of the ideas (MVC-pattern with Model inheritance to reuse code) from the course lab assignment.
+This is originally from an assignment in an OOP course, back in my first year of university. The project has since grown and been altered. I have added additional games, but kept some of the ideas (MVC-pattern with Model inheritance to reuse code) from the course lab assignment.
 
 Background
 -----------
@@ -26,7 +26,7 @@ Several years later I wanted to clean up the code a bit, and now being a better 
 
 Current code
 ------------
-The result is a complicated (but motivated) OOP-designed game program where you can choose between different games. There is a makefile, so run `make click` to play the click games, and `make tick` to play the tick games.
+The result is a complicated (but motivated) OOP-design for a game GUI with a set of standard 2D games.
 
 Considering the games separately, this OOP design might slow down the games somewhat. But the code "demonstrates" my knowledge of Java and OOP in several areas:
 
@@ -43,11 +43,11 @@ In the top directory of this repository, there is a Makefile, which both compile
 
     make click
     
-to start the **Click games menu**, where you can choose between Tick-tac-toe, 15-puzzle and Minesweeper, or
+to start the **Click games menu**, where you can choose between _Tic-tac-toe_, _15-puzzle_ and _Minesweeper_, or
 
     make tick
     
-to start the **Tick games menu**, where you can choose between Snake (ordinary snake on a torus), Advanced Snake (it has levels with different topologies) and Tetris.
+to start the **Tick games menu**, where you can choose between _Snake_ (ordinary snake on a torus), _Advanced Snake_ (it has levels with different topologies) and _Tetris_.
 
 ### Software requirements
 The latest changes were developed in Java 11, but the code probably supports Java 7, the version I learnt when I took my OOP course and wrote the base for this repository. You also need `make` support to run the Makefiles. To edit the UML diagram, you need the Dia editor.
