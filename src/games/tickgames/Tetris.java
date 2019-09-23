@@ -144,7 +144,7 @@ public class Tetris extends Model {
             boxUL = new Position(0, 0);
         }
 
-        synchronized void newBlock() {
+        void newBlock() {
             System.out.println("Tetris::Block::newBlock() "+ name);
             // pick a rotation
             rotptr = rgen.nextInt(rotations.length);
@@ -156,7 +156,7 @@ public class Tetris extends Model {
             contact = false;
         }
 
-        synchronized void drawNewBlock() {
+        void drawNewBlock() {
             // draw the block
             if (!collisionCheck(0,0)) {
                 contactCheck();
@@ -188,7 +188,7 @@ public class Tetris extends Model {
         //////////////////////////////////////////////////////////////////////////////////////////
         // private HELP FUNCTIONS
 
-        private synchronized void move(Request request, boolean tick) {
+        private void move(Request request, boolean tick) {
             // assume a contact check is done in `simulate()` before calling the function...
 
             // first erase the block
@@ -331,10 +331,8 @@ public class Tetris extends Model {
     }
 
     private void newBlock() {
-        synchronized (this) {
-            block = allTypes.get(rgen.nextInt(allTypes.size()));
-            block.newBlock();
-        }
+        block = allTypes.get(rgen.nextInt(allTypes.size()));
+        block.newBlock();
     }
 
     /////////////////////////////////////////////////////////////////////
@@ -360,21 +358,19 @@ public class Tetris extends Model {
     // Functions declared in tick.Model
 
     @Override
-    public void simulate() {
+    public synchronized void simulate() {
         if (!isOver) {
-            synchronized (this) {
-                if (block.contacts()) {
-                    pointCheck();
-                    newBlock();
-                    block.drawNewBlock();
-                } else
-                    block.tick();
-            }
+            if (block.contacts()) {
+                pointCheck();
+                newBlock();
+                block.drawNewBlock();
+            } else
+                block.tick();
         }
     }
 
     @Override
-    public void request(int keynr) {
+    public synchronized void request(int keynr) {
         if (!isOver) {
             if (keynr==Controller.LEFT)
                 block.request(Request.LEFT);
@@ -387,13 +383,11 @@ public class Tetris extends Model {
             else if (keynr==Controller.DOWN)
                 block.request(Request.DOWN);
             else if (keynr==Controller.DD) {
-                synchronized (this) {
-                    block.request(Request.DROP);
-                    // and finally
-                    pointCheck();
-                    newBlock();
-                    block.drawNewBlock();
-                }
+                block.request(Request.DROP);
+                // and finally
+                pointCheck();
+                newBlock();
+                block.drawNewBlock();
             }
         }
     }

@@ -98,11 +98,10 @@ public class Snake extends Model {
     // Functions declared in tick.Model
 
     @Override
-    public void simulate() {
+    public synchronized void simulate() {
         if (!isOver && !pause) {
-            int r = this.request; // local copy because it can be changed by `request()`
-            if (r!=-direction)
-                direction = r;
+            if (this.request != -direction)
+                direction = this.request;
             move();
             calls++;
             if (calls%10==0 && cheeses < 3) {
@@ -112,7 +111,7 @@ public class Snake extends Model {
     }
 
     @Override
-    public void request(int keynr) {
+    public synchronized void request(int keynr) {
         if (keynr==Controller.UP)
             request = NORTH;
         else if (keynr==Controller.DOWN)
@@ -187,18 +186,16 @@ public class Snake extends Model {
          * - the `popTail()` function could interleave with this
          */
         int object;
-        synchronized (this.snake) {
-            Position headpos = snake.peekFirst();
-            int headM = (headpos.m + game.length + dm) % game.length;
-            int headN = (headpos.n + game.length + dn) % game.length;
-            object = game[headM][headN];
-            if ((object & ~ALT) != SELF && object != WALL) {
-                // if (object != SELF && object != WALL) {
-                set(headpos.m, headpos.n, isAlt(headpos) | SELF);
-                Position newpos = new Position(headM, headN);
-                set(newpos.m, newpos.n, isAlt(newpos) | HEAD);
-                snake.addFirst(newpos);
-            }
+        Position headpos = snake.peekFirst();
+        int headM = (headpos.m + game.length + dm) % game.length;
+        int headN = (headpos.n + game.length + dn) % game.length;
+        object = game[headM][headN];
+        if ((object & ~ALT) != SELF && object != WALL) {
+            // if (object != SELF && object != WALL) {
+            set(headpos.m, headpos.n, isAlt(headpos) | SELF);
+            Position newpos = new Position(headM, headN);
+            set(newpos.m, newpos.n, isAlt(newpos) | HEAD);
+            snake.addFirst(newpos);
         }
         return object;
     }

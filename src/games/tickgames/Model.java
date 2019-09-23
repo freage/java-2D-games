@@ -20,9 +20,12 @@ public abstract class Model extends BaseModel {
 
     /**
      * Called after every ActionEvent created by Timer in Controller class
+     * Should be implemented as synchronized
      */
     abstract void simulate();
 
+    /** Should be implemented as synchronized
+     */
     abstract void request(int key);
 
     abstract Color translate(int element);

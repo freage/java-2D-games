@@ -32,8 +32,11 @@ public abstract class BaseModel {
     ///////////////////////////////////////////////////////////////////
     // Initialisation
 
-    /** When the observers have been added, this will be called. Also used for restarting. */
-    public final void start() {
+    /** When the observers have been added, this will be called.
+     * Also used for restarting.
+     * Must be synchronized for threading safety in tick games.
+     */
+    public final synchronized void start() {
         reset();
         fill();
     }

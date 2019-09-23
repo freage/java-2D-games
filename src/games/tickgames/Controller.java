@@ -72,8 +72,10 @@ public class Controller extends BaseController<JLabel, Model, View> implements K
     public void actionPerformed(ActionEvent arg0) {
         if (running) {
             model.simulate();
-            if (model.isOver()) {
-                setResult(model.getResult());
+            synchronized (model) {
+                if (model.isOver()) {
+                    setResult(model.getResult());
+                }
             }
         }
     }

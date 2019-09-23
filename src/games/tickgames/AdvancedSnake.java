@@ -224,21 +224,19 @@ public class AdvancedSnake extends Snake {
     @Override
     protected int advance() {
         int object;
-        synchronized (this.snake) {
-            Position headpos = snake.peekFirst();
-            Position newpos = level.advance(headpos, direction);
-            object = game[newpos.m][newpos.n];
-            if ((object & ~ALT) != SELF && object != WALL) {
-                set(headpos.m, headpos.n, isAlt(headpos) | SELF);
-                set(newpos.m, newpos.n, isAlt(headpos) | HEAD);
-                snake.addFirst(newpos);
-            }
+        Position headpos = snake.peekFirst();
+        Position newpos = level.advance(headpos, direction);
+        object = game[newpos.m][newpos.n];
+        if ((object & ~ALT) != SELF && object != WALL) {
+            set(headpos.m, headpos.n, isAlt(headpos) | SELF);
+            set(newpos.m, newpos.n, isAlt(headpos) | HEAD);
+            snake.addFirst(newpos);
         }
         return object;
     }
 
     @Override
-    public void simulate() {
+    public synchronized void simulate() {
         super.simulate();
         if (isOver && !allLevelsCleared) {
             if (points >= level.pointLimit) {
